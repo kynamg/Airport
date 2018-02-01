@@ -73,13 +73,6 @@ public class KioskGUI {
 		
 		enter.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(name_entry.getText().isEmpty()){
-					name_entry.setText("Please enter your last name");
-				}
-				if(booking_ref_entry.getText().isEmpty()) {
-					booking_ref_entry.setText("Please enter your booking ref");
-				}
-				
 				if((booking_ref_entry.getText().isEmpty() == false) && (name_entry.getText().isEmpty() == false)) {
 					System.out.println("Continue");
 					guiContainer.remove(name_panel);
@@ -87,6 +80,13 @@ public class KioskGUI {
 					guiContainer.remove(confirm_panel);
 					menu_location.setText("BAGGAGE");
 					baggage_entry_screen(guiFrame, guiContainer);
+				}
+				
+				if(name_entry.getText().isEmpty()){
+					name_entry.setText("Please enter your last name");
+				}
+				if(booking_ref_entry.getText().isEmpty()) {
+					booking_ref_entry.setText("Please enter your booking ref");
 				}
 			}
 		});		
@@ -103,21 +103,21 @@ public class KioskGUI {
 		JPanel weight_panel = add_selection_entry("Enter Weight:", guiContainer, weight_entry, weight_units);
 		
 		JComboBox dimension_units1 = new JComboBox();
-		dimension_units1.addItem("metres");
+		dimension_units1.addItem("cm");
 		dimension_units1.addItem("inches");
 		
 		JTextField dimension_entry1 = new JTextField();
 		JPanel dimension_panel1 = add_selection_entry("Enter Dimensions:", guiContainer, dimension_entry1, dimension_units1);
 		
 		JComboBox dimension_units2 = new JComboBox();
-		dimension_units2.addItem("metres");
+		dimension_units2.addItem("cm");
 		dimension_units2.addItem("inches");
 		
 		JTextField dimension_entry2 = new JTextField();
 		JPanel dimension_panel2 = add_selection_entry("", guiContainer, dimension_entry2, dimension_units2);
 		
 		JComboBox dimension_units3 = new JComboBox();
-		dimension_units3.addItem("metres");
+		dimension_units3.addItem("cm");
 		dimension_units3.addItem("inches");
 		
 		JTextField dimension_entry3 = new JTextField();
@@ -125,7 +125,7 @@ public class KioskGUI {
 		
 		JTextField volume_entry = new JTextField();
 		JComboBox volume_units = new JComboBox();
-		volume_units.addItem("metres\u00B3");
+		volume_units.addItem("cm\u00B3");
 		volume_units.addItem("inches\u00B3");
 		JPanel volume_panel = add_selection_entry("OR Enter Volume:", guiContainer, volume_entry, volume_units);
 		
