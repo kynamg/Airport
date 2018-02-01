@@ -7,20 +7,13 @@ import java.util.*;
 public class KioskGUI {
 	
 	JFrame guiFrame;
-	JPanel buttonPanel;
-	JTextField numberCalc;
-	int calcOperation = 0;
-	int currentCalc;
 	
 	public static void main(String[] args) {
-		
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				new KioskGUI();
 			}
-			
 		});
-		
 	}
 	
 	public void detailsScreen(JFrame guiFrame) {
@@ -156,13 +149,11 @@ public class KioskGUI {
 	         units.addItem(iter.next());
 	      }
 		
-		
 		panel.add(prompt);
 		panel.add(entry);
 		panel.add(units);
 		
 		return panel;
-		
 	}
 	
 	public JPanel enter_button(JButton enter) {
@@ -214,9 +205,4 @@ public class KioskGUI {
 		detailsScreen(guiFrame);
 		
 	}
-		
-	/*public void actionPerformed(ActionEvent event) {
-		String action = event.getActionCommand();
-		numberCalc.setText(action);
-	}*/
 }
