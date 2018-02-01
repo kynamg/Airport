@@ -1,6 +1,9 @@
 
 import java.awt.*;
 import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+
 import java.awt.event.*;
 import java.util.*;
 
@@ -93,28 +96,111 @@ public class KioskGUI {
 		
 		guiFrame.setSize(400, 220);
 		
-		ArrayList<String> weight_selection = new ArrayList<String>();
-		weight_selection.add("kg");
-		weight_selection.add("lbs");
-
-		JPanel weight_panel = add_selection_entry("Enter Weight:", guiContainer, weight_selection);
+		JTextField weight_entry = new JTextField();
+		JComboBox weight_units = new JComboBox();
+		weight_units.addItem("kg");
+		weight_units.addItem("lbs");
+		JPanel weight_panel = add_selection_entry("Enter Weight:", guiContainer, weight_entry, weight_units);
 		
-		ArrayList<String> dimension_selection = new ArrayList<String>();
-		dimension_selection.add("metres");
-		dimension_selection.add("inches");
+		JComboBox dimension_units1 = new JComboBox();
+		dimension_units1.addItem("metres");
+		dimension_units1.addItem("inches");
 		
-		JPanel dimension_panel1 = add_selection_entry("Enter Dimensions:", guiContainer, dimension_selection);
-		JPanel dimension_panel2 = add_selection_entry("", guiContainer, dimension_selection);
-		JPanel dimension_panel3 = add_selection_entry("", guiContainer, dimension_selection);
+		JTextField dimension_entry1 = new JTextField();
+		JPanel dimension_panel1 = add_selection_entry("Enter Dimensions:", guiContainer, dimension_entry1, dimension_units1);
 		
-		ArrayList<String> volume_selection = new ArrayList<String>();
-		volume_selection.add("metres\u00B3");
-		volume_selection.add("inches\u00B3");
+		JComboBox dimension_units2 = new JComboBox();
+		dimension_units2.addItem("metres");
+		dimension_units2.addItem("inches");
 		
-		JPanel volume_panel = add_selection_entry("OR Enter Volume:", guiContainer, volume_selection);
+		JTextField dimension_entry2 = new JTextField();
+		JPanel dimension_panel2 = add_selection_entry("", guiContainer, dimension_entry2, dimension_units2);
+		
+		JComboBox dimension_units3 = new JComboBox();
+		dimension_units3.addItem("metres");
+		dimension_units3.addItem("inches");
+		
+		JTextField dimension_entry3 = new JTextField();
+		JPanel dimension_panel3 = add_selection_entry("", guiContainer, dimension_entry3, dimension_units3);
+		
+		JTextField volume_entry = new JTextField();
+		JComboBox volume_units = new JComboBox();
+		volume_units.addItem("metres\u00B3");
+		volume_units.addItem("inches\u00B3");
+		JPanel volume_panel = add_selection_entry("OR Enter Volume:", guiContainer, volume_entry, volume_units);
 		
 		JButton enter = new JButton();
 		JPanel confirm_panel = enter_button(enter);
+		
+		dimension_entry1.getDocument().addDocumentListener(new DocumentListener() {
+			public void changedUpdate(DocumentEvent arg0) {
+				volume_entry.setEditable(false);
+			}
+
+			public void insertUpdate(DocumentEvent e) {
+				volume_entry.setEditable(false);
+			}
+
+			public void removeUpdate(DocumentEvent e) {
+				if(dimension_entry1.getText().isEmpty()) {
+				volume_entry.setEditable(true);
+				}
+			}
+		});
+		
+		dimension_entry2.getDocument().addDocumentListener(new DocumentListener() {
+			public void changedUpdate(DocumentEvent arg0) {
+				volume_entry.setEditable(false);
+			}
+
+			public void insertUpdate(DocumentEvent e) {
+				volume_entry.setEditable(false);
+			}
+
+			public void removeUpdate(DocumentEvent e) {
+				if(dimension_entry2.getText().isEmpty()) {
+				volume_entry.setEditable(true);
+				}
+			}
+		});
+		
+		dimension_entry3.getDocument().addDocumentListener(new DocumentListener() {
+			public void changedUpdate(DocumentEvent arg0) {
+				volume_entry.setEditable(false);
+			}
+
+			public void insertUpdate(DocumentEvent e) {
+				volume_entry.setEditable(false);
+			}
+
+			public void removeUpdate(DocumentEvent e) {
+				if(dimension_entry3.getText().isEmpty()) {
+				volume_entry.setEditable(true);
+				}
+			}
+		});
+		
+		volume_entry.getDocument().addDocumentListener(new DocumentListener() {
+			public void changedUpdate(DocumentEvent arg0) {
+				dimension_entry1.setEditable(false);
+				dimension_entry2.setEditable(false);
+				dimension_entry3.setEditable(false);
+			}
+
+			public void insertUpdate(DocumentEvent e) {
+				dimension_entry1.setEditable(false);
+				dimension_entry2.setEditable(false);
+				dimension_entry3.setEditable(false);
+			}
+
+			public void removeUpdate(DocumentEvent e) {
+				if(volume_entry.getText().isEmpty()) {
+				dimension_entry1.setEditable(true);
+				dimension_entry2.setEditable(true);
+				dimension_entry3.setEditable(true);
+				}
+			}
+		});
 		
 		guiContainer.add(weight_panel);
 		guiContainer.add(dimension_panel1);
@@ -126,7 +212,7 @@ public class KioskGUI {
 		guiFrame.add(guiContainer);		
 	}
 	
-	public JPanel add_selection_entry(String tag, Container guiContainer, ArrayList<String> options) {
+	public JPanel add_selection_entry(String tag, Container guiContainer, JTextField entry, JComboBox units) {
 		JPanel panel = new JPanel();
 		panel.setLayout(new GridLayout());
 		
@@ -140,14 +226,7 @@ public class KioskGUI {
 		else {
 			prompt.setText(tag);
 		}
-		JTextField entry = new JTextField();
 		entry.setEditable(true);
-		JComboBox units = new JComboBox();
-		
-		Iterator iter = options.iterator();
-	      while (iter.hasNext()) {
-	         units.addItem(iter.next());
-	      }
 		
 		panel.add(prompt);
 		panel.add(entry);
