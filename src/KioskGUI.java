@@ -82,7 +82,6 @@ public class KioskGUI {
 			public void actionPerformed(ActionEvent e) {
 				if((booking_ref_entry.getText().isEmpty() == false) && (name_entry.getText().isEmpty() == false)) {
 					//Checking details goes in here!!
-					System.out.println("Continue");
 					guiContainer.remove(name_panel);
 					guiContainer.remove(booking_ref_panel);
 					guiContainer.remove(confirm_panel);
@@ -108,30 +107,42 @@ public class KioskGUI {
 		//Increase size of frame for added information
 		guiFrame.setSize(400, 220);
 		
+		//List storying data entry panels (weight, dimensions[3], volume)
+		JPanel data_entry[] = new JPanel[5];
+		
+		for(int i = 0; i<data_entry.length; i++)
+		{
+			data_entry[i] = new JPanel();
+		}
+		
 		//Panel allowing users to input the weight
 		JTextField weight_entry = new JTextField();
 		JComboBox<String> weight_units = new JComboBox<String>();
 		weight_units.addItem("kg");
 		weight_units.addItem("lbs");
-		JPanel weight_panel = add_selection_entry("Enter Weight:", guiContainer, weight_entry, weight_units);
+		data_entry[0] = add_selection_entry("Enter Weight:", guiContainer, weight_entry, weight_units);
 		
 		//Panel allowing users to input the height (height/length/width order does not matter)
-		JTextField dimension_entry1 = new JTextField();
+		JTextField dimension_entry[] = new JTextField[3];
+		
+		for(int i = 0; i<dimension_entry.length; i++)
+		{
+			dimension_entry[i] = new JTextField();
+		}
+		
 		JComboBox<String> dimension_units = new JComboBox<String>();
 		dimension_units.addItem("cm");
 		dimension_units.addItem("inches");
-		JPanel dimension_panel1 = add_selection_entry("Enter Dimensions:", guiContainer, dimension_entry1, dimension_units);
+		data_entry[1] = add_selection_entry("Enter Dimensions:", guiContainer, dimension_entry[0], dimension_units);
 
 		//Panel allowing users to input width
-		JTextField dimension_entry2 = new JTextField();
 		JComboBox<String> filler2 = new JComboBox<String>();
-		JPanel dimension_panel2 = add_selection_entry("", guiContainer, dimension_entry2, filler2);
+		data_entry[2] = add_selection_entry("", guiContainer, dimension_entry[1], filler2);
 		filler2.setVisible(false);
 		
 		//Panel allowing users to input length
-		JTextField dimension_entry3 = new JTextField();
 		JComboBox<String> filler3 = new JComboBox<String>();
-		JPanel dimension_panel3 = add_selection_entry("", guiContainer, dimension_entry3, filler3);
+		data_entry[3] = add_selection_entry("", guiContainer, dimension_entry[2], filler3);
 		filler3.setVisible(false);
 		
 		//Panel allowing users to input the volume
@@ -140,82 +151,50 @@ public class KioskGUI {
 		//\u00B3 unicode for cubed
 		volume_units.addItem("cm\u00B3");
 		volume_units.addItem("inches\u00B3");
-		JPanel volume_panel = add_selection_entry("OR Enter Volume:", guiContainer, volume_entry, volume_units);
+		data_entry[4] = add_selection_entry("OR Enter Volume:", guiContainer, volume_entry, volume_units);
 		
 		//Confirm button
 		JButton enter_button = new JButton();
 		JPanel confirm_panel = enter_button(enter_button);
 		
+		for(int i=0; i<dimension_entry.length; i++) {
 		//Grey out volume box if dimension is entered
-		dimension_entry1.getDocument().addDocumentListener(new DocumentListener() {
-			public void changedUpdate(DocumentEvent arg0) {
-				volume_entry.setEditable(false);
-			}
-
-			public void insertUpdate(DocumentEvent e) {
-				volume_entry.setEditable(false);
-			}
-
-			public void removeUpdate(DocumentEvent e) {
-				if(dimension_entry1.getText().isEmpty() && dimension_entry2.getText().isEmpty() && dimension_entry3.getText().isEmpty()) {
-				volume_entry.setEditable(true);
+			dimension_entry[i].getDocument().addDocumentListener(new DocumentListener() {
+				public void changedUpdate(DocumentEvent arg0) {
+					volume_entry.setEditable(false);
 				}
-			}
-		});
-		
-		//Grey out volume box if dimension is entered
-		dimension_entry2.getDocument().addDocumentListener(new DocumentListener() {
-			public void changedUpdate(DocumentEvent arg0) {
-				volume_entry.setEditable(false);
-			}
-
-			public void insertUpdate(DocumentEvent e) {
-				volume_entry.setEditable(false);
-			}
-
-			public void removeUpdate(DocumentEvent e) {
-				if(dimension_entry1.getText().isEmpty() && dimension_entry2.getText().isEmpty() && dimension_entry3.getText().isEmpty()) {
-				volume_entry.setEditable(true);
+	
+				public void insertUpdate(DocumentEvent e) {
+					volume_entry.setEditable(false);
 				}
-			}
-		});
-		
-		//Grey out volume box if dimension is entered
-		dimension_entry3.getDocument().addDocumentListener(new DocumentListener() {
-			public void changedUpdate(DocumentEvent arg0) {
-				volume_entry.setEditable(false);
-			}
-
-			public void insertUpdate(DocumentEvent e) {
-				volume_entry.setEditable(false);
-			}
-
-			public void removeUpdate(DocumentEvent e) {
-				if(dimension_entry1.getText().isEmpty() && dimension_entry2.getText().isEmpty() && dimension_entry3.getText().isEmpty()) {
-				volume_entry.setEditable(true);
+	
+				public void removeUpdate(DocumentEvent e) {
+					if(dimension_entry[0].getText().isEmpty() && dimension_entry[1].getText().isEmpty() && dimension_entry[2].getText().isEmpty()) {
+					volume_entry.setEditable(true);
+					}
 				}
-			}
-		});
+			});
+		}
 		
 		//Grey out dimension boxes if volume is entered
 		volume_entry.getDocument().addDocumentListener(new DocumentListener() {
 			public void changedUpdate(DocumentEvent arg0) {
-				dimension_entry1.setEditable(false);
-				dimension_entry2.setEditable(false);
-				dimension_entry3.setEditable(false);
+				for(int i=0; i<dimension_entry.length; i++) {
+					dimension_entry[i].setEditable(false);
+				}
 			}
 
 			public void insertUpdate(DocumentEvent e) {
-				dimension_entry1.setEditable(false);
-				dimension_entry2.setEditable(false);
-				dimension_entry3.setEditable(false);
+				for(int i=0; i<dimension_entry.length; i++) {
+					dimension_entry[i].setEditable(false);
+				}
 			}
 
 			public void removeUpdate(DocumentEvent e) {
 				if(volume_entry.getText().isEmpty()) {
-				dimension_entry1.setEditable(true);
-				dimension_entry2.setEditable(true);
-				dimension_entry3.setEditable(true);
+					for(int i=0; i<dimension_entry.length; i++) {
+						dimension_entry[i].setEditable(true);
+					}
 				}
 			}
 		});
@@ -226,38 +205,10 @@ public class KioskGUI {
 				boolean valid_volume = false;
 				boolean valid_weight = false;
 				
-				try {
-					baggage_weight = (int) (Double.parseDouble(weight_entry.getText()));
-					valid_weight = true;
-					//NOTE TO SELF: THIS DOESN'T ROUND PROPERLY
-				} catch (NumberFormatException exception) {
-					weight_entry.setText("Invalid number");
-				}
-				if(weight_units.getSelectedItem() == "lbs") {
-					baggage_weight = (int) (2.2*baggage_weight);
-				}
-				if(volume_entry.getText().isEmpty()) {
-					try {
-						baggage_volume = (int) (Double.parseDouble(dimension_entry1.getText()) * Double.parseDouble(dimension_entry2.getText()) * Double.parseDouble(dimension_entry3.getText())); 
-						valid_volume = true;
-					} catch (NumberFormatException exception) {
-						dimension_entry1.setText("Invalid entries");
-					}
-					if(dimension_units.getSelectedItem() == "inches") {
-						baggage_volume = (int) (16.39*baggage_volume);
-					}
-				}
-				else {
-					try {
-						baggage_volume = (int) (Double.parseDouble(volume_entry.getText()));
-						valid_volume = true;
-					} catch (NumberFormatException exception) {
-						volume_entry.setText("Invalid number");
-					}
-					if(volume_units.getSelectedItem() == "inches\u00B3") {
-						baggage_volume = (int) (16.39*baggage_volume);
-					}
-				}
+				baggage_weight = calculate_weight(weight_entry, weight_units, valid_weight);
+				
+				baggage_volume = calculate_volume(dimension_entry, dimension_units, volume_entry, volume_units, valid_volume);
+				
 				System.out.println("Baggage weight = " + baggage_weight);
 				System.out.println("Baggage volume = " + baggage_volume);
 			
@@ -269,11 +220,9 @@ public class KioskGUI {
 			}
 		});
 		
-		guiContainer.add(weight_panel);
-		guiContainer.add(dimension_panel1);
-		guiContainer.add(dimension_panel2);
-		guiContainer.add(dimension_panel3);
-		guiContainer.add(volume_panel);
+		for(int i=0; i<data_entry.length; i++) {
+			guiContainer.add(data_entry[i]);
+		}
 		guiContainer.add(confirm_panel);
 		
 		guiFrame.add(guiContainer);		
@@ -301,6 +250,52 @@ public class KioskGUI {
 		panel.add(units);
 		
 		return panel;
+	}
+	
+	public int calculate_weight(JTextField weight_entry, JComboBox<String> weight_units, boolean valid_weight) {
+		int baggage_weight_current = 0;
+		
+		try {
+			baggage_weight_current = (int) (Double.parseDouble(weight_entry.getText()));
+			valid_weight = true;
+			//NOTE TO SELF: THIS DOESN'T ROUND PROPERLY
+		} catch (NumberFormatException exception) {
+			weight_entry.setText("Invalid number");
+		}
+		if(weight_units.getSelectedItem() == "lbs") {
+			baggage_weight_current = (int) (2.2*baggage_weight_current);
+		}
+		
+		return baggage_weight_current;
+	}
+	
+	public int calculate_volume(JTextField dimension_entry[], JComboBox<String> dimension_units, JTextField volume_entry, JComboBox<String> volume_units, boolean valid_volume) {
+		int baggage_volume_current = 0;		
+		
+		if(volume_entry.getText().isEmpty()) {
+			try {
+				baggage_volume_current = (int) (Double.parseDouble(dimension_entry[0].getText()) * Double.parseDouble(dimension_entry[1].getText()) * Double.parseDouble(dimension_entry[2].getText())); 
+				valid_volume = true;
+			} catch (NumberFormatException exception) {
+				dimension_entry[0].setText("Invalid entries");
+			}
+			if(dimension_units.getSelectedItem() == "inches") {
+				baggage_volume_current = (int) (16.39*baggage_volume_current);
+			}
+		}
+		else {
+			try {
+				baggage_volume_current = (int) (Double.parseDouble(volume_entry.getText()));
+				valid_volume = true;
+			} catch (NumberFormatException exception) {
+				volume_entry.setText("Invalid number");
+			}
+			if(volume_units.getSelectedItem() == "inches\u00B3") {
+				baggage_volume_current = (int) (16.39*baggage_volume_current);
+			}
+		}
+		
+		return baggage_volume_current;
 	}
 	
 	//Function that creates an enter button and puts it at the far right of the screen
