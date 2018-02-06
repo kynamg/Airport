@@ -2,21 +2,19 @@
 Passenger Class
 */
 
-import java.io.*;
 public class Passenger {
 	private String name;
 	private String surname;
 	private String bookingRef;
 	private String flightCode;
-	private boolean status;
-	//do i need a variable for checking in?
+	private boolean checkIn;
 		
-	public Passenger(String n, String s, String bR, String f, boolean stat) {
+	public Passenger(String n, String s, String bR, String f, boolean check) {
 			name = n;
 			surname = s;
 			bookingRef = bR;
 			flightCode = f;
-			status = stat;
+			checkIn = check;
 	}
 	
 	//return the passenger's first name
@@ -30,20 +28,23 @@ public class Passenger {
 	}
 	
 	//return booking reference
-	public String getbookingRef() {
+	public String getBookingRef() {
 		return bookingRef;
 	}
 	
 	//return flight code
-	public String getflightCode() {
+	public String getFlightCode() {
 		return flightCode;
 	}
 	
-	//return status checked in of passenger
-	public boolean getStatus() {
-		return status;
+	//return whether passenger is checked in or not
+	public boolean getCheckIn() {
+		return checkIn;
 	}
 	
-	//method to check in passengers
+	public void setCheckIn() {
+		checkIn = true;
+	}
+	
 	
 }
