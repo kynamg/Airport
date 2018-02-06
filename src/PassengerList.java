@@ -20,5 +20,9 @@ public class PassengerList {
 		}
 		return null;
 	}
+	
+	public int getSizeOfList() {
+		return passengerList.size();
+	}
 
 }
