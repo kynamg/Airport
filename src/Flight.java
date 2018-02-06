@@ -12,8 +12,10 @@ public class Flight {
 	private float maxVolume;
 	private int numPassengers;
 	private float totalWeight;
-	private float totalBaggageFees;
+	private float totalBaggageFees; 
 	private float totalVol;
+	
+	private float baggageFee;
 	
 	public Flight(String fC, String d, String c, float maxW, int maxP, float maxV) {
 		flightCode = fC;
@@ -22,6 +24,14 @@ public class Flight {
 		maxWeight = maxW;
 		maxPassengers = maxP;
 		maxVolume = maxV;
+	}
+	
+	public String getCarrier() {
+		return carrier;
+	}
+	
+	public String getFlightCode() {
+		return flightCode;
 	}
 	
 	public float getMaxWeight() {
@@ -48,5 +58,44 @@ public class Flight {
 		totalWeight = totalW;
 	}
 	
+	public void setTotalBaggageFees(float totalB) {
+		totalBaggageFees = totalB;
+	}
+	
+	public void setTotalVol(float totalV) {
+		totalVol = totalV;
+	}
+	
+	public boolean equals (Object other) {
+		if (other instanceof Flight) {
+			Flight otherFlight = (Flight) other;
+			if(flightCode.equals(otherFlight.flightCode))
+				return true;
+		}
+		return false;
+	}
+	
+	public float calculateExcessBaggageFees(float weight) {
+		if (weight>25.0) {
+			baggageFee = (float) (10*(weight-25));
+		}
+		else {
+			baggageFee = 0;
+		}
+//		totalBaggageFees += baggageFee;
+		return baggageFee;	
+	}
+	
+	public void incrementWeight(float weight) {
+		totalWeight += weight;
+	}
+	
+	public void incrementVolume(float volume) {
+		totalVol += volume;
+	}
+	
+	public void incrementBaggageFees(float baggageFee) {
+		totalBaggageFees += baggageFee;
+	}
 	
 }
