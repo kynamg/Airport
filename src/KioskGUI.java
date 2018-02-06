@@ -75,6 +75,7 @@ public class KioskGUI {
 		
 		JTextField error_message_name = new JTextField();
 		error_message_name.setEditable(false);
+		error_message_name.setVisible(false);
 		error_message_name_panel.add(error_message_name);
 		
 		JPanel error_message_booking_ref_panel = new JPanel();
@@ -83,6 +84,7 @@ public class KioskGUI {
 		
 		JTextField error_message_booking_ref = new JTextField();
 		error_message_booking_ref.setEditable(false);
+		error_message_booking_ref.setVisible(false);
 		error_message_booking_ref_panel.add(error_message_booking_ref);
 		
 		//Add panels to GUI
@@ -99,6 +101,14 @@ public class KioskGUI {
 		enter_button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if((check_booking_ref(booking_ref_entry.getText()) == true) && (check_last_name(name_entry.getText()) == true)){
+					PassengerList passenger_list = new PassengerList();
+					Passenger passenger = passenger_list.findBookingRef(booking_ref_entry.getText());
+					/*if(passenger_test.getSurname().equals(name_entry.getText())) {
+						System.out.println("Valid thing!!");
+					}
+					else {
+						System.out.println("Lol issue hahahah");
+					}*/
 					//Checking details goes in here!!
 					guiContainer.remove(name_panel);
 					guiContainer.remove(booking_ref_panel);
@@ -111,12 +121,14 @@ public class KioskGUI {
 				}
 				
 				if(check_booking_ref(booking_ref_entry.getText()) == false) {
-					error_message_booking_ref.setText("Invalid booking ref, please try again      ");
+					error_message_booking_ref.setVisible(true);
+					error_message_booking_ref.setText("Invalid booking ref, please try again");
 				}
 				else {
 					error_message_booking_ref.setText(null);
 				}
 				if(check_last_name(name_entry.getText()) == false) {
+					error_message_name.setVisible(true);
 					error_message_name.setText("Invalid name, please try again");
 				}
 				else {
