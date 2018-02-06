@@ -69,11 +69,29 @@ public class KioskGUI {
 		JButton enter_button = new JButton();
 		JPanel confirm_panel = enter_button(enter_button);
 		
+		JPanel error_message_name_panel = new JPanel();
+		error_message_name_panel.setLayout(new GridLayout());
+		error_message_name_panel.setVisible(true);
+		
+		JTextField error_message_name = new JTextField();
+		error_message_name.setEditable(false);
+		error_message_name_panel.add(error_message_name);
+		
+		JPanel error_message_booking_ref_panel = new JPanel();
+		error_message_booking_ref_panel.setLayout(new GridLayout());
+		error_message_booking_ref_panel.setVisible(true);
+		
+		JTextField error_message_booking_ref = new JTextField();
+		error_message_booking_ref.setEditable(false);
+		error_message_booking_ref_panel.add(error_message_booking_ref);
+		
 		//Add panels to GUI
 		guiContainer.add(details_panel);
 		guiContainer.add(name_panel);
 		guiContainer.add(booking_ref_panel);
 		guiContainer.add(confirm_panel);
+		guiContainer.add(error_message_name_panel);
+		guiContainer.add(error_message_booking_ref_panel);
 		
 		guiFrame.add(guiContainer);
 		
@@ -85,32 +103,43 @@ public class KioskGUI {
 					guiContainer.remove(name_panel);
 					guiContainer.remove(booking_ref_panel);
 					guiContainer.remove(confirm_panel);
+					guiContainer.remove(error_message_name_panel);
+					guiContainer.remove(error_message_booking_ref_panel);
 					menu_location.setText("BAGGAGE");
 					//Go onto baggage entry interface
 					baggage_entry_screen(guiFrame, guiContainer);
 				}
+				
+				if(check_booking_ref(booking_ref_entry.getText()) == false) {
+					error_message_booking_ref.setText("Invalid booking ref, please try again      ");
+				}
 				else {
-					booking_ref_entry.setText("Please Enter Your Booking Ref");
-					name_entry.setText("Please Enter Valid Information");
+					error_message_booking_ref.setText(null);
+				}
+				if(check_last_name(name_entry.getText()) == false) {
+					error_message_name.setText("Invalid name, please try again");
+				}
+				else {
+					error_message_name.setText(null);
 				}
 			}
 		});		
 	}
-	
+		
 	public boolean check_booking_ref(String booking_ref) {
 		Pattern p = Pattern.compile("[^a-zA-Z0-9]");
 		boolean invalid = p.matcher(booking_ref).find();
-		if(invalid == true) {
+		if(invalid == true || booking_ref.isEmpty() || booking_ref.length()!=7) {
 			return false;
 		}
 		else {
 			return true;
 		}
 	}
-	public boolean check_last_name(String booking_ref) {
+	public boolean check_last_name(String last_name) {
 		Pattern p = Pattern.compile("[^a-zA-Z]");
-		boolean invalid = p.matcher(booking_ref).find();
-		if(invalid == true) {
+		boolean invalid = p.matcher(last_name).find();
+		if(invalid == true || last_name.isEmpty()) {
 			return false;
 		}
 		else {
@@ -358,7 +387,7 @@ public class KioskGUI {
 		
 		guiFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		guiFrame.setTitle("Check In Kiosk");
-		guiFrame.setSize(400, 150);
+		guiFrame.setSize(400, 200);
 		guiFrame.setVisible(true);
 		
 		detailsScreen(guiFrame);
