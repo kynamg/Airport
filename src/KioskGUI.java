@@ -3,9 +3,9 @@ import java.awt.*;
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-
 import java.awt.event.*;
 import java.util.*;
+import java.util.regex.Pattern;
 
 public class KioskGUI {
 	
@@ -80,7 +80,7 @@ public class KioskGUI {
 		//Action listener for entry button
 		enter_button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if((booking_ref_entry.getText().isEmpty() == false) && (name_entry.getText().isEmpty() == false)) {
+				if((check_booking_ref(booking_ref_entry.getText()) == true) && (check_last_name(name_entry.getText()) == true)){
 					//Checking details goes in here!!
 					guiContainer.remove(name_panel);
 					guiContainer.remove(booking_ref_panel);
@@ -89,18 +89,34 @@ public class KioskGUI {
 					//Go onto baggage entry interface
 					baggage_entry_screen(guiFrame, guiContainer);
 				}
-				
-				//Check for valid name
-				if(name_entry.getText().isEmpty()){
-					name_entry.setText("Please enter your last name");
-				}
-				//Check for valid booking reference
-				if(booking_ref_entry.getText().isEmpty()) {
-					booking_ref_entry.setText("Please enter your booking ref");
+				else {
+					booking_ref_entry.setText("Please Enter Your Booking Ref");
+					name_entry.setText("Please Enter Valid Information");
 				}
 			}
 		});		
 	}
+	
+	public boolean check_booking_ref(String booking_ref) {
+		Pattern p = Pattern.compile("[^a-zA-Z0-9]");
+		boolean invalid = p.matcher(booking_ref).find();
+		if(invalid == true) {
+			return false;
+		}
+		else {
+			return true;
+		}
+	}
+	public boolean check_last_name(String booking_ref) {
+		Pattern p = Pattern.compile("[^a-zA-Z]");
+		boolean invalid = p.matcher(booking_ref).find();
+		if(invalid == true) {
+			return false;
+		}
+		else {
+			return true;
+		}
+	}	
 	
 	public void baggage_entry_screen(JFrame guiFrame, Container guiContainer) {
 		
