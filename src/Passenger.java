@@ -8,14 +8,15 @@ public class Passenger {
 	private String surname;
 	private String bookingRef;
 	private String flightCode;
-	private boolean checkedIn;
+	private boolean status;
+	//do i need a variable for checking in?
 		
-	public Passenger(String n, String s, String bR, String f, boolean cI) {
+	public Passenger(String n, String s, String bR, String f, boolean stat) {
 			name = n;
 			surname = s;
 			bookingRef = bR;
 			flightCode = f;
-			checkedIn = cI;
+			status = stat;
 	}
 	
 	//return the passenger's first name
@@ -29,20 +30,20 @@ public class Passenger {
 	}
 	
 	//return booking reference
-	public String bookingRef() {
+	public String getbookingRef() {
 		return bookingRef;
 	}
 	
 	//return flight code
-	public String flightCode() {
+	public String getflightCode() {
 		return flightCode;
 	}
 	
-	//return whether passenger is checked in or not
-	
-	public boolean checkedIn() {
-		return checkedIn;
+	//return status checked in of passenger
+	public boolean getStatus() {
+		return status;
 	}
 	
+	//method to check in passengers
 	
 }

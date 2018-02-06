@@ -1,8 +1,11 @@
-import java.util.ArrayList;
+//import java.util.HastSet;
 
 public class PassengerList {
 	
-	//storage for passenger details
-	private ArrayList <Passenger> passengerList;
+	public PassengerList() {
+		
+	}
+	
+	//
 
 }
