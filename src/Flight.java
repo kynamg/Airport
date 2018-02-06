@@ -66,14 +66,14 @@ public class Flight {
 		totalVol = totalV;
 	}
 	
-	public boolean equals (Object other) {
+	/*public boolean equals (Object other) {
 		if (other instanceof Flight) {
 			Flight otherFlight = (Flight) other;
 			if(flightCode.equals(otherFlight.flightCode))
 				return true;
 		}
 		return false;
-	}
+	}*/
 	
 	public float calculateExcessBaggageFees(float weight) {
 		if (weight>25.0) {
