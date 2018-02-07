@@ -21,7 +21,7 @@ public class KioskGUI {
 		});
 	}
 	
-	public void detailsScreen(JFrame guiFrame) {
+	public void detailsScreen(JFrame guiFrame, PassengerList passenger_list) {
 		
 		Container guiContainer = new Container();
 		guiContainer.setLayout(new BoxLayout(guiContainer, BoxLayout.Y_AXIS));
@@ -101,38 +101,37 @@ public class KioskGUI {
 		enter_button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if((check_booking_ref(booking_ref_entry.getText()) == true) && (check_last_name(name_entry.getText()) == true)){
-					PassengerList passenger_list = new PassengerList();
 					Passenger passenger = passenger_list.findBookingRef(booking_ref_entry.getText());
-					/*if(passenger_test.getSurname().equals(name_entry.getText())) {
-						System.out.println("Valid thing!!");
+					if(passenger != null) {
+						if(passenger.getSurname().equals(name_entry.getText())) {
+							guiContainer.remove(name_panel);
+							guiContainer.remove(booking_ref_panel);
+							guiContainer.remove(confirm_panel);
+							guiContainer.remove(error_message_name_panel);
+							guiContainer.remove(error_message_booking_ref_panel);
+							menu_location.setText("BAGGAGE");
+							//Go onto baggage entry interface
+							baggage_entry_screen(guiFrame, guiContainer);
+						}
+						else {
+							error_message_name.setVisible(true);
+							error_message_name.setText("Incorrect last name - please retry");;
+						}
 					}
 					else {
-						System.out.println("Lol issue hahahah");
-					}*/
-					//Checking details goes in here!!
-					guiContainer.remove(name_panel);
-					guiContainer.remove(booking_ref_panel);
-					guiContainer.remove(confirm_panel);
-					guiContainer.remove(error_message_name_panel);
-					guiContainer.remove(error_message_booking_ref_panel);
-					menu_location.setText("BAGGAGE");
-					//Go onto baggage entry interface
-					baggage_entry_screen(guiFrame, guiContainer);
+						error_message_booking_ref.setVisible(true);
+						error_message_booking_ref.setText("Booking reference not recognised");
+					}
 				}
 				
 				if(check_booking_ref(booking_ref_entry.getText()) == false) {
 					error_message_booking_ref.setVisible(true);
 					error_message_booking_ref.setText("Invalid booking ref, please try again");
 				}
-				else {
-					error_message_booking_ref.setText(null);
-				}
+
 				if(check_last_name(name_entry.getText()) == false) {
 					error_message_name.setVisible(true);
 					error_message_name.setText("Invalid name, please try again");
-				}
-				else {
-					error_message_name.setText(null);
 				}
 			}
 		});		
@@ -383,6 +382,9 @@ public class KioskGUI {
 	public KioskGUI() {
 		
 		guiFrame = new JFrame();
+		Passenger passenger_test = new Passenger("Yola", "Jones", "BA12345", "123456", false);
+		PassengerList passenger_list = new PassengerList();
+		passenger_list.addPassenger(passenger_test);
 		
 		/*try {
 		UIManager.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
@@ -402,6 +404,6 @@ public class KioskGUI {
 		guiFrame.setSize(400, 200);
 		guiFrame.setVisible(true);
 		
-		detailsScreen(guiFrame);
+		detailsScreen(guiFrame, passenger_list);
 	}
 }
