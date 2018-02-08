@@ -21,7 +21,7 @@ public class KioskGUI {
 		});
 	}
 	
-	public void detailsScreen(JFrame guiFrame, PassengerList passenger_list) {
+	public void detailsScreen(JFrame guiFrame, PassengerList passenger_list, FlightList flight_list) {
 		
 		Container guiContainer = new Container();
 		guiContainer.setLayout(new BoxLayout(guiContainer, BoxLayout.Y_AXIS));
@@ -111,7 +111,7 @@ public class KioskGUI {
 							guiContainer.remove(error_message_booking_ref_panel);
 							menu_location.setText("BAGGAGE");
 							//Go onto baggage entry interface
-							baggage_entry_screen(guiFrame, guiContainer);
+							baggage_entry_screen(guiFrame, guiContainer, passenger, flight_list);
 						}
 						else {
 							error_message_name.setVisible(true);
@@ -158,7 +158,7 @@ public class KioskGUI {
 		}
 	}	
 	
-	public void baggage_entry_screen(JFrame guiFrame, Container guiContainer) {
+	public void baggage_entry_screen(JFrame guiFrame, Container guiContainer, Passenger passenger, FlightList flight_list) {
 		
 		//Increase size of frame for added information
 		guiFrame.setSize(400, 220);
@@ -268,6 +268,12 @@ public class KioskGUI {
 				System.out.println("Baggage weight = " + baggage_weight);
 				System.out.println("Baggage volume = " + baggage_volume);
 			
+				Flight flight = flight_list.findByCode(passenger.getFlightCode());
+				float baggage_fees = flight.calculateExcessBaggageFees(baggage_weight);
+				flight.incrementBaggageFees(baggage_fees);
+				flight.incrementVolume(baggage_volume);
+				flight.incrementWeight(baggage_weight);
+				
 				//If everything is entered correctly
 				if((valid_volume == true) && (valid_weight == true)) {
 					System.out.println("Yes. One can proceed");
@@ -386,6 +392,11 @@ public class KioskGUI {
 		PassengerList passenger_list = new PassengerList();
 		passenger_list.addPassenger(passenger_test);
 		
+		Flight flight_test = new Flight("123456", "New Zealand", "BA", 100, 100, 100);
+		FlightList flight_list = new FlightList();
+		flight_list.add(flight_test);
+		
+		
 		/*try {
 		UIManager.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
 		} catch (UnsupportedLookAndFeelException e) {
@@ -404,6 +415,6 @@ public class KioskGUI {
 		guiFrame.setSize(400, 200);
 		guiFrame.setVisible(true);
 		
-		detailsScreen(guiFrame, passenger_list);
+		detailsScreen(guiFrame, passenger_list, flight_list);
 	}
 }
