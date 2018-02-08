@@ -1,0 +1,1 @@
+L123GB;Illinois;Lufthansa;23;5;70L124GB;Kentucky;BA;24;6;50

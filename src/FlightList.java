@@ -30,15 +30,15 @@ public class FlightList {
 	
 	
 	// Just for testing
-	public static void main(String[] args) {
-		FlightList flights1 = new FlightList();
-		Flight f1 = new Flight("L123G", "Illinois", "Lufthansa", 23, 5, 70);
-		Flight f2 = new Flight("L124G", "Kentucky", "Lufthansa", 23, 5, 70);
-		Flight f3 = new Flight("L125G", "Chicago", "Lufthansa", 23, 5, 70);
-		flights1.add(f1);
-		flights1.add(f2);
-		flights1.add(f3);
-		flights1.findByCode("L134G");
-		flights1.getNumberOfEntries();
-	}
+//	public static void main(String[] args) {
+//		FlightList flights1 = new FlightList();
+//		Flight f1 = new Flight("L123G", "Illinois", "Lufthansa", 23, 5, 70);
+//		Flight f2 = new Flight("L124G", "Kentucky", "Lufthansa", 23, 5, 70);
+//		Flight f3 = new Flight("L125G", "Chicago", "Lufthansa", 23, 5, 70);
+//		flights1.add(f1);
+//		flights1.add(f2);
+//		flights1.add(f3);
+//		flights1.findByCode("L134G");
+//		flights1.getNumberOfEntries();
+//	}
 }
