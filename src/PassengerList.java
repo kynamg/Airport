@@ -24,5 +24,9 @@ public class PassengerList {
 	public int getSizeOfList() {
 		return passengerList.size();
 	}
+	
+public void addPassenger(Passenger person) {
+	passengerList.add(person);
+}
 
 }
