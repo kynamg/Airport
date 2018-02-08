@@ -1,20 +1,22 @@
 /*
-Passenger Class
+Passenger Class - Kyna Mowat-Gosnell, H00147672
 */
 
 public class Passenger {
+	//instance variables
 	private String name;
 	private String surname;
 	private String bookingRef;
 	private String flightCode;
 	private boolean checkIn;
-		
+	
+	//initalise Passenger class
 	public Passenger(String n, String s, String bR, String f, boolean check) {
-			name = n;
-			surname = s;
-			bookingRef = bR;
-			flightCode = f;
-			checkIn = check;
+		name = n;
+		surname = s;
+		bookingRef = bR;
+		flightCode = f;
+		checkIn = check;
 	}
 	
 	//return the passenger's first name
@@ -22,12 +24,12 @@ public class Passenger {
 		return name;
 	}
 	
-	//return passenger's last name
+	//return passenger's last name - used in KioskGUI class
 	public String getSurname() {
 		return surname;
 	}
 	
-	//return booking reference
+	//return booking reference  - used in KioskGUI class
 	public String getBookingRef() {
 		return bookingRef;
 	}
@@ -42,6 +44,7 @@ public class Passenger {
 		return checkIn;
 	}
 	
+	//set checkIn to true - used in CheckInDemo class
 	public void setCheckIn() {
 		checkIn = true;
 	}
