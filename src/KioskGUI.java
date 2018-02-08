@@ -262,22 +262,22 @@ public class KioskGUI {
 				boolean valid_weight = false;
 				
 				baggage_weight = calculate_weight(weight_entry, weight_units, valid_weight);
-				
 				baggage_volume = calculate_volume(dimension_entry, dimension_units, volume_entry, volume_units, valid_volume);
-				
-				System.out.println("Baggage weight = " + baggage_weight);
-				System.out.println("Baggage volume = " + baggage_volume);
-			
-				Flight flight = flight_list.findByCode(passenger.getFlightCode());
-				float baggage_fees = flight.calculateExcessBaggageFees(baggage_weight);
-				flight.incrementBaggageFees(baggage_fees);
-				flight.incrementVolume(baggage_volume);
-				flight.incrementWeight(baggage_weight);
-				
+
 				//If everything is entered correctly
 				if((valid_volume == true) && (valid_weight == true)) {
 					System.out.println("Yes. One can proceed");
-					//Send things to the various places here
+					
+					System.out.println("Baggage weight = " + baggage_weight);
+					System.out.println("Baggage volume = " + baggage_volume);
+				
+					//Increment flight details
+					Flight flight = flight_list.findByCode(passenger.getFlightCode());
+					float baggage_fees = flight.calculateExcessBaggageFees(baggage_weight);
+					flight.incrementBaggageFees(baggage_fees);
+					flight.incrementVolume(baggage_volume);
+					flight.incrementWeight(baggage_weight);
+					flight.incrementPassengers();
 				}
 			}
 		});
