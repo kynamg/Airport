@@ -18,6 +18,7 @@ public class CheckInDemo {
 				boolean checkedIn = false;
 				Passenger p = new Passenger(data[0], data[1], data[2], data[3], checkedIn);
 				passengers.addPassenger(p);
+				//System.out.println(p.getBookingRef());
 				inputLine = buff.readLine();
 			}
 		}
