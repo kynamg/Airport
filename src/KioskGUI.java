@@ -11,23 +11,7 @@ public class KioskGUI {
 	
 	JFrame guiFrame;
 	int baggage_weight = 0;
-	int baggage_volume = 0;	
-	
-	/*public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				new KioskGUI();
-			}
-		});
-	}*/
-	
-	public void run_gui(PassengerList passenger_list, FlightList flight_list) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				new KioskGUI(passenger_list, flight_list);
-			}
-		});
-	}
+	int baggage_volume = 0;
 	
 	//Screen which allows users to input last name and booking reference
 	//Method calls baggage_entry_screen once details have been checked
@@ -413,26 +397,32 @@ public class KioskGUI {
 	
 	public KioskGUI(PassengerList passenger_list, FlightList flight_list) {
 		
-		guiFrame = new JFrame();
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				guiFrame = new JFrame();
+				
+				/*try {
+				UIManager.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
+				} catch (UnsupportedLookAndFeelException e) {
+					System.out.println("Invalid look and feel");
+				} catch (IllegalAccessException e) {
+					System.out.println("Disallowed access");
+				} catch (InstantiationException e) {
+					System.out.println("Instantiation Exception");
+				} catch (ClassNotFoundException e) {
+					System.out.println("Class not found exception");
+				}
+				SwingUtilities.updateComponentTreeUI(guiFrame);*/
+				
+				guiFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+				guiFrame.setTitle("Check In Kiosk");
+				guiFrame.setSize(400, 200);
+				guiFrame.setVisible(true);
+				
+				detailsScreen(guiFrame, passenger_list, flight_list);
+			}
+		});
 		
-		/*try {
-		UIManager.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
-		} catch (UnsupportedLookAndFeelException e) {
-			System.out.println("Invalid look and feel");
-		} catch (IllegalAccessException e) {
-			System.out.println("Disallowed access");
-		} catch (InstantiationException e) {
-			System.out.println("Instantiation Exception");
-		} catch (ClassNotFoundException e) {
-			System.out.println("Class not found exception");
-		}
-		SwingUtilities.updateComponentTreeUI(guiFrame);*/
 		
-		guiFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		guiFrame.setTitle("Check In Kiosk");
-		guiFrame.setSize(400, 200);
-		guiFrame.setVisible(true);
-		
-		detailsScreen(guiFrame, passenger_list, flight_list);
 	}
 }

@@ -42,7 +42,7 @@ public class CheckInDemo {
 	
 	public void showGUI() {
 		KioskGUI gui = new KioskGUI(passengers, flights);
-		gui.run_gui(passengers, flights);
+		//gui.run_gui(passengers, flights);
 	}
 	
 	public static void main(String arg[]) throws IOException {
