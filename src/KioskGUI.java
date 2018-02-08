@@ -21,8 +21,11 @@ public class KioskGUI {
 		});
 	}
 	
+	//Screen which allows users to input last name and booking reference
+	//Method calls baggage_entry_screen once details have been checked
 	public void detailsScreen(JFrame guiFrame, PassengerList passenger_list, FlightList flight_list) {
 		
+		//Container for details entry screen
 		Container guiContainer = new Container();
 		guiContainer.setLayout(new BoxLayout(guiContainer, BoxLayout.Y_AXIS));
 		
@@ -33,6 +36,7 @@ public class KioskGUI {
 		menu_location.setText("DETAILS");
 		menu_location.setFont(font1);
 		
+		//Panel showing DETAILS heading
 		Panel details_panel = new Panel();
 		details_panel.setLayout(new GridLayout());
 		details_panel.setBackground(null);;
@@ -43,6 +47,7 @@ public class KioskGUI {
 		Panel name_panel = new Panel();
 		name_panel.setLayout(new GridLayout());
 		
+		//Last name: and name entry text fields
 		JTextField name_prompt = new JTextField();
 		name_prompt.setEditable(false);
 		name_prompt.setText("Last Name:");
@@ -56,6 +61,7 @@ public class KioskGUI {
 		Panel booking_ref_panel = new Panel();
 		booking_ref_panel.setLayout(new GridLayout());
 		
+		//Booking Reference: and booking reference entry text fields
 		JTextField booking_ref_prompt = new JTextField();
 		booking_ref_prompt.setEditable(false);
 		booking_ref_prompt.setText("Booking Reference:");
@@ -69,19 +75,23 @@ public class KioskGUI {
 		JButton enter_button = new JButton();
 		JPanel confirm_panel = enter_button(enter_button);
 		
+		//Panel for an error message if something has gone wrong with name
 		JPanel error_message_name_panel = new JPanel();
 		error_message_name_panel.setLayout(new GridLayout());
 		error_message_name_panel.setVisible(true);
 		
+		//Text field for error message if something wrong with name
 		JTextField error_message_name = new JTextField();
 		error_message_name.setEditable(false);
 		error_message_name.setVisible(false);
 		error_message_name_panel.add(error_message_name);
 		
+		//Panel for error message if something has gone wrong with booking reference
 		JPanel error_message_booking_ref_panel = new JPanel();
 		error_message_booking_ref_panel.setLayout(new GridLayout());
 		error_message_booking_ref_panel.setVisible(true);
 		
+		//Text field for error message if something wrong with booking reference
 		JTextField error_message_booking_ref = new JTextField();
 		error_message_booking_ref.setEditable(false);
 		error_message_booking_ref.setVisible(false);
@@ -95,20 +105,26 @@ public class KioskGUI {
 		guiContainer.add(error_message_name_panel);
 		guiContainer.add(error_message_booking_ref_panel);
 		
+		//Add container to window
 		guiFrame.add(guiContainer);
 		
 		//Action listener for entry button
 		enter_button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				//If user has entered valid data
 				if((check_booking_ref(booking_ref_entry.getText()) == true) && (check_last_name(name_entry.getText()) == true)){
 					Passenger passenger = passenger_list.findBookingRef(booking_ref_entry.getText());
+					//If passenger associated with booking reference exists
 					if(passenger != null) {
+						//If passenger booking reference and last name match up
 						if(passenger.getSurname().equals(name_entry.getText())) {
+							//Remove un-needed panels
 							guiContainer.remove(name_panel);
 							guiContainer.remove(booking_ref_panel);
 							guiContainer.remove(confirm_panel);
 							guiContainer.remove(error_message_name_panel);
 							guiContainer.remove(error_message_booking_ref_panel);
+							//Change menu location label from "DETAILS" to "BAGGAGE"
 							menu_location.setText("BAGGAGE");
 							//Go onto baggage entry interface
 							baggage_entry_screen(guiFrame, guiContainer, passenger, flight_list);
@@ -136,7 +152,8 @@ public class KioskGUI {
 			}
 		});		
 	}
-		
+	
+	//Booking reference must be an alphanumeric 7-character long string
 	public boolean check_booking_ref(String booking_ref) {
 		Pattern p = Pattern.compile("[^a-zA-Z0-9]");
 		boolean invalid = p.matcher(booking_ref).find();
@@ -147,6 +164,8 @@ public class KioskGUI {
 			return true;
 		}
 	}
+	
+	//Last name must only contain letters (no spaces or numbers allowed)
 	public boolean check_last_name(String last_name) {
 		Pattern p = Pattern.compile("[^a-zA-Z]");
 		boolean invalid = p.matcher(last_name).find();
@@ -158,6 +177,7 @@ public class KioskGUI {
 		}
 	}	
 	
+	//Screen that allows users to input baggage weight and baggage volume
 	public void baggage_entry_screen(JFrame guiFrame, Container guiContainer, Passenger passenger, FlightList flight_list) {
 		
 		//Increase size of frame for added information
@@ -165,7 +185,6 @@ public class KioskGUI {
 		
 		//List storying data entry panels (weight, dimensions[3], volume)
 		JPanel data_entry[] = new JPanel[5];
-		
 		for(int i = 0; i<data_entry.length; i++)
 		{
 			data_entry[i] = new JPanel();
@@ -178,7 +197,6 @@ public class KioskGUI {
 		weight_units.addItem("lbs");
 		data_entry[0] = add_selection_entry("Enter Weight:", guiContainer, weight_entry, weight_units);
 		
-		//Panel allowing users to input the height (height/length/width order does not matter)
 		JTextField dimension_entry[] = new JTextField[3];
 		
 		for(int i = 0; i<dimension_entry.length; i++)
@@ -186,6 +204,7 @@ public class KioskGUI {
 			dimension_entry[i] = new JTextField();
 		}
 		
+		//Panel allowing users to input the height (height/length/width order does not matter)
 		JComboBox<String> dimension_units = new JComboBox<String>();
 		dimension_units.addItem("cm");
 		dimension_units.addItem("inches");
@@ -266,8 +285,6 @@ public class KioskGUI {
 
 				//If everything is entered correctly
 				if((valid_volume == true) && (valid_weight == true)) {
-					System.out.println("Yes. One can proceed");
-					
 					System.out.println("Baggage weight = " + baggage_weight);
 					System.out.println("Baggage volume = " + baggage_volume);
 				
@@ -281,7 +298,8 @@ public class KioskGUI {
 				}
 			}
 		});
-		
+
+		//Add panels to GUI
 		for(int i=0; i<data_entry.length; i++) {
 			guiContainer.add(data_entry[i]);
 		}
@@ -388,6 +406,8 @@ public class KioskGUI {
 	public KioskGUI() {
 		
 		guiFrame = new JFrame();
+		
+		//Test passenger and flight, FlightList and PassengerList will get passed into class by CheckInDemo
 		Passenger passenger_test = new Passenger("Yola", "Jones", "BA12345", "123456", false);
 		PassengerList passenger_list = new PassengerList();
 		passenger_list.addPassenger(passenger_test);
@@ -395,7 +415,6 @@ public class KioskGUI {
 		Flight flight_test = new Flight("123456", "New Zealand", "BA", 100, 100, 100);
 		FlightList flight_list = new FlightList();
 		flight_list.add(flight_test);
-		
 		
 		/*try {
 		UIManager.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
