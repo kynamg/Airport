@@ -14,6 +14,7 @@ public class Flight {
 	private float totalWeight;
 	private float totalBaggageFees; 
 	private float totalVol;
+	private float totalPassengers;
 	
 	private float baggageFee;
 	
@@ -86,6 +87,9 @@ public class Flight {
 		return baggageFee;	
 	}
 	
+	public void incrementPassengers() {
+		totalPassengers ++;
+	}
 	public void incrementWeight(float weight) {
 		totalWeight += weight;
 	}
