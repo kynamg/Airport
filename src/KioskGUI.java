@@ -21,6 +21,14 @@ public class KioskGUI {
 		});
 	}
 	
+	public void run_gui(PassengerList passenger_list, FlightList flight_list) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				new KioskGUI(passenger_list, flight_list);
+			}
+		});
+	}
+	
 	//Screen which allows users to input last name and booking reference
 	//Method calls baggage_entry_screen once details have been checked
 	public void detailsScreen(JFrame guiFrame, PassengerList passenger_list, FlightList flight_list) {
@@ -403,18 +411,9 @@ public class KioskGUI {
 		return confirm_panel;
 	}
 	
-	public KioskGUI() {
+	public KioskGUI(PassengerList passenger_list, FlightList flight_list) {
 		
 		guiFrame = new JFrame();
-		
-		//Test passenger and flight, FlightList and PassengerList will get passed into class by CheckInDemo
-		Passenger passenger_test = new Passenger("Yola", "Jones", "BA12345", "123456", false);
-		PassengerList passenger_list = new PassengerList();
-		passenger_list.addPassenger(passenger_test);
-		
-		Flight flight_test = new Flight("123456", "New Zealand", "BA", 100, 100, 100);
-		FlightList flight_list = new FlightList();
-		flight_list.add(flight_test);
 		
 		/*try {
 		UIManager.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
