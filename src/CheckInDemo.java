@@ -3,6 +3,7 @@ import java.io.*;
 
 public class CheckInDemo {
 	private static PassengerList passengers;
+	private static FlightList flights;
 	private KioskGUI gui;
 
 	public CheckInDemo() throws IOException {
@@ -40,8 +41,8 @@ public class CheckInDemo {
 		}
 	
 	public void showGUI() {
-		KioskGUI gui = new KioskGUI();
-		gui.main(null);
+		KioskGUI gui = new KioskGUI(passengers, flights);
+		gui.run_gui(passengers, flights);
 	}
 	
 	public static void main(String arg[]) throws IOException {
