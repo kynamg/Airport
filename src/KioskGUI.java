@@ -13,13 +13,13 @@ public class KioskGUI {
 	int baggage_weight = 0;
 	int baggage_volume = 0;	
 	
-	public static void main(String[] args) {
+	/*public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				new KioskGUI();
 			}
 		});
-	}
+	}*/
 	
 	public void run_gui(PassengerList passenger_list, FlightList flight_list) {
 		EventQueue.invokeLater(new Runnable() {
