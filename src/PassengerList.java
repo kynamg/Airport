@@ -39,10 +39,10 @@ public class PassengerList {
 	}
 	
 	//print list of passengers - iterate through list and print each passenger
-	public void printList(Passenger p) {
-		for(int i =0; i > passengerList.size(); i++) {
-			System.out.println(p.getName() + p.getSurname() + p.getBookingRef() + p.getFlightCode() + p.getCheckIn());
-		}
-	}		
+//	public void printList(Passenger p) {
+//		for(int i =0; i > passengerList.size(); i++) {
+//			System.out.println(p.getName() + p.getSurname() + p.getBookingRef() + p.getFlightCode() + p.getCheckIn());
+//		}
+//	}		
 }
 
