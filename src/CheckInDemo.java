@@ -20,6 +20,7 @@ public class CheckInDemo {
 				passengers.addPassenger(p);
 				//System.out.println(p.getBookingRef());
 				inputLine = buff.readLine();
+				
 			}
 		}
 		catch(FileNotFoundException e) {
@@ -49,5 +50,6 @@ public class CheckInDemo {
 	public static void main(String arg[]) throws IOException {
 		CheckInDemo demo = new CheckInDemo();
 		demo.showGUI();	
+
 	}
 }

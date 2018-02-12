@@ -9,15 +9,14 @@ public class FlightList {
 		flights = new HashSet<Flight>();
 	}
 	
-	public Flight findByCode(String code) {
+	public Flight findByCode(String code) throws NoMatchingFlightCodeException{
 		for (Flight f : flights) {
 			if(f.getFlightCode().equals(code)) {
 				System.out.println("Flight found");
 				return f;
 			}
 		}
-		System.out.println("No flight found with that flight code");
-		return null;		
+		throw new NoMatchingFlightCodeException(code);		
 	}
 	
 	public int getNumberOfEntries() {
