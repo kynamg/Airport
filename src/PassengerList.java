@@ -17,7 +17,7 @@ public class PassengerList {
 	}
 	
 	//method takes parameters from Passenger
-	public Passenger findBookingRef(String bookingRef) {
+	public Passenger findBookingRef(String bookingRef) throws NoMatchingBookingRefException{
 		//for a passenger 'p' in the passengerList hash set
 		for (Passenger p : passengerList) {
 			//if the bookingRef in the hash set is equal to the bookingRef input, return the passenger 'p'
@@ -25,7 +25,8 @@ public class PassengerList {
 				return p;
 			}
 		}
-		return null;
+		throw new NoMatchingBookingRefException(bookingRef);
+		//return null;
 	}
 	
 	//return size of passengerList Hash set
