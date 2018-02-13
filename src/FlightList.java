@@ -54,6 +54,8 @@ public class FlightList {
 //	
 	
 	public void printFlightList() throws IOException {
+		System.out.println("I am being called");
+		
 		BufferedWriter bw = null;
 		FileWriter fw = null;
 		String capacity = null;

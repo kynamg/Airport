@@ -6,8 +6,9 @@ import java.io.*;
 public class CheckInDemo {
 	private static PassengerList passengers;
 	private static FlightList flights;
-	private KioskGUI gui;
+	private static KioskGUI gui;
 	static int passengers_checked_in = 0;
+	static int passengers_total = 0;
 
 	public CheckInDemo() throws IOException {
 		passengers = new PassengerList();
@@ -36,6 +37,9 @@ public class CheckInDemo {
 				//System.out.println(f.getFlightCode());
 				inputLine2 = buff2.readLine();
 			}
+
+			passengers_total = passengers.getSizeOfList();
+			System.out.println("Total passengers = "+passengers_total);
 		}
 		catch(FileNotFoundException e) {
 			System.out.println(e.getMessage());
@@ -57,13 +61,22 @@ public class CheckInDemo {
 	}
 	
 	public void showGUI() {
-		KioskGUI gui = new KioskGUI(passengers, flights);
-		//gui.close_gui();
+		gui = new KioskGUI(passengers, flights);
 	}
 	
 	public static void check_in_passenger() {
 		passengers_checked_in++;
 		System.out.println("I have checked in a passenger "+passengers_checked_in);
+		if(passengers_checked_in == passengers_total) {
+			gui.close_gui();
+			System.out.println("Got to after close");
+			try {
+				System.out.println("Everything is fine");
+				flights.printFlightList();
+			} catch (IOException io_exception) {
+				System.out.println("Cannot print");
+			}
+		}
 	}
 	
 	public static void main(String arg[]) throws IOException {

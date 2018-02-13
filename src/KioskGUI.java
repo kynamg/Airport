@@ -105,36 +105,41 @@ public class KioskGUI {
 			public void actionPerformed(ActionEvent e) {
 				//If user has entered valid data
 				if((check_booking_ref(booking_ref_entry.getText()) == true) && (check_last_name(name_entry.getText()) == true)){
-					Passenger passenger = passenger_list.findBookingRef(booking_ref_entry.getText());
-					//If passenger associated with booking reference exists
-					if(passenger != null) {
-						//If passenger booking reference and last name match up
-						if(passenger.getSurname().equals(name_entry.getText())) {
-							//Remove un-needed panels
-							name_panel.setVisible(false);
-							guiContainer.remove(name_panel);
-							booking_ref_panel.setVisible(false);
-							guiContainer.remove(booking_ref_panel);
-							confirm_panel.setVisible(false);
-							guiContainer.remove(confirm_panel);
-							error_message_name_panel.setVisible(false);
-							guiContainer.remove(error_message_name_panel);
-							error_message_booking_ref_panel.setVisible(false);
-							guiContainer.remove(error_message_booking_ref_panel);
-							//Change menu location label from "DETAILS" to "BAGGAGE"
-							menu_location.setText("BAGGAGE");
-							//Go onto baggage entry interface
-							baggage_entry_screen(guiFrame, guiContainer, passenger, passenger_list, flight_list);
+					Passenger passenger;
+					try {
+						passenger = passenger_list.findBookingRef(booking_ref_entry.getText());
+						if(passenger.getCheckIn() == false) {
+							if(passenger.getSurname().equals(name_entry.getText())) {
+								//Remove un-needed panels
+								name_panel.setVisible(false);
+								guiContainer.remove(name_panel);
+								booking_ref_panel.setVisible(false);
+								guiContainer.remove(booking_ref_panel);
+								confirm_panel.setVisible(false);
+								guiContainer.remove(confirm_panel);
+								error_message_name_panel.setVisible(false);
+								guiContainer.remove(error_message_name_panel);
+								error_message_booking_ref_panel.setVisible(false);
+								guiContainer.remove(error_message_booking_ref_panel);
+								//Change menu location label from "DETAILS" to "BAGGAGE"
+								menu_location.setText("BAGGAGE");
+								//Go onto baggage entry interface
+								baggage_entry_screen(guiFrame, guiContainer, passenger, passenger_list, flight_list);
+							}
+							else {
+								error_message_name.setVisible(true);
+								error_message_name.setText("Incorrect last name - please retry");
+							}
 						}
 						else {
 							error_message_name.setVisible(true);
-							error_message_name.setText("Incorrect last name - please retry");;
+							error_message_name.setText("Sorry, you have already checked in");
 						}
-					}
-					else {
+					} catch (NoMatchingBookingRefException no_matching_booking_reference) {
 						error_message_booking_ref.setVisible(true);
 						error_message_booking_ref.setText("Booking reference not recognised");
 					}
+					//If passenger booking reference and last name match up
 				}
 				
 				if(check_booking_ref(booking_ref_entry.getText()) == false) {
@@ -300,13 +305,6 @@ public class KioskGUI {
 					catch (NoMatchingFlightCodeException no_matching_flight_code_exception) {
 						System.out.println("No matching flight code");
 					}
-					catch (NullPointerException null_pointer_exception) {
-						//THIS IS A TEST, THIS WILL GO IN THE MAIN METHOD	
-						System.out.println("I am about to check in");
-						
-						CheckInDemo.check_in_passenger();
-						System.out.println("Hopefully a temportary measure until adding flight functionality gets added");
-					}
 					
 					for(int i=0; i<data_entry.length; i++) {
 						data_entry[i].setVisible(false);
@@ -440,7 +438,7 @@ public class KioskGUI {
 	}
 	
 	public void close_gui() {
-		System.exit(0);
+		guiFrame.setVisible(false);
 	}
 	
 	public KioskGUI(PassengerList passenger_list, FlightList flight_list) {
@@ -462,7 +460,7 @@ public class KioskGUI {
 				}
 				SwingUtilities.updateComponentTreeUI(guiFrame);*/
 				
-				guiFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+				
 				guiFrame.setTitle("Check In Kiosk");
 				guiFrame.setSize(400, 200);
 				guiFrame.setVisible(true);
