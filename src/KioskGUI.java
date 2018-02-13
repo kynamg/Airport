@@ -299,6 +299,7 @@ public class KioskGUI {
 						flight.incrementVolume(baggage_volume);
 						flight.incrementWeight(baggage_weight);
 						flight.incrementPassengers();
+						passenger.setCheckIn();
 					}
 					catch (NoMatchingFlightCodeException no_matching_flight_code_exception) {
 						System.out.println("No matching flight code");
