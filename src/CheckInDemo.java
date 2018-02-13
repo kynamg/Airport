@@ -8,19 +8,30 @@ public class CheckInDemo {
 
 	public CheckInDemo() throws IOException {
 		passengers = new PassengerList();
-		BufferedReader buff = null;
-		String data [] = new String[3];
+		flights = new FlightList();
+		BufferedReader buff1 = null;
+		BufferedReader buff2 = null;
+		String data1 [] = new String[3];
+		String data2 [] = new String[5];
 		try {
-			buff = new BufferedReader(new FileReader("passengerTest.txt"));
-			String inputLine = buff.readLine();
-			while(inputLine != null) {
-				data = inputLine.split(";");
+			buff1 = new BufferedReader(new FileReader("passengerTest.txt"));
+			buff2 = new BufferedReader(new FileReader("flightTest.txt"));
+			String inputLine1 = buff1.readLine();
+			String inputLine2 = buff2.readLine();
+			while(inputLine1 != null) {
+				data1 = inputLine1.split(";");
 				boolean checkedIn = false;
-				Passenger p = new Passenger(data[0], data[1], data[2], data[3], checkedIn);
+				Passenger p = new Passenger(data1[0], data1[1], data1[2], data1[3], checkedIn);
 				passengers.addPassenger(p);
 				//System.out.println(p.getBookingRef());
-				inputLine = buff.readLine();
-				
+				inputLine1 = buff1.readLine();
+			}
+			while(inputLine2 != null) {
+				data2 = inputLine2.split(";");
+				Flight f = new Flight(data2[0], data2[1], data2[2], Float.parseFloat(data2[3]), Integer.parseInt(data2[4]), Float.parseFloat(data2[5]));
+				flights.add(f);
+				//System.out.println(f.getFlightCode());
+				inputLine2 = buff2.readLine();
 			}
 		}
 		catch(FileNotFoundException e) {
@@ -33,7 +44,8 @@ public class CheckInDemo {
 		}
 		finally {
 			try {
-				buff.close();
+				buff1.close();
+				buff2.close();
 			}
 			catch (IOException ioe){
 				
@@ -50,6 +62,5 @@ public class CheckInDemo {
 	public static void main(String arg[]) throws IOException {
 		CheckInDemo demo = new CheckInDemo();
 		demo.showGUI();	
-
 	}
 }
