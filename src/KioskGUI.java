@@ -3,6 +3,8 @@ import java.awt.*;
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.event.EventListenerList;
+
 import java.awt.event.*;
 import java.util.*;
 import java.util.regex.Pattern;
@@ -16,9 +18,7 @@ public class KioskGUI {
 	
 	//Screen which allows users to input last name and booking reference
 	//Method calls baggage_entry_screen once details have been checked
-	public void detailsScreen(JFrame guiFrame, Container guiContainer, PassengerList passenger_list, FlightList flight_list) {
-		
-		System.out.println("I am in details screen");
+	private void details_screen(JFrame guiFrame, Container guiContainer, PassengerList passenger_list, FlightList flight_list) {
 		
 		//Heading to tell user what view they're in (details/baggage)
 		Font font1 = new Font("SansSerif", Font.BOLD, 18);
@@ -151,7 +151,7 @@ public class KioskGUI {
 	}
 	
 	//Booking reference must be an alphanumeric 7-character long string
-	public boolean check_booking_ref(String booking_ref) {
+	private boolean check_booking_ref(String booking_ref) {
 		Pattern p = Pattern.compile("[^a-zA-Z0-9]");
 		boolean invalid = p.matcher(booking_ref).find();
 		if(invalid == true || booking_ref.isEmpty() || booking_ref.length()!=7) {
@@ -163,7 +163,7 @@ public class KioskGUI {
 	}
 	
 	//Last name must only contain letters (no spaces or numbers allowed)
-	public boolean check_last_name(String last_name) {
+	private boolean check_last_name(String last_name) {
 		Pattern p = Pattern.compile("[^a-zA-Z]");
 		boolean invalid = p.matcher(last_name).find();
 		if(invalid == true || last_name.isEmpty()) {
@@ -175,7 +175,7 @@ public class KioskGUI {
 	}	
 	
 	//Screen that allows users to input baggage weight and baggage volume
-	public void baggage_entry_screen(JFrame guiFrame, Container guiContainer, Passenger passenger, PassengerList passenger_list, FlightList flight_list) {
+	private void baggage_entry_screen(JFrame guiFrame, Container guiContainer, Passenger passenger, PassengerList passenger_list, FlightList flight_list) {
 		
 		//Increase size of frame for added information
 		guiFrame.setSize(400, 220);
@@ -286,11 +286,6 @@ public class KioskGUI {
 				//If everything is entered correctly
 				if((baggage_volume_object[0].equals(true)) && (baggage_volume_object[0].equals(true))) {
 					
-				System.out.println("Passenger name = "+passenger.getName());
-				System.out.println("Passenger booking ref = "+passenger.getBookingRef());
-				System.out.println("Passenger surname = "+passenger.getSurname());
-				System.out.println("Passenger flight code = "+passenger.getFlightCode());
-				
 					//Increment flight details
 					try {
 						Flight flight = flight_list.findByCode(passenger.getFlightCode());
@@ -300,15 +295,18 @@ public class KioskGUI {
 						flight.incrementWeight(baggage_weight);
 						flight.incrementPassengers();
 						passenger.setCheckIn();
+						CheckInDemo.check_in_passenger();
 					}
 					catch (NoMatchingFlightCodeException no_matching_flight_code_exception) {
 						System.out.println("No matching flight code");
 					}
 					catch (NullPointerException null_pointer_exception) {
+						//THIS IS A TEST, THIS WILL GO IN THE MAIN METHOD	
+						System.out.println("I am about to check in");
+						
+						CheckInDemo.check_in_passenger();
 						System.out.println("Hopefully a temportary measure until adding flight functionality gets added");
 					}
-					
-					System.out.println("I am definitely getting to the details screen");
 					
 					for(int i=0; i<data_entry.length; i++) {
 						data_entry[i].setVisible(false);
@@ -316,7 +314,7 @@ public class KioskGUI {
 					}
 					confirm_panel.setVisible(false);
 					guiContainer.remove(confirm_panel);
-					detailsScreen(guiFrame, guiContainer, passenger_list, flight_list);
+					details_screen(guiFrame, guiContainer, passenger_list, flight_list);
 				}
 				else {
 					System.out.println("Invalid details");
@@ -334,7 +332,7 @@ public class KioskGUI {
 	}
 	
 	//Function that creates a panel with a text label, a text field and drop-down menu and returns the panel
-	public JPanel add_selection_entry(String tag, Container guiContainer, JTextField entry, JComboBox<String> units) {
+	private JPanel add_selection_entry(String tag, Container guiContainer, JTextField entry, JComboBox<String> units) {
 		JPanel panel = new JPanel();
 		panel.setLayout(new GridLayout());
 		
@@ -357,7 +355,7 @@ public class KioskGUI {
 		return panel;
 	}
 	
-	public Object[] calculate_weight(JTextField weight_entry, JComboBox<String> weight_units) {
+	private Object[] calculate_weight(JTextField weight_entry, JComboBox<String> weight_units) {
 		
 		Object[] return_object = new Object[2];
 		
@@ -381,7 +379,7 @@ public class KioskGUI {
 		return return_object;
 	}
 	
-	public Object[] calculate_volume(JTextField dimension_entry[], JComboBox<String> dimension_units, JTextField volume_entry, JComboBox<String> volume_units) {
+	private Object[] calculate_volume(JTextField dimension_entry[], JComboBox<String> dimension_units, JTextField volume_entry, JComboBox<String> volume_units) {
 		
 		Object[] return_object = new Object[2];
 		
@@ -417,7 +415,7 @@ public class KioskGUI {
 	}
 	
 	//Function that creates an enter button and puts it at the far right of the screen
-	public JPanel enter_button(JButton enter) {
+	private JPanel enter_button(JButton enter) {
 		
 		JPanel confirm_panel = new JPanel();
 		confirm_panel.setLayout(new GridLayout());
@@ -439,6 +437,10 @@ public class KioskGUI {
 		confirm_panel.add(enter);
 		
 		return confirm_panel;
+	}
+	
+	public void close_gui() {
+		System.exit(0);
 	}
 	
 	public KioskGUI(PassengerList passenger_list, FlightList flight_list) {
@@ -477,10 +479,8 @@ public class KioskGUI {
 				
 				guiContainer.add(details_panel);
 				
-				detailsScreen(guiFrame, guiContainer, passenger_list, flight_list);
+				details_screen(guiFrame, guiContainer, passenger_list, flight_list);
 			}
 		});
-		
-		
 	}
 }

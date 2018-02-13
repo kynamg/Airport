@@ -1,3 +1,5 @@
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.*;
 
 
@@ -5,6 +7,7 @@ public class CheckInDemo {
 	private static PassengerList passengers;
 	private static FlightList flights;
 	private KioskGUI gui;
+	static int passengers_checked_in = 0;
 
 	public CheckInDemo() throws IOException {
 		passengers = new PassengerList();
@@ -39,12 +42,16 @@ public class CheckInDemo {
 				
 			}
 		}
-		
-		}
+	}
 	
 	public void showGUI() {
 		KioskGUI gui = new KioskGUI(passengers, flights);
-		//gui.run_gui(passengers, flights);
+		//gui.close_gui();
+	}
+	
+	public static void check_in_passenger() {
+		passengers_checked_in++;
+		System.out.println("I have checked in a passenger "+passengers_checked_in);
 	}
 	
 	public static void main(String arg[]) throws IOException {
