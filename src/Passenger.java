@@ -13,13 +13,13 @@ public class Passenger {
 	private boolean checkIn;
 	
 	//initalise Passenger class
-	public Passenger(String n, String s, String bR, String f, boolean check) throws InvalidFlightCodeException, InvalidFlightCodeException{
+	public Passenger(String n, String s, String bR, String f, boolean check) throws InvalidFlightCodeException, InvalidBookingRefException{
 		name = n;
 		surname = s;
 		Pattern p = Pattern.compile("[^a-zA-Z0-9]");
 		boolean invalidRef = p.matcher(bR).find();
 		if(invalidRef == true || bR.isEmpty() || bR.length()!=7) {
-			throw new InvalidFlightCodeException(bookingRef);
+			throw new InvalidBookingRefException(bookingRef);
 		}
 		else {
 			bookingRef = bR;

@@ -10,7 +10,7 @@ public class CheckInDemo {
 	static int passengers_checked_in = 0;
 	static int passengers_total = 0;
 
-	public CheckInDemo() throws IOException {
+	public CheckInDemo() throws IOException, InvalidFlightCodeException, InvalidBookingRefException {
 		passengers = new PassengerList();
 		flights = new FlightList();
 		BufferedReader buff1 = null;
@@ -79,7 +79,7 @@ public class CheckInDemo {
 		}
 	}
 	
-	public static void main(String arg[]) throws IOException {
+	public static void main(String arg[]) throws IOException, InvalidFlightCodeException, InvalidBookingRefException {
 		CheckInDemo demo = new CheckInDemo();
 		demo.showGUI();	
 	}
