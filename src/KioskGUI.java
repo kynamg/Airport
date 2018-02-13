@@ -10,30 +10,23 @@ import java.util.regex.Pattern;
 public class KioskGUI {
 	
 	JFrame guiFrame;
+	JTextField menu_location = new JTextField();
 	int baggage_weight = 0;
 	int baggage_volume = 0;
 	
 	//Screen which allows users to input last name and booking reference
 	//Method calls baggage_entry_screen once details have been checked
-	public void detailsScreen(JFrame guiFrame, PassengerList passenger_list, FlightList flight_list) {
+	public void detailsScreen(JFrame guiFrame, Container guiContainer, PassengerList passenger_list, FlightList flight_list) {
 		
-		//Container for details entry screen
-		Container guiContainer = new Container();
-		guiContainer.setLayout(new BoxLayout(guiContainer, BoxLayout.Y_AXIS));
+		System.out.println("I am in details screen");
 		
 		//Heading to tell user what view they're in (details/baggage)
 		Font font1 = new Font("SansSerif", Font.BOLD, 18);
-		JTextField menu_location = new JTextField();
 		menu_location.setEditable(false);
 		menu_location.setText("DETAILS");
 		menu_location.setFont(font1);
 		
 		//Panel showing DETAILS heading
-		Panel details_panel = new Panel();
-		details_panel.setLayout(new GridLayout());
-		details_panel.setBackground(null);;
-		
-		details_panel.add(menu_location);
 		
 		//Panel for allowing user to enter last name
 		Panel name_panel = new Panel();
@@ -90,7 +83,6 @@ public class KioskGUI {
 		error_message_booking_ref_panel.add(error_message_booking_ref);
 		
 		//Add panels to GUI
-		guiContainer.add(details_panel);
 		guiContainer.add(name_panel);
 		guiContainer.add(booking_ref_panel);
 		guiContainer.add(confirm_panel);
@@ -119,10 +111,15 @@ public class KioskGUI {
 						//If passenger booking reference and last name match up
 						if(passenger.getSurname().equals(name_entry.getText())) {
 							//Remove un-needed panels
+							name_panel.setVisible(false);
 							guiContainer.remove(name_panel);
+							booking_ref_panel.setVisible(false);
 							guiContainer.remove(booking_ref_panel);
+							confirm_panel.setVisible(false);
 							guiContainer.remove(confirm_panel);
+							error_message_name_panel.setVisible(false);
 							guiContainer.remove(error_message_name_panel);
+							error_message_booking_ref_panel.setVisible(false);
 							guiContainer.remove(error_message_booking_ref_panel);
 							//Change menu location label from "DETAILS" to "BAGGAGE"
 							menu_location.setText("BAGGAGE");
@@ -303,11 +300,22 @@ public class KioskGUI {
 						flight.incrementWeight(baggage_weight);
 						flight.incrementPassengers();
 					}
+					catch (NoMatchingFlightCodeException no_matching_flight_code_exception) {
+						System.out.println("No matching flight code");
+					}
 					catch (NullPointerException null_pointer_exception) {
-						System.out.println("Flight code not found?");
+						System.out.println("Hopefully a temportary measure until adding flight functionality gets added");
 					}
 					
-					detailsScreen(guiFrame, passenger_list, flight_list);
+					System.out.println("I am definitely getting to the details screen");
+					
+					for(int i=0; i<data_entry.length; i++) {
+						data_entry[i].setVisible(false);
+						guiContainer.remove(data_entry[i]);
+					}
+					confirm_panel.setVisible(false);
+					guiContainer.remove(confirm_panel);
+					detailsScreen(guiFrame, guiContainer, passenger_list, flight_list);
 				}
 				else {
 					System.out.println("Invalid details");
@@ -456,7 +464,19 @@ public class KioskGUI {
 				guiFrame.setSize(400, 200);
 				guiFrame.setVisible(true);
 				
-				detailsScreen(guiFrame, passenger_list, flight_list);
+				//Container for details entry screen
+				Container guiContainer = new Container();
+				guiContainer.setLayout(new BoxLayout(guiContainer, BoxLayout.Y_AXIS));
+				
+				Panel details_panel = new Panel();
+				details_panel.setLayout(new GridLayout());
+				details_panel.setBackground(null);
+				
+				details_panel.add(menu_location);
+				
+				guiContainer.add(details_panel);
+				
+				detailsScreen(guiFrame, guiContainer, passenger_list, flight_list);
 			}
 		});
 		
