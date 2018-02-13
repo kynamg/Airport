@@ -1,3 +1,5 @@
+import java.util.regex.Pattern;
+
 /*
 Passenger Class - Kyna Mowat-Gosnell, H00147672
 */
@@ -11,11 +13,24 @@ public class Passenger {
 	private boolean checkIn;
 	
 	//initalise Passenger class
-	public Passenger(String n, String s, String bR, String f, boolean check) {
+	public Passenger(String n, String s, String bR, String f, boolean check) throws InvalidFlightCodeException, InvalidFlightCodeException{
 		name = n;
 		surname = s;
-		bookingRef = bR;
-		flightCode = f;
+		Pattern p = Pattern.compile("[^a-zA-Z0-9]");
+		boolean invalidRef = p.matcher(bR).find();
+		if(invalidRef == true || bR.isEmpty() || bR.length()!=7) {
+			throw new InvalidFlightCodeException(bookingRef);
+		}
+		else {
+			bookingRef = bR;
+		}
+		boolean invalidFlightCode = p.matcher(f).find();
+		if(invalidFlightCode == true || f.isEmpty() || f.length()!=7) {
+			throw new InvalidFlightCodeException(flightCode);
+		}
+		else {
+			flightCode = f;
+		}		
 		checkIn = check;
 	}
 	
