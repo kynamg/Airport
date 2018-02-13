@@ -25,7 +25,7 @@ public class Passenger {
 			bookingRef = bR;
 		}
 		boolean invalidFlightCode = p.matcher(f).find();
-		if(invalidFlightCode == true || f.isEmpty() || f.length()!=7) {
+		if(invalidFlightCode == true || f.isEmpty() || f.length()!=6) {
 			throw new InvalidFlightCodeException(flightCode);
 		}
 		else {
