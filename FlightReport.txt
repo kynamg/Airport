@@ -1,0 +1,21 @@
+Flight: L123G
+Baggage fees: 0.0
+Total weight: 0.0
+Total volume: 0.0
+Total passengers: 1
+Vacant seats: 4
+
+Flight: L125G
+Baggage fees: 34.634
+Total weight: 128.56
+Total volume: 131.0
+Total passengers: 3
+Flight capacity exceeded by: 1
+
+Flight: L124G
+Baggage fees: 34.634
+Total weight: 0.0
+Total volume: 0.0
+Total passengers: 1
+Vacant seats: 5
+

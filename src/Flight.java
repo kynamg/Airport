@@ -14,7 +14,7 @@ public class Flight {
 	private float totalWeight;
 	private float totalBaggageFees; 
 	private float totalVol;
-	private float totalPassengers;
+	private int totalPassengers;
 	
 	private float baggageFee;
 	
@@ -53,6 +53,14 @@ public class Flight {
 	
 	public float getTotalWeight() {
 		return totalWeight;
+	}
+	
+	public float getTotalVolume() {
+		return totalVol;
+	}
+	
+	public int getTotalPassengers() {
+		return totalPassengers;
 	}
 	
 	public void setTotalWeight(float totalW) {
