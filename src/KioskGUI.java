@@ -100,6 +100,14 @@ public class KioskGUI {
 		//Add container to window
 		guiFrame.add(guiContainer);
 		
+		guiFrame.addWindowListener(new WindowAdapter() {
+			
+			public void windowClosing(WindowEvent e) {
+				System.out.println("I have closed");
+			}
+			
+		});
+		
 		//Action listener for entry button
 		enter_button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -119,7 +127,7 @@ public class KioskGUI {
 							//Change menu location label from "DETAILS" to "BAGGAGE"
 							menu_location.setText("BAGGAGE");
 							//Go onto baggage entry interface
-							baggage_entry_screen(guiFrame, guiContainer, passenger, flight_list);
+							baggage_entry_screen(guiFrame, guiContainer, passenger, passenger_list, flight_list);
 						}
 						else {
 							error_message_name.setVisible(true);
@@ -170,7 +178,7 @@ public class KioskGUI {
 	}	
 	
 	//Screen that allows users to input baggage weight and baggage volume
-	public void baggage_entry_screen(JFrame guiFrame, Container guiContainer, Passenger passenger, FlightList flight_list) {
+	public void baggage_entry_screen(JFrame guiFrame, Container guiContainer, Passenger passenger, PassengerList passenger_list, FlightList flight_list) {
 		
 		//Increase size of frame for added information
 		guiFrame.setSize(400, 220);
@@ -269,24 +277,40 @@ public class KioskGUI {
 		//Action listener for entry button, check everything and then send across
 		enter_button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				boolean valid_volume = false;
-				boolean valid_weight = false;
 				
-				baggage_weight = calculate_weight(weight_entry, weight_units, valid_weight);
-				baggage_volume = calculate_volume(dimension_entry, dimension_units, volume_entry, volume_units, valid_volume);
-
+				Object[] baggage_weight_object = new Object[2];
+				Object[] baggage_volume_object = new Object[2];
+				
+				baggage_weight_object = calculate_weight(weight_entry, weight_units);
+				baggage_weight = (int)baggage_weight_object[1];
+				baggage_volume_object = calculate_volume(dimension_entry, dimension_units, volume_entry, volume_units);
+				baggage_volume = (int)baggage_volume_object[1];
+				
 				//If everything is entered correctly
-				if((valid_volume == true) && (valid_weight == true)) {
-					System.out.println("Baggage weight = " + baggage_weight);
-					System.out.println("Baggage volume = " + baggage_volume);
+				if((baggage_volume_object[0].equals(true)) && (baggage_volume_object[0].equals(true))) {
+					
+				System.out.println("Passenger name = "+passenger.getName());
+				System.out.println("Passenger booking ref = "+passenger.getBookingRef());
+				System.out.println("Passenger surname = "+passenger.getSurname());
+				System.out.println("Passenger flight code = "+passenger.getFlightCode());
 				
 					//Increment flight details
-					Flight flight = flight_list.findByCode(passenger.getFlightCode());
-					float baggage_fees = flight.calculateExcessBaggageFees(baggage_weight);
-					flight.incrementBaggageFees(baggage_fees);
-					flight.incrementVolume(baggage_volume);
-					flight.incrementWeight(baggage_weight);
-					flight.incrementPassengers();
+					try {
+						Flight flight = flight_list.findByCode(passenger.getFlightCode());
+						float baggage_fees = flight.calculateExcessBaggageFees(baggage_weight);
+						flight.incrementBaggageFees(baggage_fees);
+						flight.incrementVolume(baggage_volume);
+						flight.incrementWeight(baggage_weight);
+						flight.incrementPassengers();
+					}
+					catch (NullPointerException null_pointer_exception) {
+						System.out.println("Flight code not found?");
+					}
+					
+					detailsScreen(guiFrame, passenger_list, flight_list);
+				}
+				else {
+					System.out.println("Invalid details");
 				}
 			}
 		});
@@ -324,7 +348,11 @@ public class KioskGUI {
 		return panel;
 	}
 	
-	public int calculate_weight(JTextField weight_entry, JComboBox<String> weight_units, boolean valid_weight) {
+	public Object[] calculate_weight(JTextField weight_entry, JComboBox<String> weight_units) {
+		
+		Object[] return_object = new Object[2];
+		
+		boolean valid_weight = false;
 		int baggage_weight_current = 0;
 		
 		try {
@@ -338,10 +366,17 @@ public class KioskGUI {
 			baggage_weight_current = (int) (2.2*baggage_weight_current);
 		}
 		
-		return baggage_weight_current;
+		return_object[0] = valid_weight;
+		return_object[1] = baggage_weight_current;
+		
+		return return_object;
 	}
 	
-	public int calculate_volume(JTextField dimension_entry[], JComboBox<String> dimension_units, JTextField volume_entry, JComboBox<String> volume_units, boolean valid_volume) {
+	public Object[] calculate_volume(JTextField dimension_entry[], JComboBox<String> dimension_units, JTextField volume_entry, JComboBox<String> volume_units) {
+		
+		Object[] return_object = new Object[2];
+		
+		boolean valid_volume = false;
 		int baggage_volume_current = 0;		
 		
 		if(volume_entry.getText().isEmpty()) {
@@ -367,7 +402,9 @@ public class KioskGUI {
 			}
 		}
 		
-		return baggage_volume_current;
+		return_object[0] = valid_volume;
+		return_object[1] = baggage_volume_current;
+		return return_object;
 	}
 	
 	//Function that creates an enter button and puts it at the far right of the screen
