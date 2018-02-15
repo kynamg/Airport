@@ -1,3 +1,4 @@
+package airport;
 
 public class NoMatchingFlightCodeException extends Exception{
 	public NoMatchingFlightCodeException (String flightCode) {

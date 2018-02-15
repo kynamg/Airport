@@ -5,6 +5,8 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.Before;
 import org.junit.jupiter.api.Test;
 
+import airport.*;
+
 class flightListTest {
 
 	@Before

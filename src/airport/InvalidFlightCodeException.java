@@ -1,3 +1,4 @@
+package airport;
 //Kyna Mowat-Gosnell, H00147672
 public class InvalidFlightCodeException extends Exception{
 	public InvalidFlightCodeException (String flightCode) {

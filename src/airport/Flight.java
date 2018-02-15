@@ -1,3 +1,4 @@
+package airport;
 /*
 Flight Class
 */

@@ -1,3 +1,4 @@
+package airport;
 
 import java.awt.*;
 import javax.swing.*;
