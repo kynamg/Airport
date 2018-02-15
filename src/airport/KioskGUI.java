@@ -157,7 +157,7 @@ public class KioskGUI {
 	}
 	
 	//Booking reference must be an alphanumeric 7-character long string
-	private boolean check_booking_ref(String booking_ref) {
+	public boolean check_booking_ref(String booking_ref) {
 		Pattern p = Pattern.compile("[^a-zA-Z0-9]");
 		boolean invalid = p.matcher(booking_ref).find();
 		if(invalid == true || booking_ref.isEmpty() || booking_ref.length()!=7) {
@@ -169,7 +169,7 @@ public class KioskGUI {
 	}
 	
 	//Last name must only contain letters (no spaces or numbers allowed)
-	private boolean check_last_name(String last_name) {
+	public boolean check_last_name(String last_name) {
 		Pattern p = Pattern.compile("[^a-zA-Z]");
 		boolean invalid = p.matcher(last_name).find();
 		if(invalid == true || last_name.isEmpty()) {
@@ -354,7 +354,7 @@ public class KioskGUI {
 		return panel;
 	}
 	
-	private Object[] calculate_weight(JTextField weight_entry, JComboBox<String> weight_units) {
+	public Object[] calculate_weight(JTextField weight_entry, JComboBox<String> weight_units) {
 		
 		Object[] return_object = new Object[2];
 		
@@ -362,14 +362,14 @@ public class KioskGUI {
 		int baggage_weight_current = 0;
 		
 		try {
-			baggage_weight_current = (int) (Double.parseDouble(weight_entry.getText()));
+			//+0.5 to prevent rounding issues
+			baggage_weight_current = (int) (Double.parseDouble(weight_entry.getText()) + 0.5);
 			valid_weight = true;
-			//NOTE TO SELF: THIS DOESN'T ROUND PROPERLY
 		} catch (NumberFormatException exception) {
 			weight_entry.setText("Invalid number");
 		}
 		if(weight_units.getSelectedItem() == "lbs") {
-			baggage_weight_current = (int) (2.2*baggage_weight_current);
+			baggage_weight_current = (int) ((2.2*baggage_weight_current) + 0.5);
 		}
 		
 		return_object[0] = valid_weight;
@@ -385,26 +385,25 @@ public class KioskGUI {
 		boolean valid_volume = false;
 		int baggage_volume_current = 0;		
 		
-		if(volume_entry.getText().isEmpty()) {
-			try {
-				baggage_volume_current = (int) (Double.parseDouble(dimension_entry[0].getText()) * Double.parseDouble(dimension_entry[1].getText()) * Double.parseDouble(dimension_entry[2].getText())); 
-				valid_volume = true;
-			} catch (NumberFormatException exception) {
-				dimension_entry[0].setText("Invalid entries");
-			}
-			if(dimension_units.getSelectedItem() == "inches") {
-				baggage_volume_current = (int) (16.39*baggage_volume_current);
-			}
+		try {
+			//+0.5 to round properly
+			baggage_volume_current = (int) (Double.parseDouble(dimension_entry[0].getText()) * Double.parseDouble(dimension_entry[1].getText()) * Double.parseDouble(dimension_entry[2].getText()) + 0.5); 
+			valid_volume = true;
+		} catch (NumberFormatException exception) {
+			dimension_entry[0].setText("Invalid entries");
+		}
+		if(dimension_units.getSelectedItem() == "inches") {
+			baggage_volume_current = (int) ((16.39*baggage_volume_current) + 0.5);
 		}
 		else {
 			try {
-				baggage_volume_current = (int) (Double.parseDouble(volume_entry.getText()));
+				baggage_volume_current = (int) (Double.parseDouble(volume_entry.getText()) + 0.5);
 				valid_volume = true;
 			} catch (NumberFormatException exception) {
 				volume_entry.setText("Invalid number");
 			}
 			if(volume_units.getSelectedItem() == "inches\u00B3") {
-				baggage_volume_current = (int) (16.39*baggage_volume_current);
+				baggage_volume_current = (int) ((16.39*baggage_volume_current) + 0.5);
 			}
 		}
 		
