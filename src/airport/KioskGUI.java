@@ -184,7 +184,7 @@ public class KioskGUI {
 	private void baggage_entry_screen(JFrame guiFrame, Container guiContainer, Passenger passenger, PassengerList passenger_list, FlightList flight_list) {
 		
 		//Increase size of frame for added information
-		guiFrame.setSize(400, 220);
+		guiFrame.setSize(400, 270);
 		
 		//List storying data entry panels (weight, dimensions[3], volume)
 		JPanel data_entry[] = new JPanel[5];
@@ -254,6 +254,28 @@ public class KioskGUI {
 			});
 		}
 		
+		//Panel for an error message if something has gone wrong with name
+		JPanel error_message_volume_panel = new JPanel();
+		error_message_volume_panel.setLayout(new GridLayout());
+		error_message_volume_panel.setVisible(true);
+		
+		//Text field for error message if something wrong with name
+		JTextField error_message_volume = new JTextField();
+		error_message_volume.setEditable(false);
+		error_message_volume.setVisible(false);
+		error_message_volume_panel.add(error_message_volume);
+		
+		//Panel for error message if something has gone wrong with booking reference
+		JPanel error_message_weight_panel = new JPanel();
+		error_message_weight_panel.setLayout(new GridLayout());
+		error_message_weight_panel.setVisible(true);
+		
+		//Text field for error message if something wrong with booking reference
+		JTextField error_message_weight = new JTextField();
+		error_message_weight.setEditable(false);
+		error_message_weight.setVisible(false);
+		error_message_weight_panel.add(error_message_weight);
+		
 		//Grey out dimension boxes if volume is entered
 		volume_entry.getDocument().addDocumentListener(new DocumentListener() {
 			public void changedUpdate(DocumentEvent arg0) {
@@ -285,8 +307,16 @@ public class KioskGUI {
 				Object[] baggage_volume_object = new Object[2];
 				
 				baggage_weight_object = calculate_weight(weight_entry, weight_units);
+				if(baggage_weight_object[0].equals(false)) {
+					error_message_weight.setText("Invalid weight");
+					error_message_weight.setVisible(true);
+				}
 				baggage_weight = (int)baggage_weight_object[1];
 				baggage_volume_object = calculate_volume(dimension_entry, dimension_units, volume_entry, volume_units);
+				if(baggage_volume_object[0].equals(false)) {
+					error_message_volume.setText("Invalid volume");
+					error_message_volume.setVisible(true);
+				}
 				baggage_volume = (int)baggage_volume_object[1];
 				
 				//If everything is entered correctly
@@ -304,7 +334,6 @@ public class KioskGUI {
 						CheckInDemo.check_in_passenger();
 					}
 					catch (NoMatchingFlightCodeException no_matching_flight_code_exception) {
-						System.out.println("No matching flight code");
 					}
 					
 					for(int i=0; i<data_entry.length; i++) {
@@ -313,10 +342,10 @@ public class KioskGUI {
 					}
 					confirm_panel.setVisible(false);
 					guiContainer.remove(confirm_panel);
+					guiContainer.remove(error_message_weight_panel);
+					guiContainer.remove(error_message_volume_panel);
+					guiFrame.setSize(400, 200);
 					details_screen(guiFrame, guiContainer, passenger_list, flight_list);
-				}
-				else {
-					System.out.println("Invalid details");
 				}
 			}
 		});
@@ -326,6 +355,8 @@ public class KioskGUI {
 			guiContainer.add(data_entry[i]);
 		}
 		guiContainer.add(confirm_panel);
+		guiContainer.add(error_message_weight_panel);
+		guiContainer.add(error_message_volume_panel);
 		
 		guiFrame.add(guiContainer);		
 	}
@@ -361,15 +392,17 @@ public class KioskGUI {
 		boolean valid_weight = false;
 		int baggage_weight_current = 0;
 		
-		try {
-			//+0.5 to prevent rounding issues
-			baggage_weight_current = (int) (Double.parseDouble(weight_entry.getText()) + 0.5);
-			valid_weight = true;
-		} catch (NumberFormatException exception) {
-			weight_entry.setText("Invalid number");
-		}
-		if(weight_units.getSelectedItem() == "lbs") {
-			baggage_weight_current = (int) ((2.2*baggage_weight_current) + 0.5);
+		if(!weight_entry.getText().isEmpty()) {
+			try {
+				//+0.5 to prevent rounding issues
+				baggage_weight_current = (int) (Double.parseDouble(weight_entry.getText()) + 0.5);
+				valid_weight = true;
+			} catch (NumberFormatException exception) {
+	
+			}
+			if(weight_units.getSelectedItem() == "lbs") {
+				baggage_weight_current = (int) ((2.2*baggage_weight_current) + 0.5);
+			}
 		}
 		
 		return_object[0] = valid_weight;
@@ -378,7 +411,7 @@ public class KioskGUI {
 		return return_object;
 	}
 	
-	private Object[] calculate_volume(JTextField dimension_entry[], JComboBox<String> dimension_units, JTextField volume_entry, JComboBox<String> volume_units) {
+	public Object[] calculate_volume(JTextField dimension_entry[], JComboBox<String> dimension_units, JTextField volume_entry, JComboBox<String> volume_units) {
 		
 		Object[] return_object = new Object[2];
 		
@@ -390,7 +423,6 @@ public class KioskGUI {
 			baggage_volume_current = (int) (Double.parseDouble(dimension_entry[0].getText()) * Double.parseDouble(dimension_entry[1].getText()) * Double.parseDouble(dimension_entry[2].getText()) + 0.5); 
 			valid_volume = true;
 		} catch (NumberFormatException exception) {
-			dimension_entry[0].setText("Invalid entries");
 		}
 		if(dimension_units.getSelectedItem() == "inches") {
 			baggage_volume_current = (int) ((16.39*baggage_volume_current) + 0.5);
@@ -400,7 +432,7 @@ public class KioskGUI {
 				baggage_volume_current = (int) (Double.parseDouble(volume_entry.getText()) + 0.5);
 				valid_volume = true;
 			} catch (NumberFormatException exception) {
-				volume_entry.setText("Invalid number");
+
 			}
 			if(volume_units.getSelectedItem() == "inches\u00B3") {
 				baggage_volume_current = (int) ((16.39*baggage_volume_current) + 0.5);
