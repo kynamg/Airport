@@ -61,13 +61,12 @@ public class CheckInDemo {
 		}
 	}
 	
-	public void showGUI() {
+	private void showGUI() {
 		gui = new KioskGUI(passengers, flights);
 	}
 	
-	public static void check_in_passenger() {
+	protected static void check_in_passenger() {
 		passengers_checked_in++;
-		System.out.println("I have checked in a passenger "+passengers_checked_in);
 		if(passengers_checked_in == passengers_total) {
 			gui.close_gui();
 			System.out.println("Got to after close");

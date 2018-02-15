@@ -14,7 +14,7 @@ public class FlightList {
 		flights = new HashSet<Flight>();
 	}
 	
-	public Flight findByCode(String code) throws NoMatchingFlightCodeException{
+	protected Flight findByCode(String code) throws NoMatchingFlightCodeException{
 		for (Flight f : flights) {
 			if(f.getFlightCode().equals(code)) {
 				System.out.println("Flight found");
@@ -24,11 +24,11 @@ public class FlightList {
 		throw new NoMatchingFlightCodeException(code);		
 	}
 	
-	public int getNumberOfEntries() {
+	protected int getNumberOfEntries() {
 		return flights.size();
 	}
 	
-	public void add(Flight flight) {
+	protected void add(Flight flight) {
 		flights.add(flight);
 	}
 	
@@ -54,7 +54,7 @@ public class FlightList {
 //	}
 //	
 	
-	public void printFlightList() throws IOException {
+	protected void printFlightList() throws IOException {
 		System.out.println("I am being called");
 		
 		BufferedWriter bw = null;

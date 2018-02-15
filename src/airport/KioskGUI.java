@@ -437,7 +437,7 @@ public class KioskGUI {
 		return confirm_panel;
 	}
 	
-	public void close_gui() {
+	protected void close_gui() {
 		guiFrame.setVisible(false);
 	}
 	

@@ -28,51 +28,51 @@ public class Flight {
 		maxVolume = maxV;
 	}
 	
-	public String getCarrier() {
+	protected String getCarrier() {
 		return carrier;
 	}
 	
-	public String getFlightCode() {
+	protected String getFlightCode() {
 		return flightCode;
 	}
 	
-	public float getMaxWeight() {
+	protected float getMaxWeight() {
 		return maxWeight;
 	}
 	
-	public float getMaxVol() {
+	protected float getMaxVol() {
 		return maxVolume;
 	}
 	
-	public int getMaxPassengers() {
+	protected int getMaxPassengers() {
 		return maxPassengers;
 	}
 	
-	public float getTotalBaggageFees() {
+	protected float getTotalBaggageFees() {
 		return totalBaggageFees;
 	}
 	
-	public float getTotalWeight() {
+	protected float getTotalWeight() {
 		return totalWeight;
 	}
 	
-	public float getTotalVolume() {
+	protected float getTotalVolume() {
 		return totalVol;
 	}
 	
-	public int getTotalPassengers() {
+	protected int getTotalPassengers() {
 		return totalPassengers;
 	}
 	
-	public void setTotalWeight(float totalW) {
+	protected void setTotalWeight(float totalW) {
 		totalWeight = totalW;
 	}
 	
-	public void setTotalBaggageFees(float totalB) {
+	protected void setTotalBaggageFees(float totalB) {
 		totalBaggageFees = totalB;
 	}
 	
-	public void setTotalVol(float totalV) {
+	protected void setTotalVol(float totalV) {
 		totalVol = totalV;
 	}
 	
@@ -85,7 +85,7 @@ public class Flight {
 		return false;
 	}*/
 	
-	public float calculateExcessBaggageFees(float weight) {
+	protected float calculateExcessBaggageFees(float weight) {
 		if (weight>25.0) {
 			baggageFee = (float) (10*(weight-25));
 		}
@@ -96,18 +96,18 @@ public class Flight {
 		return baggageFee;	
 	}
 	
-	public void incrementPassengers() {
+	protected void incrementPassengers() {
 		totalPassengers ++;
 	}
-	public void incrementWeight(float weight) {
+	protected void incrementWeight(float weight) {
 		totalWeight += weight;
 	}
 	
-	public void incrementVolume(float volume) {
+	protected void incrementVolume(float volume) {
 		totalVol += volume;
 	}
 	
-	public void incrementBaggageFees(float baggageFee) {
+	protected void incrementBaggageFees(float baggageFee) {
 		totalBaggageFees += baggageFee;
 	}
 	

@@ -36,32 +36,32 @@ public class Passenger {
 	}
 	
 	//return the passenger's first name
-	public String getName() {
+	protected String getName() {
 		return name;
 	}
 	
 	//return passenger's last name - used in KioskGUI class
-	public String getSurname() {
+	protected String getSurname() {
 		return surname;
 	}
 	
 	//return booking reference  - used in KioskGUI class
-	public String getBookingRef() {
+	protected String getBookingRef() {
 		return bookingRef;
 	}
 	
 	//return flight code
-	public String getFlightCode() {
+	protected String getFlightCode() {
 		return flightCode;
 	}
 	
 	//return whether passenger is checked in or not
-	public boolean getCheckIn() {
+	protected boolean getCheckIn() {
 		return checkIn;
 	}
 	
 	//set checkIn to true - used in CheckInDemo class
-	public void setCheckIn() {
+	protected void setCheckIn() {
 		checkIn = true;
 	}
 	
