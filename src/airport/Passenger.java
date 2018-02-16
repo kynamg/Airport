@@ -41,7 +41,7 @@ public class Passenger {
 	}
 	
 	//return passenger's last name - used in KioskGUI class
-	protected String getSurname() {
+	public String getSurname() {
 		return surname;
 	}
 	

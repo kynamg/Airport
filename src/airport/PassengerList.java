@@ -31,12 +31,12 @@ public class PassengerList {
 	}
 	
 	//return size of passengerList Hash set
-	protected int getSizeOfList() {
+	public int getSizeOfList() {
 		return passengerList.size();
 	}
 	
 	//add entry to passengerList hash set
-	protected void addPassenger(Passenger person) {
+	public void addPassenger(Passenger person) {
 		passengerList.add(person);
 	}
 	
