@@ -1,18 +1,18 @@
 Flight: AB1234
 Baggage fees: 0.0
-Total weight: 25.0
-Total volume: 600.0
-Total passengers: 1
-Vacant seats: 5
-
-Flight: L124GB
-Baggage fees: 0.0
 Total weight: 0.0
 Total volume: 0.0
 Total passengers: 0
 Vacant seats: 6
 
-Flight: L123GB
+Flight: LG1254
+Baggage fees: 0.0
+Total weight: 1.0
+Total volume: 1.0
+Total passengers: 1
+Vacant seats: 5
+
+Flight: LG1234
 Baggage fees: 0.0
 Total weight: 0.0
 Total volume: 0.0

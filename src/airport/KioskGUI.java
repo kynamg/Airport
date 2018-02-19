@@ -95,10 +95,6 @@ public class KioskGUI {
 		
 		guiFrame.addWindowListener(new WindowAdapter() {
 			
-			public void windowClosing(WindowEvent e) {
-				System.out.println("I have closed");
-			}
-			
 		});
 		
 		//Action listener for entry button
@@ -182,7 +178,6 @@ public class KioskGUI {
 	
 	//Screen that allows users to input baggage weight and baggage volume
 	private void baggage_entry_screen(JFrame guiFrame, Container guiContainer, Passenger passenger, PassengerList passenger_list, FlightList flight_list) {
-		
 		//Increase size of frame for added information
 		guiFrame.setSize(400, 270);
 		
@@ -326,26 +321,78 @@ public class KioskGUI {
 					try {
 						Flight flight = flight_list.findByCode(passenger.getFlightCode());
 						float baggage_fees = flight.calculateExcessBaggageFees(baggage_weight);
-						flight.incrementBaggageFees(baggage_fees);
-						flight.incrementVolume(baggage_volume);
-						flight.incrementWeight(baggage_weight);
-						flight.incrementPassengers();
-						passenger.setCheckIn();
-						CheckInDemo.check_in_passenger();
+						if(baggage_fees > 0) {
+							error_message_weight_panel.setVisible(true);
+							error_message_weight.setVisible(true);
+							error_message_weight.setText("Baggage fees = £"+baggage_fees);
+							enter_button.setText("Confirm Fees");
+							enter_button.addActionListener(new ActionListener() {
+								public void actionPerformed(ActionEvent e) {
+									flight.incrementBaggageFees(baggage_fees);
+									flight.incrementVolume(baggage_volume);
+									flight.incrementWeight(baggage_weight);
+									flight.incrementPassengers();
+									passenger.setCheckIn();
+									CheckInDemo.check_in_passenger();
+									
+									for(int i=0; i<data_entry.length; i++) {
+										data_entry[i].setVisible(false);
+										guiContainer.remove(data_entry[i]);
+									}
+									confirm_panel.setVisible(false);
+									guiContainer.remove(confirm_panel);
+									guiContainer.remove(error_message_weight_panel);
+									guiContainer.remove(error_message_volume_panel);
+									guiFrame.setSize(400, 200);
+									details_screen(guiFrame, guiContainer, passenger_list, flight_list);
+								}
+							});
+						}
+						else {
+							flight.incrementBaggageFees(baggage_fees);
+							flight.incrementVolume(baggage_volume);
+							flight.incrementWeight(baggage_weight);
+							flight.incrementPassengers();
+							passenger.setCheckIn();
+							CheckInDemo.check_in_passenger();
+							
+							for(int i=0; i<data_entry.length; i++) {
+								data_entry[i].setVisible(false);
+								guiContainer.remove(data_entry[i]);
+							}
+							confirm_panel.setVisible(false);
+							guiContainer.remove(confirm_panel);
+							guiContainer.remove(error_message_weight_panel);
+							guiContainer.remove(error_message_volume_panel);
+							guiFrame.setSize(400, 200);
+							details_screen(guiFrame, guiContainer, passenger_list, flight_list);
+						}
 					}
 					catch (NoMatchingFlightCodeException no_matching_flight_code_exception) {
+						error_message_weight.setText("Cannot check you in, your flight "+passenger.getFlightCode()+" has not been found");
+						error_message_volume.setText("Contact service desk for assistance");
+						error_message_weight.setVisible(true);
+						error_message_volume.setVisible(true);
+						
+						//Register as passenger passed through system to prevent system becoming blocked up
+						//Passenger has not been registered as checked_in at this point
+						CheckInDemo.check_in_passenger();
+						
+						enter_button.addActionListener(new ActionListener() {
+							public void actionPerformed(ActionEvent e) {
+								for(int i=0; i<data_entry.length; i++) {
+									data_entry[i].setVisible(false);
+									guiContainer.remove(data_entry[i]);
+								}
+								confirm_panel.setVisible(false);
+								guiContainer.remove(confirm_panel);
+								guiContainer.remove(error_message_weight_panel);
+								guiContainer.remove(error_message_volume_panel);
+								guiFrame.setSize(400, 200);
+								details_screen(guiFrame, guiContainer, passenger_list, flight_list);
+							}
+						});
 					}
-					
-					for(int i=0; i<data_entry.length; i++) {
-						data_entry[i].setVisible(false);
-						guiContainer.remove(data_entry[i]);
-					}
-					confirm_panel.setVisible(false);
-					guiContainer.remove(confirm_panel);
-					guiContainer.remove(error_message_weight_panel);
-					guiContainer.remove(error_message_volume_panel);
-					guiFrame.setSize(400, 200);
-					details_screen(guiFrame, guiContainer, passenger_list, flight_list);
 				}
 			}
 		});

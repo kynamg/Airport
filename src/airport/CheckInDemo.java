@@ -2,6 +2,7 @@ package airport;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
+import java.util.regex.Pattern;
 
 
 public class CheckInDemo {
@@ -34,13 +35,15 @@ public class CheckInDemo {
 			while(inputLine2 != null) {
 				data2 = inputLine2.split(";");
 				Flight f = new Flight(data2[0], data2[1], data2[2], Float.parseFloat(data2[3]), Integer.parseInt(data2[4]), Float.parseFloat(data2[5]));
-				flights.add(f);
+				boolean flight_code_verified = check_flight_code(data2[0]);
+				if(flight_code_verified == true) {
+					flights.add(f);
+				}
 				//System.out.println(f.getFlightCode());
 				inputLine2 = buff2.readLine();
 			}
 
 			passengers_total = passengers.getSizeOfList();
-			System.out.println("Total passengers = "+passengers_total);
 		}
 		catch(FileNotFoundException e) {
 			System.out.println(e.getMessage());
@@ -69,13 +72,22 @@ public class CheckInDemo {
 		passengers_checked_in++;
 		if(passengers_checked_in == passengers_total) {
 			gui.close_gui();
-			System.out.println("Got to after close");
 			try {
-				System.out.println("Everything is fine");
 				flights.printFlightList();
 			} catch (IOException io_exception) {
 				System.out.println("Cannot print");
 			}
+		}
+	}
+	
+	public boolean check_flight_code(String flight_code) {
+		Pattern q = Pattern.compile("^[a-zA-Z]{2}[0-9]{4}");
+		boolean valid = q.matcher(flight_code).find();
+		if(valid == true && !flight_code.isEmpty()) {
+			return true;
+		}
+		else {
+			return false;
 		}
 	}
 	

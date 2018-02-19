@@ -9,7 +9,7 @@ class passengerListTest {
 	@Before
 	public void setUp() throws InvalidFlightCodeException, InvalidBookingRefException {
 		passengerList = new PassengerList();
-		passengerList.addPassenger(new Passenger(Yola, Jones, null, null, false));
+		passengerList.addPassenger(new Passenger("Yola", "Jones", null, null, false));
 	}
 	
 	@After

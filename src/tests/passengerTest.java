@@ -25,9 +25,17 @@ class passengerTest {
 		String msg2 = "Failed for surname = Nkrumah";
 		String msg3 = "Failed for booking ref =";
 		String msg4 = "Failed for flight code = ";
-		boolean msg5 = 
-		Passenger test = new Passenger(msg1, msg2, msg3, msg4, false);
-		String actual1 = surname1.getSurname();
+		Passenger test = null;
+		try {
+			test = new Passenger(msg1, msg2, msg3, msg4, false);
+		} catch (InvalidFlightCodeException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InvalidBookingRefException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		String actual1 = test.getSurname();
 		assertEquals(msg1, expected1, actual1);
 	}
 

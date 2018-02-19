@@ -17,7 +17,6 @@ public class FlightList {
 	protected Flight findByCode(String code) throws NoMatchingFlightCodeException{
 		for (Flight f : flights) {
 			if(f.getFlightCode().equals(code)) {
-				System.out.println("Flight found");
 				return f;
 			}
 		}
@@ -55,7 +54,6 @@ public class FlightList {
 //	
 	
 	protected void printFlightList() throws IOException {
-		System.out.println("I am being called");
 		
 		BufferedWriter bw = null;
 		FileWriter fw = null;
