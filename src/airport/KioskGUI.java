@@ -93,19 +93,19 @@ public class KioskGUI {
 		//Add container to window
 		guiFrame.add(guiContainer);
 		
-		guiFrame.addWindowListener(new WindowAdapter() {
-			
-		});
-		
 		//Action listener for entry button
 		enter_button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				//If user has entered valid data
 				if((check_booking_ref(booking_ref_entry.getText()) == true) && (check_last_name(name_entry.getText()) == true)){
+					//Create passenger object
 					Passenger passenger;
 					try {
+						//Check if booking reference is valid
 						passenger = passenger_list.findBookingRef(booking_ref_entry.getText());
+						//If passenger hasn't checked in
 						if(passenger.getCheckIn() == false) {
+							//If last name matches with passenger details
 							if(passenger.getSurname().equals(name_entry.getText())) {
 								//Remove un-needed panels
 								name_panel.setVisible(false);
@@ -136,14 +136,15 @@ public class KioskGUI {
 						error_message_booking_ref.setVisible(true);
 						error_message_booking_ref.setText("Booking reference not recognised");
 					}
-					//If passenger booking reference and last name match up
 				}
 				
+				//If booking reference is invalid
 				if(check_booking_ref(booking_ref_entry.getText()) == false) {
 					error_message_booking_ref.setVisible(true);
 					error_message_booking_ref.setText("Invalid booking ref, please try again");
 				}
 
+				//If last name is invalid
 				if(check_last_name(name_entry.getText()) == false) {
 					error_message_name.setVisible(true);
 					error_message_name.setText("Invalid name, please try again");
@@ -181,7 +182,7 @@ public class KioskGUI {
 		//Increase size of frame for added information
 		guiFrame.setSize(400, 270);
 		
-		//List storying data entry panels (weight, dimensions[3], volume)
+		//List storying data entry panels (weight, dimensions[3] (height, length, width), volume)
 		JPanel data_entry[] = new JPanel[5];
 		for(int i = 0; i<data_entry.length; i++)
 		{
@@ -195,8 +196,10 @@ public class KioskGUI {
 		weight_units.addItem("lbs");
 		data_entry[0] = add_selection_entry("Enter Weight:", guiContainer, weight_entry, weight_units);
 		
+		//Set of text fields allowing user to input height/length/width
 		JTextField dimension_entry[] = new JTextField[3];
 		
+		//Initalise values
 		for(int i = 0; i<dimension_entry.length; i++)
 		{
 			dimension_entry[i] = new JTextField();
@@ -298,15 +301,20 @@ public class KioskGUI {
 		enter_button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
+				//Object[0] = boolean (valid or invalid)
+				//Object[1] = value of dimension
 				Object[] baggage_weight_object = new Object[2];
 				Object[] baggage_volume_object = new Object[2];
 				
+				//Calculate and verify weight
 				baggage_weight_object = calculate_weight(weight_entry, weight_units);
 				if(baggage_weight_object[0].equals(false)) {
 					error_message_weight.setText("Invalid weight");
 					error_message_weight.setVisible(true);
 				}
 				baggage_weight = (int)baggage_weight_object[1];
+				
+				//Calculate and verify volume
 				baggage_volume_object = calculate_volume(dimension_entry, dimension_units, volume_entry, volume_units);
 				if(baggage_volume_object[0].equals(false)) {
 					error_message_volume.setText("Invalid volume");
@@ -319,22 +327,30 @@ public class KioskGUI {
 					
 					//Increment flight details
 					try {
+						//Verify flight code with passenger details
 						Flight flight = flight_list.findByCode(passenger.getFlightCode());
 						float baggage_fees = flight.calculateExcessBaggageFees(baggage_weight);
+						//Display baggage fees if they exist and ask the user to confirm
 						if(baggage_fees > 0) {
 							error_message_weight_panel.setVisible(true);
 							error_message_weight.setVisible(true);
 							error_message_weight.setText("Baggage fees = £"+baggage_fees);
+							
+							//Require the user to confirm these fees
 							enter_button.setText("Confirm Fees");
 							enter_button.addActionListener(new ActionListener() {
 								public void actionPerformed(ActionEvent e) {
+									//Increment flight details
 									flight.incrementBaggageFees(baggage_fees);
 									flight.incrementVolume(baggage_volume);
 									flight.incrementWeight(baggage_weight);
 									flight.incrementPassengers();
+									
+									//Check in the passenger
 									passenger.setCheckIn();
 									CheckInDemo.check_in_passenger();
 									
+									//Remove un-needed containers
 									for(int i=0; i<data_entry.length; i++) {
 										data_entry[i].setVisible(false);
 										guiContainer.remove(data_entry[i]);
@@ -344,11 +360,14 @@ public class KioskGUI {
 									guiContainer.remove(error_message_weight_panel);
 									guiContainer.remove(error_message_volume_panel);
 									guiFrame.setSize(400, 200);
+									
+									//Check in next user
 									details_screen(guiFrame, guiContainer, passenger_list, flight_list);
 								}
 							});
 						}
 						else {
+							//Increment flight details
 							flight.incrementBaggageFees(baggage_fees);
 							flight.incrementVolume(baggage_volume);
 							flight.incrementWeight(baggage_weight);
@@ -356,6 +375,8 @@ public class KioskGUI {
 							passenger.setCheckIn();
 							CheckInDemo.check_in_passenger();
 							
+							
+							//Remove un-needed containers
 							for(int i=0; i<data_entry.length; i++) {
 								data_entry[i].setVisible(false);
 								guiContainer.remove(data_entry[i]);
@@ -365,6 +386,8 @@ public class KioskGUI {
 							guiContainer.remove(error_message_weight_panel);
 							guiContainer.remove(error_message_volume_panel);
 							guiFrame.setSize(400, 200);
+							
+							//Check in the next passenger
 							details_screen(guiFrame, guiContainer, passenger_list, flight_list);
 						}
 					}
@@ -378,6 +401,7 @@ public class KioskGUI {
 						//Passenger has not been registered as checked_in at this point
 						CheckInDemo.check_in_passenger();
 						
+						//Require user to confirm error message
 						enter_button.addActionListener(new ActionListener() {
 							public void actionPerformed(ActionEvent e) {
 								for(int i=0; i<data_entry.length; i++) {
@@ -516,10 +540,12 @@ public class KioskGUI {
 		return confirm_panel;
 	}
 	
+	//Method called by CheckInDemo which closes the GUI
 	protected void close_gui() {
 		guiFrame.setVisible(false);
 	}
 	
+	//MAIN CLASS
 	public KioskGUI(PassengerList passenger_list, FlightList flight_list) {
 		
 		EventQueue.invokeLater(new Runnable() {
@@ -548,14 +574,18 @@ public class KioskGUI {
 				Container guiContainer = new Container();
 				guiContainer.setLayout(new BoxLayout(guiContainer, BoxLayout.Y_AXIS));
 				
+				//Panel for allowing user to enter their details
 				Panel details_panel = new Panel();
 				details_panel.setLayout(new GridLayout());
 				details_panel.setBackground(null);
 				
+				//Add banner which tells the user which menu they're in
 				details_panel.add(menu_location);
 				
+				//Add this to the container
 				guiContainer.add(details_panel);
 				
+				//Start up user entry with the GUI
 				details_screen(guiFrame, guiContainer, passenger_list, flight_list);
 			}
 		});
