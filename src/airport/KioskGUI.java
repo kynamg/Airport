@@ -565,7 +565,6 @@ public class KioskGUI {
 				}
 				SwingUtilities.updateComponentTreeUI(guiFrame);*/
 				
-				
 				guiFrame.setTitle("Check In Kiosk");
 				guiFrame.setSize(400, 200);
 				guiFrame.setVisible(true);
