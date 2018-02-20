@@ -32,7 +32,7 @@ public class Flight {
 		return carrier;
 	}
 	
-	protected String getFlightCode() {
+	public String getFlightCode() {
 		return flightCode;
 	}
 	
