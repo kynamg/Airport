@@ -3,6 +3,8 @@ package airport;
 Flight Class
 */
 
+import java.util.regex.Pattern;
+
 public class Flight {
 	
 	private String flightCode;
@@ -19,11 +21,49 @@ public class Flight {
 	
 	private float baggageFee;
 	
-	public Flight(String fC, String d, String c, float maxW, int maxP, float maxV) {
-		flightCode = fC;
-		destination = d;
-		carrier = c;
-		maxWeight = maxW;
+	public Flight(String fC, String d, String c, float maxW, int maxP, float maxV) throws InvalidFlightCodeException, InvalidParameterException {
+	
+		Pattern flightPattern = Pattern.compile("^[a-zA-Z]{2}[0-9]{4}");
+		Pattern stringPattern = Pattern.compile("^[a-zA-Z]");
+		Pattern floatPattern = Pattern.compile("^[0-9]");
+		
+		boolean validFlight = flightPattern.matcher(fC).find();
+		boolean validDestination = stringPattern.matcher(d).find();
+		boolean validCarrier = stringPattern.matcher(c).find();
+		
+		double doubleWeight;
+		
+		if(validFlight == true && !fC.isEmpty()) {
+			flightCode = fC;
+		}
+		else {
+			throw new InvalidFlightCodeException(flightCode);
+		}
+		
+		if(validDestination == true && !d.isEmpty()) {
+			destination = d;
+		}
+		else {
+			throw new InvalidParameterException(destination);
+		}
+		
+		if(validCarrier == true && !c.isEmpty()) {
+			carrier = c;
+		}
+		else {
+			throw new InvalidParameterException(carrier);
+		}
+		
+		String maximumW = Float.toString(maxW);
+			
+		if(!maximumW.isEmpty()) {
+			try {
+				doubleWeight = (int) (Double.parseDouble(maximumW));
+			} catch (NumberFormatException exception) {
+	
+			}
+			maxWeight = maxW;
+		}
 		maxPassengers = maxP;
 		maxVolume = maxV;
 	}

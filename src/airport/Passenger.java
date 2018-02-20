@@ -14,24 +14,44 @@ public class Passenger {
 	private boolean checkIn;
 	
 	//initalise Passenger class
-	public Passenger(String n, String s, String bR, String f, boolean check) throws InvalidFlightCodeException, InvalidBookingRefException{
-		name = n;
-		surname = s;
-		Pattern p = Pattern.compile("[^a-zA-Z0-9]");
-		boolean invalidRef = p.matcher(bR).find();
-		if(invalidRef == true || bR.isEmpty() || bR.length()!=7) {
-			throw new InvalidBookingRefException(bookingRef);
+	public Passenger(String n, String s, String bR, String f, boolean check) throws InvalidFlightCodeException, InvalidBookingRefException, InvalidParameterException{
+		
+		Pattern namePattern = Pattern.compile("^[a-zA-Z]");
+		Pattern bookingPattern = Pattern.compile("^[a-zA-Z0-9]{7}");
+		Pattern flightPattern = Pattern.compile("^[a-zA-Z]{2}[0-9]{4}");
+		
+		boolean validName = namePattern.matcher(n).find();
+		boolean validSurname = namePattern.matcher(s).find();
+		boolean validFlight = flightPattern.matcher(f).find();
+		boolean validBooking = bookingPattern.matcher(bR).find();
+		
+		if(validName == true && !n.isEmpty()) {
+			name = n;
 		}
 		else {
-			bookingRef = bR;
+			throw new InvalidParameterException(name);
 		}
-		boolean invalidFlightCode = p.matcher(f).find();
-		if(invalidFlightCode == true || f.isEmpty() || f.length()!=6) {
+		if(validSurname == true && !s.isEmpty()) {
+			surname = s;
+		}
+		else {
+			throw new InvalidParameterException(surname);
+		}
+		
+		if(validFlight == true && !f.isEmpty()) {
+			flightCode = f;
+		}
+		else {
 			throw new InvalidFlightCodeException(flightCode);
 		}
+		
+		if(validBooking == true || bR.isEmpty()) {
+			bookingRef = bR;
+		}
 		else {
-			flightCode = f;
-		}		
+			throw new InvalidBookingRefException(bookingRef);
+		}	
+		
 		checkIn = check;
 	}
 	
