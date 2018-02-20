@@ -1,42 +1,33 @@
 package tests;
 
-import static org.junit.Assert.*;
-import org.junit.*;
 import airport.*;
 
+import org.junit.*;
+
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
+import javax.swing.JComboBox;
+import javax.swing.JTextField;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.Test;
+
 class passengerTest {
-	/*
-	 * 
-	 * */
-	@Before
-	public void setUp() throws InvalidFlightCodeException, InvalidBookingRefException, InvalidParameterException {
-		Passenger passenger = new Passenger(null, null, null, null, false);
-		//add passengers to test in here
-	}
-
+	
 	@Test
-	void testPassengerClass() throws InvalidParameterException {
-		String expected1 = "Kwaume";
-		String expected2 = "Nkrumah";
-		String expected3 = "BAHD5FF";
-		String expected4 = "AHSN32";
-		boolean expected5 = true;
-		String msg1 = "Failed for name = Kwaume";
-		String msg2 = "Failed for surname = Nkrumah";
-		String msg3 = "Failed for booking ref =";
-		String msg4 = "Failed for flight code = ";
-		Passenger test = null;
-		try {
-			test = new Passenger(msg1, msg2, msg3, msg4, false);
-		} catch (InvalidFlightCodeException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (InvalidBookingRefException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		String actual1 = test.getSurname();
-		assertEquals(msg1, expected1, actual1);
+	void testGetSizeOfList_shouldPass() {
+		PassengerList passengerList = new PassengerList();
+		Passenger passenger_mocked1 = mock(Passenger.class);
+		Passenger passenger_mocked2 = mock(Passenger.class);
+		passengerList.addPassenger(passenger_mocked1);
+		passengerList.addPassenger(passenger_mocked2);
+		int actual_listsize = passengerList.getSizeOfList();
+		int expected_listsize = 2;
+		String msg_listsize = "Returned correct list size?";
+		assertEquals(msg_listsize, expected_listsize, actual_listsize);
+		
 	}
-
 }
