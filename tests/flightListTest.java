@@ -10,7 +10,7 @@ class flightListTest {
 	private FlightList flightList;
 	
 	@Before
-	public void setUp() {
+	public void setUp() throws InvalidFlightCodeException, InvalidParameterException {
 		FlightList flightList = new FlightList();
 		flightList.add(new Flight("LG1234A", "Illinois", "Lufthansa", 23, 5, 70));
 		flightList.add(new Flight("LG1254A", "Kentucky", "Lufthansa", 23, 6, 70));

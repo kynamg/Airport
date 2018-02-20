@@ -8,7 +8,7 @@ import airport.*;
 class flightTest {
 	
 	@Test
-	public void testGetFlightCode() {
+	public void testGetFlightCode() throws InvalidFlightCodeException, InvalidParameterException {
 		String expected1 = "LG1234A";
 		String message1 = "Failed";
 		Flight flight = new Flight("LG1234A", "Illinois", "Lufthansa", 23, 5, 70);

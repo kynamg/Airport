@@ -9,13 +9,13 @@ class passengerTest {
 	 * 
 	 * */
 	@Before
-	public void setUp() throws InvalidFlightCodeException, InvalidBookingRefException {
+	public void setUp() throws InvalidFlightCodeException, InvalidBookingRefException, InvalidParameterException {
 		Passenger passenger = new Passenger(null, null, null, null, false);
 		//add passengers to test in here
 	}
 
 	@Test
-	void testPassengerClass() {
+	void testPassengerClass() throws InvalidParameterException {
 		String expected1 = "Kwaume";
 		String expected2 = "Nkrumah";
 		String expected3 = "BAHD5FF";
