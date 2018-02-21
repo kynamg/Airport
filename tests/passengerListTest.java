@@ -8,20 +8,6 @@ import static org.mockito.Mockito.mock;
 public class passengerListTest {
 	private PassengerList passengerList;
 	
-	/*@Before
-	public void setUp() throws InvalidFlightCodeException, InvalidBookingRefException {
-		passengerList = new PassengerList();
-		Passenger passenger_mocked1 = mock(Passenger.class);
-		Passenger passenger_mocked2 = mock(Passenger.class);
-		passengerList.addPassenger(passenger_mocked1);
-		passengerList.addPassenger(passenger_mocked2);
-	}
-	
-	@After
-	public void tearDown() {
-		passengerList = new PassengerList();
-	}*/
-	
     @Test
     public void test_addPassenger_shouldPass() {
    	 passengerList = new PassengerList();
@@ -45,7 +31,7 @@ public class passengerListTest {
 		passengerList.addPassenger(passenger_mocked2);
 		int actual_listsize = passengerList.getSizeOfList();
 		int expected_listsize = 2;
-		String msg_listsize = "Returned correct list size?";
+		String msg_listsize = "Returned list size";
 		assertEquals(msg_listsize, expected_listsize, actual_listsize);
 		
 	}
@@ -59,6 +45,20 @@ public class passengerListTest {
    	 String msg_bookingRef = "Should Pass";
    	 assertNotNull(msg_bookingRef, actual_bookingRef);
     }
+	
+	@Test
+	public void test_NoMatchingBookingRefException_shouldFail() throws InvalidBookingRefException, InvalidParameterException, InvalidFlightCodeException {
+		try {
+			passengerList = new PassengerList();
+		   	Passenger p = new Passenger("Yola","Jones","AB12345","BA1234", "true");
+		   	passengerList.addPassenger(p);
+		   	passengerList.findBookingRef("AB54321");
+		   	fail("Expect an exception to be thrown");
+		}
+		catch(NoMatchingBookingRefException e) {
+			assertEquals("Booking Reference Not Found: AB54321", e.getMessage());
+		}
+	}
 
 
 

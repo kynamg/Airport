@@ -76,7 +76,7 @@ public class Passenger {
 	}
 	
 	//return booking reference  - used in KioskGUI class
-	protected String getBookingRef() {
+	public String getBookingRef() {
 		return bookingRef;
 	}
 	
@@ -91,7 +91,7 @@ public class Passenger {
 	}
 	
 	//set checkIn to true - used in CheckInDemo class
-	protected void setCheckIn() {
+	public void setCheckIn() {
 		checkIn = true;
 	}
 	

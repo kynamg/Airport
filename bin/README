@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-There are six classes contained within the airport folder:
-=======
 There are six classes and five exception classes contained within the airport folder. The main classes are as follows:
->>>>>>> 13b1b9a24a390dc395a8fc7c11a92228eaffc238
 
 * CheckInDemo
 * KioskGUI
@@ -11,8 +7,6 @@ There are six classes and five exception classes contained within the airport fo
 * Passenger
 * PassengerList
 
-<<<<<<< HEAD
-=======
 With the exception classes being:
 
 * InvalidBookingRefException
@@ -21,16 +15,11 @@ With the exception classes being:
 * NoMatchingBookingRefException
 * NoMatchingFlightCodeException
 
->>>>>>> 13b1b9a24a390dc395a8fc7c11a92228eaffc238
 To run this code, run CheckInDemo. The code uses text files flightTest.txt and passengerTest.txt to input flight and passenger details. The required format of these can be seen below. When finished, the code will output the text file FlightReport.txt which contains details about each flight.
 
 All of the tests written for this code can be found in the tests folder.
 
-<<<<<<< HEAD
-flightTest.txt
-=======
 *flightTest.txt*
->>>>>>> 13b1b9a24a390dc395a8fc7c11a92228eaffc238
 
 This file must be in semi-colon separated format, containing the following details:
 * flight code
@@ -40,15 +29,9 @@ This file must be in semi-colon separated format, containing the following detai
 * maximum passenger capacity
 * maximum volume capacity
 
-<<<<<<< HEAD
-The file must contain no spaces.
-
-passengerTest.txt
-=======
 Each flight must be logged on a new line. The file must contain no spaces.
 
 *passengerTest.txt*
->>>>>>> 13b1b9a24a390dc395a8fc7c11a92228eaffc238
 
 This file must be in semi-colon separated format, containing the following details:
 * first name
@@ -57,9 +40,6 @@ This file must be in semi-colon separated format, containing the following detai
 * flight code
 * whether the passenger has already checked in or not
 
-<<<<<<< HEAD
-=======
 Each passenger must be logged on a new line. The file must contain no spaces.
 
->>>>>>> 13b1b9a24a390dc395a8fc7c11a92228eaffc238
 Details about the format of booking reference and flightcode can be found in the report submitted along with this code.

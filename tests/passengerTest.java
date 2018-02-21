@@ -16,18 +16,24 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
 class passengerTest {
+	private Passenger p;
 	
 	@Test
-	void testGetSizeOfList_shouldPass() {
-		PassengerList passengerList = new PassengerList();
-		Passenger passenger_mocked1 = mock(Passenger.class);
-		Passenger passenger_mocked2 = mock(Passenger.class);
-		passengerList.addPassenger(passenger_mocked1);
-		passengerList.addPassenger(passenger_mocked2);
-		int actual_listsize = passengerList.getSizeOfList();
-		int expected_listsize = 2;
-		String msg_listsize = "Returned correct list size?";
-		assertEquals(msg_listsize, expected_listsize, actual_listsize);
-		
+	public void test_getSurname_shouldPass() throws InvalidFlightCodeException, InvalidBookingRefException, InvalidParameterException {
+		p = new Passenger("Yola","Jones","AB12345","BA1234", "true");
+		String actual_surname = p.getSurname();
+		String expected_surname = "Jones";
+		String msg_getsurname = "Should return Jones";
+		assertEquals(msg_getsurname, expected_surname, actual_surname);
 	}
+	
+	@Test
+	public void test_getBookingRef_shouldPass() throws InvalidFlightCodeException, InvalidBookingRefException, InvalidParameterException {
+		p = new Passenger("Yola","Jones","AB12345","BA1234", "true");
+		String actual_bookingRef = p.getBookingRef();
+		String expected_bookingRef = "AB12345";
+		String msg_getBookingRef = "Should return AB12345";
+		assertEquals(msg_getBookingRef, expected_bookingRef, actual_bookingRef);
+	}
+
 }
