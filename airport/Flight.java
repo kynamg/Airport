@@ -39,7 +39,7 @@ public class Flight {
 			flightCode = fC;
 		}
 		else {
-			throw new InvalidFlightCodeException(flightCode);
+			throw new InvalidFlightCodeException(fC);
 		}
 		
 		// Check destination is a string
@@ -47,7 +47,7 @@ public class Flight {
 			destination = d;
 		}
 		else {
-			throw new InvalidParameterException(destination);
+			throw new InvalidParameterException(d);
 		}
 		
 		// Check carrier is a string
@@ -55,7 +55,7 @@ public class Flight {
 			carrier = c;
 		}
 		else {
-			throw new InvalidParameterException(carrier);
+			throw new InvalidParameterException(c);
 		}
 		
 		// Check weight is a float

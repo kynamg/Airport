@@ -20,6 +20,31 @@ import org.junit.jupiter.api.Test;
 
 class flightTest {
 	
+	// Test to throw InvalidFlightCodeException
+	@Test
+	public void testInvalidFlightCodeException() throws InvalidFlightCodeException, InvalidParameterException {
+		try {
+			Flight flight1 = new Flight("wrong", "destination", "carrier", 23, 5, 70);
+			fail("Expected an exception to be thrown");
+			
+		} catch(InvalidFlightCodeException e) {
+			assertEquals("Invalid Flight Code In Text File: wrong", e.getMessage());
+		}
+	}
+	
+	// Test to throw InvalidParameterException
+	@Test
+	public void testInvalidParameterException() throws InvalidFlightCodeException, InvalidParameterException {
+		try {
+			Flight flight2 = new Flight("LA12345", "12414", "carrier", 23, 5, 70);
+			fail("Expected an exception to be thrown");
+			
+		} catch(InvalidParameterException e) {
+			assertEquals("Parameter invalid : 12414", e.getMessage());
+		}
+	}
+	
+	
 	// Test to get flight code from flight
 	@Test
 	public void testGetFlightCode() throws InvalidFlightCodeException, InvalidParameterException {
