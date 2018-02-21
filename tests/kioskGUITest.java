@@ -2,16 +2,10 @@ package tests;
 
 import airport.*;
 
-import org.junit.*;
-
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-
 import javax.swing.JComboBox;
 import javax.swing.JTextField;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 
@@ -20,37 +14,44 @@ class kioskGUITest {
 	private KioskGUI gui_test;
 	
 	@Test
-	void test_last_name() {		
+	void test_last_name() {
+		//Checking user input of last name
 		PassengerList passengerlist_mocked = mock(PassengerList.class);
 		FlightList flightlist_mocked = mock(FlightList.class);
 
 		gui_test = new KioskGUI(passengerlist_mocked, flightlist_mocked);
 		
+		//Check valid string
 		boolean actual_valid = gui_test.check_last_name("Jones");
 		boolean expected_valid = true;
 		String message_valid = "Failed at Jones";
 		assertEquals(message_valid, expected_valid, actual_valid);
 		
+		//Check invalid string (numbers)
 		boolean actual_numbers = gui_test.check_last_name("123456");
 		boolean expected_numbers = false;
 		String message_numbers = "Failed at 123456";
 		assertEquals(message_numbers, expected_numbers, actual_numbers);
 		
+		//Check invalid string (letters and numbers)
 		boolean actual_letters_numbers = gui_test.check_last_name("BA12345");
 		boolean expected_letters_numbers = false;
 		String message_letters_numbers = "Failed at BA12345";
 		assertEquals(message_letters_numbers, expected_letters_numbers, actual_letters_numbers);
 		
+		//Check invalid string (empty string)
 		boolean actual_empty = gui_test.check_last_name("");
 		boolean expected_empty = false;
 		String message_empty = "Failed at empty";
 		assertEquals(message_empty, expected_empty, actual_empty);
 		
+		//Check invalid string (spaces disallowed)
 		boolean actual_spaces = gui_test.check_last_name("Yola Jones");
 		boolean expected_spaces = false;
 		String message_spaces = "Failed at spaces";
 		assertEquals(message_spaces, expected_spaces, actual_spaces);
 		
+		//Check valid string (very long string)
 		boolean actual_really_long = gui_test.check_last_name("ReeeeeeeeeeeaaaaaalllllyLooooooonnnngg");
 		boolean expected_really_long = true;
 		String message_really_long = "Failed at really long";
@@ -59,36 +60,43 @@ class kioskGUITest {
 	
 	@Test
 	void test_booking_ref() {
+		//Checking user input of booking reference
 		PassengerList passengerlist_mocked = mock(PassengerList.class);
 		FlightList flightlist_mocked = mock(FlightList.class);
 
 		gui_test = new KioskGUI(passengerlist_mocked, flightlist_mocked);
 		
+		//Check valid (7-digit alphanumeric)
 		boolean actual_valid = gui_test.check_booking_ref("BA12345");
 		boolean expected_valid = true;
 		String message_valid = "Failed at valid";
 		assertEquals(message_valid, expected_valid, actual_valid);
 		
+		//Check valid (7-digit just numbers)
 		boolean actual_all_numbers = gui_test.check_booking_ref("1234567");
 		boolean expected_all_numbers = true;
 		String message_all_numbers = "Failed at all numbers";
 		assertEquals(message_all_numbers, expected_all_numbers, actual_all_numbers);
 		
+		//Check valid (7-digit just letters)
 		boolean actual_all_letters = gui_test.check_booking_ref("ABCDEFG");
 		boolean expected_all_letters = true;
 		String message_all_letters = "Failed at all letters";
 		assertEquals(message_all_letters, expected_all_letters, actual_all_letters);
 		
+		//Check invalid (includes symbols)
 		boolean actual_symbols = gui_test.check_booking_ref("BA1234!");
 		boolean expected_symbols = false;
 		String message_symbols = "Failed at symbols";
 		assertEquals(message_symbols, expected_symbols, actual_symbols);
 		
+		//Check invalid (too short)
 		boolean actual_too_short = gui_test.check_booking_ref("BA123");
 		boolean expected_too_short = false;
 		String message_too_short = "Failed at too short";
 		assertEquals(message_too_short, expected_too_short, actual_too_short);
 		
+		//Check invalid (too long)
 		boolean actual_too_long = gui_test.check_booking_ref("BA1234567");
 		boolean expected_too_long = false;
 		String message_too_long = "Failed at too long";
@@ -97,17 +105,20 @@ class kioskGUITest {
 	
 	@Test
 	void test_weight_calculation() {
+		//Check to make sure the weight calculations are correct
 		
 		PassengerList passengerlist_mocked = mock(PassengerList.class);
 		FlightList flightlist_mocked = mock(FlightList.class);
 
 		gui_test = new KioskGUI(passengerlist_mocked, flightlist_mocked);
 		
+		//Set up weight combo box with units
 		JTextField weight_entry = new JTextField();
 		JComboBox<String> weight_units = new JComboBox<String>();
 		weight_units.addItem("kg");
 		weight_units.addItem("lbs");
 		
+		//Check valid and ensure returned weight is correct
 		Object[] returned_1 = new Object[2];
 		weight_entry.setText("1");
 		returned_1 = gui_test.calculate_weight(weight_entry, weight_units);
@@ -117,6 +128,7 @@ class kioskGUITest {
 		assertEquals(message_1, expected_bool_1, returned_1[0]);
 		assertEquals(message_1, expected_weight_1, returned_1[1]);
 		
+		//Check invalid string (symbol)
 		Object[] returned_exclimation = new Object[2];
 		weight_entry.setText("!");
 		returned_exclimation = gui_test.calculate_weight(weight_entry, weight_units);
@@ -124,6 +136,7 @@ class kioskGUITest {
 		String message_exclimation = "Failed at !";
 		assertEquals(message_exclimation, expected_bool_exclimation, returned_exclimation[0]);
 		
+		//Check invalid string (empty)
 		Object[] returned_empty = new Object[2];
 		weight_entry.setText("");
 		returned_empty = gui_test.calculate_weight(weight_entry, weight_units);
@@ -131,6 +144,7 @@ class kioskGUITest {
 		String message_empty = "Failed at empty";
 		assertEquals(message_empty, expected_bool_empty, returned_empty[0]);
 		
+		//Check valid string (decimal) with correct weight output
 		Object[] returned_2_2 = new Object[2];
 		weight_entry.setText("2.2");
 		returned_2_2 = gui_test.calculate_weight(weight_entry, weight_units);
@@ -140,6 +154,7 @@ class kioskGUITest {
 		assertEquals(message_2_2, expected_bool_2_2, returned_2_2[0]);
 		assertEquals(message_2_2, expected_weight_2_2, returned_2_2[1]);
 		
+		//Check valid string (decimal) and check rounding is correct
 		Object[] returned_2_8 = new Object[2];
 		weight_entry.setText("2.8");
 		returned_2_8 = gui_test.calculate_weight(weight_entry, weight_units);
@@ -149,6 +164,7 @@ class kioskGUITest {
 		assertEquals(message_2_8, expected_bool_2_8, returned_2_8[0]);
 		assertEquals(message_2_8, expected_weight_2_8, returned_2_8[1]);
 		
+		//Check invalid string (double decimal)
 		Object[] returned_2_8_8 = new Object[2];
 		weight_entry.setText("2.8.8");
 		returned_2_8_8 = gui_test.calculate_weight(weight_entry, weight_units);
@@ -156,6 +172,7 @@ class kioskGUITest {
 		String message_2_8_8 = "Failed at 2_8";
 		assertEquals(message_2_8_8, expected_bool_2_8_8, returned_2_8_8[0]);
 		
+		//Check that negative returns 0
 		Object[] returned_negative = new Object[2];
 		weight_entry.setText("-1");
 		returned_negative = gui_test.calculate_weight(weight_entry, weight_units);
@@ -164,6 +181,7 @@ class kioskGUITest {
 		assertEquals(message_negative, expected_bool_negative, returned_negative[0]);
 		assertEquals(message_negative, 0, returned_negative[1]);
 		
+		//Check that 0 passes and gets returned
 		Object[] returned_0 = new Object[2];
 		weight_entry.setText("0");
 		returned_0 = gui_test.calculate_weight(weight_entry, weight_units);
@@ -172,8 +190,10 @@ class kioskGUITest {
 		assertEquals(message_0, expected_bool_0, returned_0[0]);
 		assertEquals(message_0, 0, returned_0[1]);
 		
+		//NOW CHECK lbs CALCULATIONS (above was in kg)
 		weight_units.removeItem("kg");
 		
+		//Check lbs to kg conversion
 		Object[] returned_1_lbs = new Object[2];
 		weight_entry.setText("1");
 		returned_1_lbs = gui_test.calculate_weight(weight_entry, weight_units);
@@ -183,6 +203,7 @@ class kioskGUITest {
 		assertEquals(message_1_lbs, expected_bool_1_lbs, returned_1_lbs[0]);
 		assertEquals(message_1_lbs, expected_weight_1_lbs, returned_1_lbs[1]);
 		
+		//Check lbs to kg conversion with decimals
 		Object[] returned_2_2_lbs = new Object[2];
 		weight_entry.setText("2.2");
 		returned_2_2_lbs = gui_test.calculate_weight(weight_entry, weight_units);
@@ -192,6 +213,7 @@ class kioskGUITest {
 		assertEquals(message_2_2_lbs, expected_bool_2_2_lbs, returned_2_2_lbs[0]);
 		assertEquals(message_2_2_lbs, expected_weight_2_2_lbs, returned_2_2_lbs[1]);
 		
+		//Check lbs to kg conversion with rounding
 		Object[] returned_10_8_lbs = new Object[2];
 		weight_entry.setText("10.8");
 		returned_10_8_lbs = gui_test.calculate_weight(weight_entry, weight_units);
@@ -201,6 +223,7 @@ class kioskGUITest {
 		assertEquals(message_10_8_lbs, expected_bool_10_8_lbs, returned_10_8_lbs[0]);
 		assertEquals(message_10_8_lbs, expected_weight_10_8_lbs, returned_10_8_lbs[1]);
 		
+		//Check 0 is valid and returns 0 weight
 		Object[] returned_0_lbs = new Object[2];
 		weight_entry.setText("0");
 		returned_0_lbs = gui_test.calculate_weight(weight_entry, weight_units);
