@@ -491,6 +491,11 @@ public class KioskGUI {
 			}
 		}
 		
+		//Set 50kg maximum limit
+		if(baggage_weight_current > 50) {
+			valid_weight = false;
+		}
+		
 		return_object[0] = valid_weight;
 		return_object[1] = baggage_weight_current;
 		
@@ -532,6 +537,11 @@ public class KioskGUI {
 			if(volume_units.getSelectedItem() == "inches\u00B3") {
 				baggage_volume_current = (int) ((16.39*baggage_volume_current) + 0.5);
 			}
+		}
+		
+		//Set 160cm(3) maximum volume limit
+		if(baggage_volume_current > 160) {
+			valid_volume = false;
 		}
 		
 		return_object[0] = valid_volume;
