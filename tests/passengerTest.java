@@ -47,5 +47,4 @@ class passengerTest {
 			assertEquals("Invalid Booking Reference In Text File: AB123456", e.getMessage());
 		}
 	}
-
 }

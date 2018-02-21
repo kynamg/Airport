@@ -13,18 +13,17 @@ public class Passenger {
 	private String flightCode;
 	private boolean checkIn;
 	
-	//initalise Passenger class
 	public Passenger(String n, String s, String bR, String f, String check) throws InvalidFlightCodeException, InvalidBookingRefException, InvalidParameterException{
-		
+		//initialises regular expression patterns to match character combinations for name/surname, booking ref, and flight code
 		Pattern namePattern = Pattern.compile("^[a-zA-Z]");
 		Pattern bookingPattern = Pattern.compile("^[a-zA-Z0-9]{7}$");
 		Pattern flightPattern = Pattern.compile("^[a-zA-Z]{2}[0-9]{4}$");
-		
+		//assigning the patterns to the name, surname, flight code and booking ref variables
 		boolean validName = namePattern.matcher(n).find();
 		boolean validSurname = namePattern.matcher(s).find();
 		boolean validFlight = flightPattern.matcher(f).find();
 		boolean validBooking = bookingPattern.matcher(bR).find();
-
+		// if else statements that throw exceptions to ensure the correct info is being input into system
 		if(validName == true && !n.isEmpty()) {
 			name = n;
 		}
