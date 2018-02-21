@@ -43,3 +43,8 @@ This file must be in semi-colon separated format, containing the following detai
 Each passenger must be logged on a new line. The file must contain no spaces.
 
 Details about the format of booking reference and flightcode can be found in the report submitted along with this code.
+
+The libraries used in the build path of this project are:
+JRE System Library [Java SE 8[1.8.0_151]]
+JUnit 5
+mockito-all-2.0.2-beta.jar
