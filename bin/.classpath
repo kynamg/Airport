@@ -3,10 +3,6 @@
 	<classpathentry kind="src" path=""/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/5"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-<<<<<<< HEAD
-	<classpathentry kind="lib" path="C:/Users/davis/eclipse-workspace/Airport/mockito-all-2.0.2-beta.jar"/>
-=======
-	<classpathentry kind="lib" path="C:/Users/Yola/git/Airport/mockito-all-2.0.2-beta.jar"/>
->>>>>>> 13b1b9a24a390dc395a8fc7c11a92228eaffc238
+	<classpathentry kind="lib" path="/Users/c/Documents/Workspace/Airport/mockito-all-2.0.2-beta.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
