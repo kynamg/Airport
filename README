@@ -1,4 +1,4 @@
-There are six classes contained within the airport folder:
+There are six classes and five exception classes contained within the airport folder. The main classes are as follows:
 
 * CheckInDemo
 * KioskGUI
@@ -7,11 +7,19 @@ There are six classes contained within the airport folder:
 * Passenger
 * PassengerList
 
+With the exception classes being:
+
+* InvalidBookingRefException
+* InvalidFlightCodeException
+* InvalidParameterException
+* NoMatchingBookingRefException
+* NoMatchingFlightCodeException
+
 To run this code, run CheckInDemo. The code uses text files flightTest.txt and passengerTest.txt to input flight and passenger details. The required format of these can be seen below. When finished, the code will output the text file FlightReport.txt which contains details about each flight.
 
 All of the tests written for this code can be found in the tests folder.
 
-flightTest.txt
+*flightTest.txt*
 
 This file must be in semi-colon separated format, containing the following details:
 * flight code
@@ -21,9 +29,9 @@ This file must be in semi-colon separated format, containing the following detai
 * maximum passenger capacity
 * maximum volume capacity
 
-The file must contain no spaces.
+Each flight must be logged on a new line. The file must contain no spaces.
 
-passengerTest.txt
+*passengerTest.txt*
 
 This file must be in semi-colon separated format, containing the following details:
 * first name
@@ -31,5 +39,7 @@ This file must be in semi-colon separated format, containing the following detai
 * booking reference
 * flight code
 * whether the passenger has already checked in or not
+
+Each passenger must be logged on a new line. The file must contain no spaces.
 
 Details about the format of booking reference and flightcode can be found in the report submitted along with this code.

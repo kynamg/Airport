@@ -13,7 +13,6 @@ public class Flight {
 	private float maxWeight;
 	private int maxPassengers;
 	private float maxVolume;
-	private int numPassengers;
 	private float totalWeight;
 	private float totalBaggageFees; 
 	private float totalVol;
@@ -132,23 +131,13 @@ public class Flight {
 		totalVol = totalV;
 	}
 	
-	/*public boolean equals (Object other) {
-		if (other instanceof Flight) {
-			Flight otherFlight = (Flight) other;
-			if(flightCode.equals(otherFlight.flightCode))
-				return true;
-		}
-		return false;
-	}*/
-	
-	protected float calculateExcessBaggageFees(float weight) {
+	public float calculateExcessBaggageFees(float weight) {
 		if (weight>25.0) {
 			baggageFee = (float) (10*(weight-25));
 		}
 		else {
 			baggageFee = 0;
 		}
-//		totalBaggageFees += baggageFee;
 		return baggageFee;	
 	}
 	
