@@ -66,7 +66,7 @@ public class CheckInDemo {
 		gui = new KioskGUI(passengers, flights);
 	}
 
-	
+	// Checks passenger in
 	protected static void check_in_passenger() {
 		passengers_checked_in++;
 		if(passengers_checked_in == passengers_total) {
@@ -79,6 +79,7 @@ public class CheckInDemo {
 		}
 	}
 	
+	// Checks flight code format
 	public boolean check_flight_code(String flight_code) {
 		Pattern q = Pattern.compile("^[a-zA-Z]{2}[0-9]{4}");
 		boolean valid = q.matcher(flight_code).find();
