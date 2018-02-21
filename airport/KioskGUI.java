@@ -312,6 +312,9 @@ public class KioskGUI {
 					error_message_weight.setText("Invalid weight");
 					error_message_weight.setVisible(true);
 				}
+				else {
+					error_message_weight.setVisible(false);
+				}
 				baggage_weight = (int)baggage_weight_object[1];
 				
 				//Calculate and verify volume
@@ -319,6 +322,9 @@ public class KioskGUI {
 				if(baggage_volume_object[0].equals(false)) {
 					error_message_volume.setText("Invalid volume");
 					error_message_volume.setVisible(true);
+				}
+				else {
+					error_message_volume.setVisible(false);
 				}
 				baggage_volume = (int)baggage_volume_object[1];
 				
@@ -458,8 +464,17 @@ public class KioskGUI {
 	
 	public Object[] calculate_weight(JTextField weight_entry, JComboBox<String> weight_units) {
 		
-		Object[] return_object = new Object[2];
+		/*
+		 * Object[0] = boolean (valid or invalid entry)
+		 * Object[1] = integer (calculated weight)
+		 * When using parseDouble, a NULL input gets returned as 0.0
+		 * Desired functionality is that a 0 weight is valid, as a person might have no baggage
+		 * Without the boolean, a null input would be returned as valid, or 0 will be returned as invalid
+		 * Because of this, both a boolean and an integer must be returned
+		*/
 		
+		Object[] return_object = new Object[2];
+
 		boolean valid_weight = false;
 		int baggage_weight_current = 0;
 		
@@ -483,6 +498,15 @@ public class KioskGUI {
 	}
 	
 	public Object[] calculate_volume(JTextField dimension_entry[], JComboBox<String> dimension_units, JTextField volume_entry, JComboBox<String> volume_units) {
+		
+		/*
+		 * Object[0] = boolean (valid or invalid entry)
+		 * Object[1] = integer (calculated volume)
+		 * When using parseDouble, a NULL input gets returned as 0.0
+		 * Desired functionality is that a 0 volume is valid, as a person might have no baggage
+		 * Without the boolean, a null input would be returned as valid, or 0 will be returned as invalid
+		 * Because of this, both a boolean and an integer must be returned
+		*/
 		
 		Object[] return_object = new Object[2];
 		
