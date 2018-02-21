@@ -17,7 +17,7 @@ With the exception classes being:
 
 To run this code, run CheckInDemo. The code uses text files flightTest.txt and passengerTest.txt to input flight and passenger details. The required format of these can be seen below. When finished, the code will output the text file FlightReport.txt which contains details about each flight.
 
-All of the tests written for this code can be found in the tests folder.
+All of the tests written for this code can be found in the tests folder. They all use JUnit 5.
 
 *flightTest.txt*
 
