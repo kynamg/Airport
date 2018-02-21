@@ -51,6 +51,15 @@ public class CheckInDemo {
 			e.printStackTrace();
 			System.exit(1);
 		}
+		catch(InvalidParameterException e) {
+			System.out.println(e.getMessage());
+		}
+		catch(InvalidFlightCodeException e) {
+			System.out.println(e.getMessage());
+		}
+		catch(InvalidBookingRefException e) {
+			System.out.println(e.getMessage());
+		}
 		finally {
 			try {
 				buff1.close();

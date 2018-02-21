@@ -36,14 +36,14 @@ class flightTest {
 	@Test
 	public void testInvalidParameterException() throws InvalidFlightCodeException, InvalidParameterException {
 		try {
-			Flight flight2 = new Flight("LA12345", "12414", "carrier", 23, 5, 70);
+			Flight flight2 = new Flight("LA1234", "12414", "carrier", 23, 5, 70);
 			fail("Expected an exception to be thrown");
 			
 		} catch(InvalidParameterException e) {
 			assertEquals("Parameter invalid : 12414", e.getMessage());
 		}
 		try {
-			Flight flight2 = new Flight("LA12345", "destination", "1341", 23, 5, 70);
+			Flight flight2 = new Flight("LA1234", "destination", "1341", 23, 5, 70);
 			fail("Expected an exception to be thrown");
 			
 		} catch(InvalidParameterException e) {
@@ -54,9 +54,9 @@ class flightTest {
 	// Test to get flight code from flight
 	@Test
 	public void testGetFlightCode() throws InvalidFlightCodeException, InvalidParameterException {
-		String expected1 = "LG1234A";
-		String message1 = "Failed at LG1234A";
-		Flight flight = new Flight("LG1234A", "Illinois", "Lufthansa", 23, 5, 70);
+		String expected1 = "LG1234";
+		String message1 = "Failed at LG1234";
+		Flight flight = new Flight("LG1234", "Illinois", "Lufthansa", 23, 5, 70);
 		String actual1 = flight.getFlightCode();
 		assertEquals(message1, expected1, actual1);	
 	}
