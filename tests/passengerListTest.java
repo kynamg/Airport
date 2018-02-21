@@ -59,7 +59,4 @@ public class passengerListTest {
 			assertEquals("Booking Reference Not Found: AB54321", e.getMessage());
 		}
 	}
-
-
-
 }

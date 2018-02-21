@@ -5,6 +5,7 @@ import airport.*;
 import org.junit.*;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -34,6 +35,17 @@ class passengerTest {
 		String expected_bookingRef = "AB12345";
 		String msg_getBookingRef = "Should return AB12345";
 		assertEquals(msg_getBookingRef, expected_bookingRef, actual_bookingRef);
+	}
+	
+	@Test
+	public void test_InvalidBookingRefException_shouldFail() throws InvalidBookingRefException, InvalidParameterException, InvalidFlightCodeException {
+		try {
+		   	Passenger p = new Passenger("Yola","Jones","AB123456","BA1234", "true");
+		   	fail("Expect an exception to be thrown");
+		}
+		catch(InvalidBookingRefException e) {
+			assertEquals("Invalid Booking Reference In Text File: AB123456", e.getMessage());
+		}
 	}
 
 }
