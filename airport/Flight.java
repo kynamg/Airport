@@ -65,7 +65,6 @@ public class Flight {
 			try {
 				doubleWeight = (int) (Double.parseDouble(maximumW));
 			} catch (NumberFormatException exception) {
-	
 			}
 			maxWeight = maxW;
 		}
