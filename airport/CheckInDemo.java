@@ -17,7 +17,7 @@ public class CheckInDemo {
 		flights = new FlightList();
 		BufferedReader buff1 = null;
 		BufferedReader buff2 = null;
-		String data1 [] = new String[3];
+		String data1 [] = new String[4];
 		String data2 [] = new String[5];
 		try {
 			buff1 = new BufferedReader(new FileReader("passengerTest.txt"));
@@ -26,8 +26,7 @@ public class CheckInDemo {
 			String inputLine2 = buff2.readLine();
 			while(inputLine1 != null) {
 				data1 = inputLine1.split(";");
-				boolean checkedIn = false;
-				Passenger p = new Passenger(data1[0], data1[1], data1[2], data1[3], checkedIn);
+				Passenger p = new Passenger(data1[0], data1[1], data1[2], data1[3], data1[4]);
 				passengers.addPassenger(p);
 				//System.out.println(p.getBookingRef());
 				inputLine1 = buff1.readLine();
@@ -43,7 +42,7 @@ public class CheckInDemo {
 				inputLine2 = buff2.readLine();
 			}
 
-			passengers_total = passengers.getSizeOfList();
+			passengers_total = passengers.getPassengersNotCheckedIn();
 		}
 		catch(FileNotFoundException e) {
 			System.out.println(e.getMessage());
@@ -67,6 +66,7 @@ public class CheckInDemo {
 	private void showGUI() {
 		gui = new KioskGUI(passengers, flights);
 	}
+
 	
 	protected static void check_in_passenger() {
 		passengers_checked_in++;
