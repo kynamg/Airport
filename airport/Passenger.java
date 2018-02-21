@@ -17,8 +17,8 @@ public class Passenger {
 	public Passenger(String n, String s, String bR, String f, String check) throws InvalidFlightCodeException, InvalidBookingRefException, InvalidParameterException{
 		
 		Pattern namePattern = Pattern.compile("^[a-zA-Z]");
-		Pattern bookingPattern = Pattern.compile("^[a-zA-Z0-9]{7}");
-		Pattern flightPattern = Pattern.compile("^[a-zA-Z]{2}[0-9]{4}");
+		Pattern bookingPattern = Pattern.compile("^[a-zA-Z0-9]{7}$");
+		Pattern flightPattern = Pattern.compile("^[a-zA-Z]{2}[0-9]{4}$");
 		
 		boolean validName = namePattern.matcher(n).find();
 		boolean validSurname = namePattern.matcher(s).find();

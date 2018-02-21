@@ -23,7 +23,7 @@ public class Flight {
 	public Flight(String fC, String d, String c, float maxW, int maxP, float maxV) throws InvalidFlightCodeException, InvalidParameterException {
 	
 		// RegEx patterns for flight code and strings
-		Pattern flightPattern = Pattern.compile("^[a-zA-Z]{2}[0-9]{4}");
+		Pattern flightPattern = Pattern.compile("^[a-zA-Z]{2}[0-9]{4}$");
 		Pattern stringPattern = Pattern.compile("^[a-zA-Z]");
 		
 		// Compare RegEx patterns to parameters

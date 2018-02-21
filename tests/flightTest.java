@@ -42,9 +42,15 @@ class flightTest {
 		} catch(InvalidParameterException e) {
 			assertEquals("Parameter invalid : 12414", e.getMessage());
 		}
+		try {
+			Flight flight2 = new Flight("LA12345", "destination", "1341", 23, 5, 70);
+			fail("Expected an exception to be thrown");
+			
+		} catch(InvalidParameterException e) {
+			assertEquals("Parameter invalid : 1341", e.getMessage());
+		}
 	}
-	
-	
+
 	// Test to get flight code from flight
 	@Test
 	public void testGetFlightCode() throws InvalidFlightCodeException, InvalidParameterException {
@@ -60,7 +66,7 @@ class flightTest {
 	public void testCalculateExcessBaggageFees() throws InvalidFlightCodeException, InvalidParameterException {
 		
 		// Input = 20
-		Flight f = new Flight("LG1234", "Illi", "Lufthansa", 23, 5, 70);
+		Flight f = new Flight("LG1234", "Atlanta", "United Airlines", 23, 5, 70);
 		float returned_20 = f.calculateExcessBaggageFees((float) 20.0);
 		float expected_20 = 0;
 		String message_20 = "Failed at zero";

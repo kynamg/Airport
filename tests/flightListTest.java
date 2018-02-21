@@ -36,7 +36,7 @@ class flightListTest {
 	
 	// Test to throw exception NoMatchingFlightCodeException
 	@Test
-	public void exceptionTesting() throws InvalidFlightCodeException, InvalidParameterException {
+	public void testNoMatchingFlightCodeException() throws InvalidFlightCodeException, InvalidParameterException {
 		try {
 			FlightList flightList1 = new FlightList();
 			flightList1.add(new Flight("LG1234A", "Illinois", "Lufthansa", 23, 5, 70));
