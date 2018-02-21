@@ -22,9 +22,11 @@ public class Flight {
 	
 	public Flight(String fC, String d, String c, float maxW, int maxP, float maxV) throws InvalidFlightCodeException, InvalidParameterException {
 	
+		// RegEx patterns for flight code and strings
 		Pattern flightPattern = Pattern.compile("^[a-zA-Z]{2}[0-9]{4}");
 		Pattern stringPattern = Pattern.compile("^[a-zA-Z]");
 		
+		// Compare RegEx patterns to parameters
 		boolean validFlight = flightPattern.matcher(fC).find();
 		boolean validDestination = stringPattern.matcher(d).find();
 		boolean validCarrier = stringPattern.matcher(c).find();
@@ -32,27 +34,31 @@ public class Flight {
 		double doubleWeight;
 		double doubleVolume;
 		
+		// Check that flightCode is of the right format
 		if(validFlight == true && !fC.isEmpty()) {
 			flightCode = fC;
 		}
 		else {
-			throw new InvalidFlightCodeException(flightCode);
+			throw new InvalidFlightCodeException(fC);
 		}
 		
+		// Check destination is a string
 		if(validDestination == true && !d.isEmpty()) {
 			destination = d;
 		}
 		else {
-			throw new InvalidParameterException(destination);
+			throw new InvalidParameterException(d);
 		}
 		
+		// Check carrier is a string
 		if(validCarrier == true && !c.isEmpty()) {
 			carrier = c;
 		}
 		else {
-			throw new InvalidParameterException(carrier);
+			throw new InvalidParameterException(c);
 		}
 		
+		// Check weight is a float
 		String maximumW = Float.toString(maxW);
 			
 		if(!maximumW.isEmpty()) {
@@ -64,6 +70,7 @@ public class Flight {
 			maxWeight = maxW;
 		}
 		
+		// Check passengers is an integer
 		try {
 			if (maxP == (int)maxP) {
 				maxPassengers = maxP;
@@ -72,6 +79,7 @@ public class Flight {
 			
 		}
 		
+		// Check volume is a float
 		String maximumV = Float.toString(maxV);
 		if(!maximumV.isEmpty()) {
 			try {
@@ -83,6 +91,7 @@ public class Flight {
 		}
 	}
 	
+	// Get Methods
 	protected String getCarrier() {
 		return carrier;
 	}
@@ -119,6 +128,7 @@ public class Flight {
 		return totalPassengers;
 	}
 	
+	// Set methods
 	protected void setTotalWeight(float totalW) {
 		totalWeight = totalW;
 	}
@@ -131,6 +141,7 @@ public class Flight {
 		totalVol = totalV;
 	}
 	
+	// Calculate excess baggage fees if weight is over 25kg
 	public float calculateExcessBaggageFees(float weight) {
 		if (weight>25.0) {
 			baggageFee = (float) (10*(weight-25));
@@ -141,6 +152,7 @@ public class Flight {
 		return baggageFee;	
 	}
 	
+	// Increment methods to update total passengers, weight, volume and baggage fees
 	protected void incrementPassengers() {
 		totalPassengers ++;
 	}

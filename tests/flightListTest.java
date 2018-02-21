@@ -6,6 +6,7 @@ import org.junit.*;
 
 import static org.junit.Assert.*;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.mock;
@@ -24,7 +25,7 @@ class flightListTest {
 	
 
 	private FlightList flightList;
-	
+
 	@Before
 	public void setUp() throws InvalidFlightCodeException, InvalidParameterException {
 		FlightList flightList = new FlightList();
@@ -33,6 +34,7 @@ class flightListTest {
 		flightList.add(new Flight("AB1234A", "Chicago", "Lufthansa", 23, 2, 70));
 	}
 	
+	// Test to throw exception NoMatchingFlightCodeException
 	@Test
 	public void exceptionTesting() throws InvalidFlightCodeException, InvalidParameterException {
 		try {
@@ -46,33 +48,14 @@ class flightListTest {
 		}
 	}
 	
-	
-	
-//	@Test
-//	public void exceptionTesting() {
-//		Throwable exception = assertThrows(NoMatchingFlightCodeException.class, () -> { {
-//			throw new NoMatchingFlightCodeException("a message");
-//		});
-//		assertEquals("a message", exception.getMessage());
-//	}
-	
-//	@Test(expected = NoMatchingFlightCodeException.class)
-//	public void codeNotFound1() throws NoMatchingFlightCodeException {
-//		flightList.findByCode("TF1234R");
-//	}
-	
-//	@Test(expected = NoMatchingFlightCodeException.class)
-//	public void codeNotFound() {
-//		try{
-//			flightList.findByCode("TF1234R");
-//			fail("Code does not exist - should throw exception");
-//		}
-//		catch(NoMatchingFlightCodeException e) {
-//			assertTrue(e.getMessage().contains("TF1234R"));
-//		}
-//		
-//	}
-	
-	
+	// Test to method to find flight code
+	@Test
+	public void testFindByCode() throws InvalidFlightCodeException, InvalidParameterException, NoMatchingFlightCodeException{
+		Flight flight1 = new Flight("BA12345", "Kentucky", "Lufthansa", 23, 5, 70);
+		FlightList flightList1 = new FlightList();
+		flightList1.add(flight1);
+		Flight f_found = flightList1.findByCode("BA12345");
+		String message_error = "Failed at BA12345";
+		assertNotNull(message_error, f_found);
+	}
 }
-	

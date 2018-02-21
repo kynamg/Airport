@@ -20,6 +20,7 @@ public class CheckInDemo {
 		String data1 [] = new String[4];
 		String data2 [] = new String[5];
 		try {
+			// Parse flightList and passengerList text files, storing data in flightList and passengerList data structures
 			buff1 = new BufferedReader(new FileReader("passengerTest.txt"));
 			buff2 = new BufferedReader(new FileReader("flightTest.txt"));
 			String inputLine1 = buff1.readLine();
@@ -28,7 +29,6 @@ public class CheckInDemo {
 				data1 = inputLine1.split(";");
 				Passenger p = new Passenger(data1[0], data1[1], data1[2], data1[3], data1[4]);
 				passengers.addPassenger(p);
-				//System.out.println(p.getBookingRef());
 				inputLine1 = buff1.readLine();
 			}
 			while(inputLine2 != null) {
@@ -38,7 +38,6 @@ public class CheckInDemo {
 				if(flight_code_verified == true) {
 					flights.add(f);
 				}
-				//System.out.println(f.getFlightCode());
 				inputLine2 = buff2.readLine();
 			}
 
