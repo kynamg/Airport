@@ -57,33 +57,59 @@ public class FlightList {
 		
 		BufferedWriter bw = null;
 		FileWriter fw = null;
-		String capacity = null;
+		String passenger_capacity = null;
+		String weight_capacity = null;
+		String volume_capacity = null;
 		try {	
 				fw = new FileWriter(FILENAME);
 				bw = new BufferedWriter(fw);
 				for (Flight f : flights) {
-					String content = "Flight: " + f.getFlightCode();
-					String fees = "Baggage fees: " + f.getTotalBaggageFees();
-					String weight = "Total weight: " + f.getTotalWeight();
-					String volume = "Total volume: " + f.getTotalVolume();
+					String flightCode = "Flight: " + f.getFlightCode();
+					bw.write(flightCode + "\n");
+					
+					String fees = "Baggage fees: £" + f.getTotalBaggageFees();
+					bw.write(fees + "\n");
+					
+					String weight = "Total weight: " + f.getTotalWeight() + "kg";
+					bw.write(weight + "\n");
+					if(f.getMaxWeight()<f.getTotalWeight()) {
+						weight_capacity = "Weight capacity exceeded by: "
+								+ (f.getTotalWeight() - f.getMaxWeight()) + "kg";
+						bw.write(weight_capacity + "\n");
+					}
+					
+					String volume = "Total volume: " + f.getTotalVolume() + "cm3";
+					bw.write(volume + "\n");
+					
+					if(f.getMaxVol()<f.getTotalVolume()) {
+						volume_capacity = "Volume capacity exceeded by: "
+								+ (f.getTotalVolume() - f.getMaxVol()) + "cm3";
+						bw.write(volume_capacity + "\n");
+						
+					}
+//					else if (f.getMaxVol()>f.getTotalVolume()) {
+//						volume_capacity = "Space by volume left: "
+//								+ (f.getTotalVolume() - f.getMaxVol());
+//					}
+//					else if (f.getMaxVol()==f.getTotalVolume()) {
+//						volume_capacity = "Flight full";
+//					}
+					
 					String passengers = "Total passengers: " + f.getTotalPassengers();
+					bw.write(passengers + "\n");
 					if (f.getMaxPassengers()<f.getTotalPassengers()) {
-						capacity = "Flight capacity exceeded by: " 
+						passenger_capacity = "Flight capacity exceeded by: " 
 								+ (f.getTotalPassengers() - f.getMaxPassengers());
 					}
 					else if (f.getMaxPassengers()>f.getTotalPassengers()) {
-						capacity = "Vacant seats: " + (f.getMaxPassengers()-f.getTotalPassengers());
+						passenger_capacity = "Vacant seats: " + (f.getMaxPassengers()-f.getTotalPassengers());
 					}
 					else if (f.getMaxPassengers()==f.getTotalPassengers()) {
-						capacity = "Flight full";
+						passenger_capacity = "Flight full";
 					}
-					bw.write(content + "\n");
-					bw.write(fees + "\n");
-					bw.write(weight + "\n");
-					bw.write(volume + "\n");
-					bw.write(passengers + "\n");
-					bw.write(capacity + "\n");
+					bw.write(passenger_capacity + "\n");
 					bw.write("\n");
+					
 			}
 		} catch (IOException e) {
 			e.printStackTrace();

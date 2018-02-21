@@ -1,9 +1,19 @@
 package tests;
 
-import static org.junit.Assert.*;
+import airport.*;
+
 import org.junit.*;
 
-import airport.*;
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
+import javax.swing.JComboBox;
+import javax.swing.JTextField;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.Test;
 
 class flightTest {
 	
@@ -15,5 +25,5 @@ class flightTest {
 		String actual1 = flight.getFlightCode();
 		assertEquals(message1, expected1, actual1);
 	}
-
+		
 }

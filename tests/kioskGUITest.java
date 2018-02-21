@@ -20,6 +20,20 @@ class kioskGUITest {
 	private KioskGUI gui_test;
 	
 	@Test
+	void testGetSizeOfList_shouldPass() {
+		PassengerList passengerList = new PassengerList();
+		Passenger passenger_mocked1 = mock(Passenger.class);
+		Passenger passenger_mocked2 = mock(Passenger.class);
+		passengerList.addPassenger(passenger_mocked1);
+		passengerList.addPassenger(passenger_mocked2);
+		int actual_listsize = passengerList.getSizeOfList();
+		int expected_listsize = 2;
+		String msg_listsize = "Returned correct list size?";
+		assertEquals(msg_listsize, expected_listsize, actual_listsize);
+		
+	}
+	
+	@Test
 	void test_last_name() {		
 		PassengerList passengerlist_mocked = mock(PassengerList.class);
 		FlightList flightlist_mocked = mock(FlightList.class);

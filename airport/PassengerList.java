@@ -37,6 +37,16 @@ public class PassengerList {
 		return passengerList.size();
 	}
 	
+	public int getPassengersNotCheckedIn() {
+		int count = 0;
+		for (Passenger p : passengerList) {
+			if(!p.getCheckIn()) {
+				count ++;
+			}
+		}
+		return count;
+	}
+	
 	//add entry to passengerList hash set
 	public void addPassenger(Passenger person) {
 		passengerList.add(person);

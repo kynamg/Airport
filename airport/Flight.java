@@ -25,13 +25,13 @@ public class Flight {
 	
 		Pattern flightPattern = Pattern.compile("^[a-zA-Z]{2}[0-9]{4}");
 		Pattern stringPattern = Pattern.compile("^[a-zA-Z]");
-		Pattern floatPattern = Pattern.compile("^[0-9]");
 		
 		boolean validFlight = flightPattern.matcher(fC).find();
 		boolean validDestination = stringPattern.matcher(d).find();
 		boolean validCarrier = stringPattern.matcher(c).find();
 		
 		double doubleWeight;
+		double doubleVolume;
 		
 		if(validFlight == true && !fC.isEmpty()) {
 			flightCode = fC;
@@ -64,8 +64,24 @@ public class Flight {
 			}
 			maxWeight = maxW;
 		}
-		maxPassengers = maxP;
-		maxVolume = maxV;
+		
+		try {
+			if (maxP == (int)maxP) {
+				maxPassengers = maxP;
+			}
+		} catch(NumberFormatException exception) {
+			
+		}
+		
+		String maximumV = Float.toString(maxV);
+		if(!maximumV.isEmpty()) {
+			try {
+				doubleVolume = (int) (Double.parseDouble(maximumV));
+			} catch (NumberFormatException exception) {
+	
+			}
+			maxVolume = maxV;
+		}
 	}
 	
 	protected String getCarrier() {
