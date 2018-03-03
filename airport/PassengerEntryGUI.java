@@ -19,6 +19,9 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
@@ -29,9 +32,11 @@ public class PassengerEntryGUI {
 	Container guiContainer = new Container();
 	KioskGUI kioskGUI;
 	
+	//The one parameter check not able to be used from kioskGUI
 	Flight flight;
 	Pattern flightPattern = Pattern.compile("^[a-zA-Z]{2}[0-9]{4}$");
 	
+	//Screen allowing user to input first name, last name, booking reference, flight code and whether they've checked in or not
 	private void details_screen(JFrame guiFrame, Container guiContainer, PassengerList passenger_list, FlightList flight_list) {
 				
 		//Heading to tell user what view they're in (details/baggage)
@@ -40,7 +45,7 @@ public class PassengerEntryGUI {
 		menu_location.setText("Welcome to KYC Airport");
 		menu_location.setFont(font1);
 		
-		//Panel for allowing user to enter last name
+		//Panel for allowing user to enter first name
 		JPanel first_name_panel = new JPanel();
 		JTextField first_name_entry = data_entry_panel(first_name_panel, "First Name:");
 		
@@ -48,12 +53,15 @@ public class PassengerEntryGUI {
 		JPanel last_name_panel = new JPanel();
 		JTextField last_name_entry = data_entry_panel(last_name_panel, "Last Name:");
 		
+		//Booking reference panel
 		JPanel booking_ref_panel = new JPanel();
 		JTextField booking_ref_entry = data_entry_panel(booking_ref_panel, "Booking Reference:");
 		
+		//Flight code panel
 		JPanel flight_code_panel = new JPanel();
 		JTextField flight_code_entry = data_entry_panel(flight_code_panel, "Flight Code:");
 		
+		//Checked in panel
 		JPanel checked_in_panel = new JPanel();
 		checked_in_panel.setLayout(new GridLayout());
 		
@@ -61,8 +69,11 @@ public class PassengerEntryGUI {
 		checked_in_prompt.setVisible(true);
 		checked_in_prompt.setEditable(false);
 		checked_in_prompt.setText("Checked In?");
+		//Checkbox allows user to tick if they've checked in or not
 		JCheckBox checked_in_entry = new JCheckBox();
 		checked_in_entry.setVisible(true);
+		//If they have, they get taken to a screen which allows them to enter baggage info
+		//Else get redirected to kioskGUI
 		
 		checked_in_panel.add(checked_in_prompt);
 		checked_in_panel.add(checked_in_entry);
@@ -82,6 +93,7 @@ public class PassengerEntryGUI {
 		//Add container to window
 		guiFrame.add(guiContainer);
 		
+		//ActionListener changing text on button when checkbox is selected/deselected
 		checked_in_entry.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(checked_in_entry.isSelected() == true) {
@@ -98,6 +110,7 @@ public class PassengerEntryGUI {
 			public void actionPerformed(ActionEvent e) {
 				boolean valid_data = true;
 				
+				//Check user input
 				if(kioskGUI.check_name(first_name_entry.getText()) == false) {
 					first_name_entry.setText("Invalid first name");
 					valid_data = false;
@@ -148,25 +161,31 @@ public class PassengerEntryGUI {
 							flight_code_entry.setText("");
 							checked_in_entry.setSelected(false);
 							JOptionPane.showMessageDialog(passenger_entry_frame,"Success - Go To Kiosk");  
+							//Here the Passenger should be added to the queue for the KioskGUI(s)
 						}
 					} catch (InvalidFlightCodeException | InvalidBookingRefException | InvalidParameterException invalid_parameter_exception) {
-						System.out.println("Error in parameters - should already be checked!!");
+						//This error should never be called - the parameters are already checked above
+						System.out.println("Error in parameters");
 					}
 				}
 			}
 		});		
 	}
 	
-	//Screen that allows users to input baggage weight and baggage volume
-	protected void baggage_entry_screen(JFrame guiFrame, Container guiContainer, Flight flight, PassengerList passenger_list, FlightList flight_list) {
-		//Increase size of frame for added information
+	//A very basic version of the one in KioskGUI
+	//Designed assuming the user has a sheet with weight and volume printed on ticket
+	//Only gets shown when user has already checked in
+	//Usually this would be shown when the user is checking in online, this is just for the purposes of flight
+	//In an actual airport this screen wouldn't be shown
+	private void baggage_entry_screen(JFrame guiFrame, Container guiContainer, Flight flight, PassengerList passenger_list, FlightList flight_list) {
+		//Set new size of screen
 		guiFrame.setSize(400, 140);
 		
-		//List storying data entry panels (weight, dimensions[3] (height, length, width), volume)
+		//Allows user to enter weight information
 		JPanel weight_panel = new JPanel();
 		JTextField weight_entry = data_entry_panel(weight_panel, "Enter Weight (kg):");
 		
-		//Set of text fields allowing user to input height/length/width
+		//Allows user to enter volume information
 		JPanel volume_panel = new JPanel();
 		JTextField volume_entry = data_entry_panel(volume_panel, "Enter Volume (m\u00B3):");
 		
@@ -182,6 +201,7 @@ public class PassengerEntryGUI {
 				int baggage_volume = 0;
 				boolean valid_entry = true;
 				
+				//Check weight
 				try {
 					baggage_weight = (int) (Double.parseDouble(weight_entry.getText()));
 					if(baggage_weight > flight.getMaxWeight()) {
@@ -193,6 +213,7 @@ public class PassengerEntryGUI {
 					weight_entry.setText("Invalid weight");
 					valid_entry = false;
 				}
+				//Check volume
 				try {
 					baggage_volume = (int) (Double.parseDouble(volume_entry.getText()));
 					if(baggage_volume > flight.getMaxVol()) {
@@ -207,27 +228,24 @@ public class PassengerEntryGUI {
 
 				//If everything is entered correctly
 				if(valid_entry == true) {
-					//Increment flight details
-					//Verify flight code with passenger details
+					//Calculate excess baggage fees - user should already know these, it's just for use with flight
 					float baggage_fees = flight.calculateExcessBaggageFees(baggage_weight);
-					//Display baggage fees if they exist and ask the user to confirm
 					//Increment flight details
 					flight.incrementBaggageFees(baggage_fees);
 					flight.incrementVolume(baggage_volume);
 					flight.incrementWeight(baggage_weight);
 					flight.incrementPassengers();
 					JOptionPane.showMessageDialog(passenger_entry_frame,"Success - Go To Boarding Zone");
-								
+					
+					//Update GUI components to prepare for next screen
 					guiFrame.setSize(400, 200);
 					
 					remove_panel(weight_panel);
 					remove_panel(volume_panel);
 					remove_panel(confirm_panel);
 					
+					//Go back to details screen
 					details_screen(guiFrame, guiContainer, passenger_list, flight_list);					
-				}
-				else {
-					
 				}
 			}
 		});
@@ -240,7 +258,7 @@ public class PassengerEntryGUI {
 		guiFrame.add(guiContainer);		
 	}
 	
-	
+	//Method to create panel with prompt and text entry
 	private JTextField data_entry_panel(JPanel panel, String prompt_text) {
 		panel.setLayout(new GridLayout());
 		
@@ -255,6 +273,7 @@ public class PassengerEntryGUI {
 		return data_entry;
 	}
 	
+	//Remove panel from container. Used for when screens are switching
 	private void remove_panel(JPanel panel) {
 		panel.setVisible(false);
 		guiContainer.remove(panel);
@@ -265,8 +284,7 @@ public class PassengerEntryGUI {
 		kioskGUI = new KioskGUI();
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
-				
-				/*try {
+				try {
 				UIManager.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
 				} catch (UnsupportedLookAndFeelException e) {
 					System.out.println("Invalid look and feel");
@@ -277,7 +295,7 @@ public class PassengerEntryGUI {
 				} catch (ClassNotFoundException e) {
 					System.out.println("Class not found exception");
 				}
-				SwingUtilities.updateComponentTreeUI(guiFrame);*/
+				SwingUtilities.updateComponentTreeUI(passenger_entry_frame);
 				
 				passenger_entry_frame.setTitle("New Passenger");
 				passenger_entry_frame.setSize(400, 200);
@@ -301,20 +319,5 @@ public class PassengerEntryGUI {
 				details_screen(passenger_entry_frame, guiContainer, passenger_list, flight_list);
 			}
 		});
-	}
-	
-	public static void main(String[] args) {
-		
-		PassengerList passenger_list = new PassengerList();
-		FlightList flight_list = new FlightList();
-		
-		try {
-			Flight flight = new Flight("AB1234", "Japan", "BA", 12, 4, 3);
-			flight_list.add(flight);
-		} catch (InvalidFlightCodeException | InvalidParameterException e) {
-			e.printStackTrace();
-		}
-		
-		PassengerEntryGUI passenger_entry_gui = new PassengerEntryGUI(passenger_list, flight_list);		
 	}
 }
