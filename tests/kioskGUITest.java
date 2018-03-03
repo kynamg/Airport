@@ -19,40 +19,41 @@ class kioskGUITest {
 		PassengerList passengerlist_mocked = mock(PassengerList.class);
 		FlightList flightlist_mocked = mock(FlightList.class);
 
-		gui_test = new KioskGUI(passengerlist_mocked, flightlist_mocked);
+		gui_test = new KioskGUI();
+		gui_test.start_gui(passengerlist_mocked, flightlist_mocked);
 		
 		//Check valid string
-		boolean actual_valid = gui_test.check_last_name("Jones");
+		boolean actual_valid = gui_test.check_name("Jones");
 		boolean expected_valid = true;
 		String message_valid = "Failed at Jones";
 		assertEquals(message_valid, expected_valid, actual_valid);
 		
 		//Check invalid string (numbers)
-		boolean actual_numbers = gui_test.check_last_name("123456");
+		boolean actual_numbers = gui_test.check_name("123456");
 		boolean expected_numbers = false;
 		String message_numbers = "Failed at 123456";
 		assertEquals(message_numbers, expected_numbers, actual_numbers);
 		
 		//Check invalid string (letters and numbers)
-		boolean actual_letters_numbers = gui_test.check_last_name("BA12345");
+		boolean actual_letters_numbers = gui_test.check_name("BA12345");
 		boolean expected_letters_numbers = false;
 		String message_letters_numbers = "Failed at BA12345";
 		assertEquals(message_letters_numbers, expected_letters_numbers, actual_letters_numbers);
 		
 		//Check invalid string (empty string)
-		boolean actual_empty = gui_test.check_last_name("");
+		boolean actual_empty = gui_test.check_name("");
 		boolean expected_empty = false;
 		String message_empty = "Failed at empty";
 		assertEquals(message_empty, expected_empty, actual_empty);
 		
 		//Check invalid string (spaces disallowed)
-		boolean actual_spaces = gui_test.check_last_name("Yola Jones");
+		boolean actual_spaces = gui_test.check_name("Yola Jones");
 		boolean expected_spaces = false;
 		String message_spaces = "Failed at spaces";
 		assertEquals(message_spaces, expected_spaces, actual_spaces);
 		
 		//Check valid string (very long string)
-		boolean actual_really_long = gui_test.check_last_name("ReeeeeeeeeeeaaaaaalllllyLooooooonnnngg");
+		boolean actual_really_long = gui_test.check_name("ReeeeeeeeeeeaaaaaalllllyLooooooonnnngg");
 		boolean expected_really_long = true;
 		String message_really_long = "Failed at really long";
 		assertEquals(message_really_long, expected_really_long, actual_really_long);
@@ -64,7 +65,8 @@ class kioskGUITest {
 		PassengerList passengerlist_mocked = mock(PassengerList.class);
 		FlightList flightlist_mocked = mock(FlightList.class);
 
-		gui_test = new KioskGUI(passengerlist_mocked, flightlist_mocked);
+		gui_test = new KioskGUI();
+		gui_test.start_gui(passengerlist_mocked, flightlist_mocked);
 		
 		//Check valid (7-digit alphanumeric)
 		boolean actual_valid = gui_test.check_booking_ref("BA12345");
@@ -110,7 +112,8 @@ class kioskGUITest {
 		PassengerList passengerlist_mocked = mock(PassengerList.class);
 		FlightList flightlist_mocked = mock(FlightList.class);
 
-		gui_test = new KioskGUI(passengerlist_mocked, flightlist_mocked);
+		gui_test = new KioskGUI();
+		gui_test.start_gui(passengerlist_mocked, flightlist_mocked);
 		
 		//Set up weight combo box with units
 		JTextField weight_entry = new JTextField();

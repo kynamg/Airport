@@ -72,7 +72,8 @@ public class CheckInDemo {
 	}
 	
 	private void showGUI() {
-		gui = new KioskGUI(passengers, flights);
+		gui = new KioskGUI();
+		gui.start_gui(passengers, flights);
 	}
 
 	// Checks passenger in
