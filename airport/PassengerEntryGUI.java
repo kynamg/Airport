@@ -155,6 +155,7 @@ public class PassengerEntryGUI {
 							baggage_entry_screen(guiFrame, guiContainer, flight, passenger_list, flight_list);
 						}
 						else {
+							passenger_list.addPassenger(new_passenger);
 							first_name_entry.setText("");
 							last_name_entry.setText("");
 							booking_ref_entry.setText("");
@@ -284,7 +285,7 @@ public class PassengerEntryGUI {
 		kioskGUI = new KioskGUI();
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
-				try {
+				/*try {
 				UIManager.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
 				} catch (UnsupportedLookAndFeelException e) {
 					System.out.println("Invalid look and feel");
@@ -295,7 +296,7 @@ public class PassengerEntryGUI {
 				} catch (ClassNotFoundException e) {
 					System.out.println("Class not found exception");
 				}
-				SwingUtilities.updateComponentTreeUI(passenger_entry_frame);
+				SwingUtilities.updateComponentTreeUI(passenger_entry_frame);*/
 				
 				passenger_entry_frame.setTitle("New Passenger");
 				passenger_entry_frame.setSize(400, 200);
