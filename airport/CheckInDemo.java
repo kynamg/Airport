@@ -2,6 +2,11 @@ package airport;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.LinkedHashSet;
+import java.util.Random;
 import java.util.regex.Pattern;
 
 
@@ -11,6 +16,8 @@ public class CheckInDemo {
 	private static KioskGUI gui;
 	static int passengers_checked_in = 0;
 	static int passengers_total = 0;
+	
+	ArrayList<Passenger> passenger_queue = new ArrayList<Passenger>();
 
 	public CheckInDemo() throws IOException, InvalidFlightCodeException, InvalidBookingRefException, InvalidParameterException {
 		passengers = new PassengerList();
@@ -30,6 +37,10 @@ public class CheckInDemo {
 				Passenger p = new Passenger(data1[0], data1[1], data1[2], data1[3], data1[4]);
 				passengers.addPassenger(p);
 				inputLine1 = buff1.readLine();
+				
+				if(p.getCheckIn() == false) {
+					passenger_queue.add(p);
+				}
 			}
 			while(inputLine2 != null) {
 				data2 = inputLine2.split(";");
@@ -42,6 +53,8 @@ public class CheckInDemo {
 			}
 
 			passengers_total = passengers.getPassengersNotCheckedIn();
+			//Randomise order of passenger queue
+			Collections.shuffle(passenger_queue);
 		}
 		catch(FileNotFoundException e) {
 			System.out.println(e.getMessage());
