@@ -119,12 +119,6 @@ public class CheckInDemo {
 		CheckInDemo demo = new CheckInDemo();
 		//demo.showGUI();
 		Thread check_in_desk1 = new Thread(new CheckInDesk(passenger_queue));
-		check_in_desk1.start();
 		Thread check_in_desk2 = new Thread(new CheckInDesk(passenger_queue));
-		check_in_desk2.start();
-		
-		while(true) {
-			
-		}
 	}
 }
