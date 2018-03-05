@@ -17,9 +17,10 @@ public class CheckInDemo {
 	static int passengers_checked_in = 0;
 	static int passengers_total = 0;
 	
-	ArrayList<Passenger> passenger_queue = new ArrayList<Passenger>();
+	static ArrayList<Passenger> passenger_queue;
 
 	public CheckInDemo() throws IOException, InvalidFlightCodeException, InvalidBookingRefException, InvalidParameterException {
+		passenger_queue = new ArrayList<Passenger>();
 		passengers = new PassengerList();
 		flights = new FlightList();
 		BufferedReader buff1 = null;
@@ -87,11 +88,10 @@ public class CheckInDemo {
 	private void showGUI() {
 		gui = new KioskGUI();
 		gui.start_gui(passengers, flights);
-		PassengerEntryGUI passenger_entry_gui = new PassengerEntryGUI(passengers, flights);
+		PassengerEntryGUI passenger_entry_gui = new PassengerEntryGUI(passengers, flights, passenger_queue);
 	}
 
-	// Checks passenger in
-	protected static void check_in_passenger() {
+	protected static void check_in_passenger(Passenger passenger) {
 		passengers_checked_in++;
 		if(passengers_checked_in == passengers_total) {
 			gui.close_gui();
@@ -117,6 +117,14 @@ public class CheckInDemo {
 	
 	public static void main(String arg[]) throws IOException, InvalidFlightCodeException, InvalidBookingRefException, InvalidParameterException {
 		CheckInDemo demo = new CheckInDemo();
-		demo.showGUI();	
+		//demo.showGUI();
+		Thread check_in_desk1 = new Thread(new CheckInDesk(passenger_queue));
+		check_in_desk1.start();
+		Thread check_in_desk2 = new Thread(new CheckInDesk(passenger_queue));
+		check_in_desk2.start();
+		
+		while(true) {
+			
+		}
 	}
 }
