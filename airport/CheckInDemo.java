@@ -17,7 +17,7 @@ public class CheckInDemo {
 	static int passengers_checked_in = 0;
 	static int passengers_total = 0;
 	
-	ArrayList<Passenger> passenger_queue = new ArrayList<Passenger>();
+	static ArrayList<Passenger> passenger_queue;
 
 	public CheckInDemo() throws IOException, InvalidFlightCodeException, InvalidBookingRefException, InvalidParameterException {
 		passengers = new PassengerList();
@@ -87,6 +87,9 @@ public class CheckInDemo {
 	private void showGUI() {
 		gui = new KioskGUI();
 		gui.start_gui(passengers, flights);
+	}
+	
+	private void showAirport() {
 		PassengerEntryGUI passenger_entry_gui = new PassengerEntryGUI(passengers, flights);
 	}
 
@@ -117,6 +120,8 @@ public class CheckInDemo {
 	
 	public static void main(String arg[]) throws IOException, InvalidFlightCodeException, InvalidBookingRefException, InvalidParameterException {
 		CheckInDemo demo = new CheckInDemo();
-		demo.showGUI();	
+		passenger_queue = new ArrayList<Passenger>();
+		//demo.showGUI();	
+		demo.showAirport();
 	}
 }
