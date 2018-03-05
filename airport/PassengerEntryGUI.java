@@ -7,14 +7,12 @@ import java.awt.GridLayout;
 import java.awt.Panel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.concurrent.TimeUnit;
+import java.util.ArrayList;
 import java.util.regex.Pattern;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
-import javax.swing.JComboBox;
-import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -22,8 +20,6 @@ import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
 
 public class PassengerEntryGUI {
 	
@@ -31,6 +27,8 @@ public class PassengerEntryGUI {
 	JFrame passenger_entry_frame = new JFrame();
 	Container guiContainer = new Container();
 	KioskGUI kioskGUI;
+	
+	ArrayList<Passenger> passenger_queue;
 	
 	//The one parameter check not able to be used from kioskGUI
 	Flight flight;
@@ -152,7 +150,7 @@ public class PassengerEntryGUI {
 							//Change menu location label from "DETAILS" to "BAGGAGE"
 							menu_location.setText("BAGGAGE");
 							//Go onto baggage entry interface
-							baggage_entry_screen(guiFrame, guiContainer, flight, passenger_list, flight_list);
+							baggage_entry_screen(guiFrame, guiContainer, flight, new_passenger, passenger_list, flight_list);
 						}
 						else {
 							passenger_list.addPassenger(new_passenger);
@@ -161,8 +159,8 @@ public class PassengerEntryGUI {
 							booking_ref_entry.setText("");
 							flight_code_entry.setText("");
 							checked_in_entry.setSelected(false);
-							JOptionPane.showMessageDialog(passenger_entry_frame,"Success - Go To Kiosk");  
-							//Here the Passenger should be added to the queue for the KioskGUI(s)
+							JOptionPane.showMessageDialog(passenger_entry_frame,"Success - Go To Kiosk");
+							kioskGUI.start_gui(passenger_list, flight_list);
 						}
 					} catch (InvalidFlightCodeException | InvalidBookingRefException | InvalidParameterException invalid_parameter_exception) {
 						//This error should never be called - the parameters are already checked above
@@ -178,7 +176,7 @@ public class PassengerEntryGUI {
 	//Only gets shown when user has already checked in
 	//Usually this would be shown when the user is checking in online, this is just for the purposes of flight
 	//In an actual airport this screen wouldn't be shown
-	private void baggage_entry_screen(JFrame guiFrame, Container guiContainer, Flight flight, PassengerList passenger_list, FlightList flight_list) {
+	private void baggage_entry_screen(JFrame guiFrame, Container guiContainer, Flight flight, Passenger passenger, PassengerList passenger_list, FlightList flight_list) {
 		//Set new size of screen
 		guiFrame.setSize(400, 140);
 		
@@ -245,6 +243,7 @@ public class PassengerEntryGUI {
 					remove_panel(volume_panel);
 					remove_panel(confirm_panel);
 					
+					passenger_queue.add(passenger);
 					//Go back to details screen
 					details_screen(guiFrame, guiContainer, passenger_list, flight_list);					
 				}
@@ -280,8 +279,10 @@ public class PassengerEntryGUI {
 		guiContainer.remove(panel);
 	}
 
-	public PassengerEntryGUI(PassengerList passenger_list, FlightList flight_list) {
+	public PassengerEntryGUI(PassengerList passenger_list, FlightList flight_list, ArrayList<Passenger> passenger_queue) {
 		//start_gui(passenger_list, flight_list);
+		this.passenger_queue = passenger_queue;
+		
 		kioskGUI = new KioskGUI();
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {

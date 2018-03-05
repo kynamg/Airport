@@ -1,23 +1,21 @@
-Flight: LG1254
-Baggage fees: £4750.0
-Total weight: 500.0kg
-Weight capacity exceeded by: 476.0kg
-Total volume: 235247.0cm3
-Volume capacity exceeded by: 235197.0cm3
-Total passengers: 1
-Vacant seats: 5
-
 Flight: AB1234
 Baggage fees: £0.0
-Total weight: 0.0kg
-Total volume: 0.0cm3
-Total passengers: 0
-Vacant seats: 1
+Total weight: 1.0kg
+Total volume: 1.0cm3
+Total passengers: 1
+Flight full
 
-Flight: LG1234
+Flight: LG2212
 Baggage fees: £0.0
 Total weight: 0.0kg
 Total volume: 0.0cm3
 Total passengers: 0
 Vacant seats: 5
+
+Flight: LG1254
+Baggage fees: £0.0
+Total weight: 2.0kg
+Total volume: 2.0cm3
+Total passengers: 2
+Vacant seats: 4
 
