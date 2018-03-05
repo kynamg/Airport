@@ -5,6 +5,7 @@ import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import java.awt.event.*;
+import java.util.ArrayList;
 import java.util.regex.Pattern;
 
 public class KioskGUI {
@@ -347,7 +348,7 @@ public class KioskGUI {
 									flight.incrementBaggageFees(baggage_fees);
 									flight.incrementVolume(baggage_volume);
 									flight.incrementWeight(baggage_weight);
-									flight.incrementPassengers();
+									//flight.incrementPassengers();
 									
 									//Check in the passenger
 									passenger.setCheckIn();
@@ -374,7 +375,7 @@ public class KioskGUI {
 							flight.incrementBaggageFees(baggage_fees);
 							flight.incrementVolume(baggage_volume);
 							flight.incrementWeight(baggage_weight);
-							flight.incrementPassengers();
+							//flight.incrementPassengers();
 							passenger.setCheckIn();
 							CheckInDemo.check_in_passenger(passenger);
 							

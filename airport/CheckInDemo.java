@@ -17,7 +17,11 @@ public class CheckInDemo {
 	static int passengers_checked_in = 0;
 	static int passengers_total = 0;
 	
+	static ArrayList<Thread> check_in_desks; 
+	
 	static ArrayList<Passenger> passenger_queue;
+	static Thread check_in_desk1;
+	static Thread check_in_desk2;
 
 	public CheckInDemo() throws IOException, InvalidFlightCodeException, InvalidBookingRefException, InvalidParameterException {
 		passenger_queue = new ArrayList<Passenger>();
@@ -88,18 +92,37 @@ public class CheckInDemo {
 	private void showGUI() {
 		gui = new KioskGUI();
 		gui.start_gui(passengers, flights);
-		PassengerEntryGUI passenger_entry_gui = new PassengerEntryGUI(passengers, flights, passenger_queue);
+		//PassengerEntryGUI passenger_entry_gui = new PassengerEntryGUI(passengers, flights, passenger_queue);
 	}
 
 	protected static void check_in_passenger(Passenger passenger) {
 		passengers_checked_in++;
+		//passenger_queue.add(passenger);
+		
+		if(passenger_queue.size()>5) {
+			while(check_in_desks.size()<3) {
+				check_in_desks.add(new Thread(new CheckInDesk(passenger_queue, flights)));
+			}
+		}
+		else if(passenger_queue.size()<2) {
+			while(check_in_desks.size()>1) {
+				check_in_desks.remove(0);
+			}
+		}
+		
+		System.out.println("Number of threads = "+check_in_desks.size());
+		
+		System.out.println("Passenger queue = "+passenger_queue.size());
 		if(passengers_checked_in == passengers_total) {
+			check_in_desk1.interrupt();
+			check_in_desk2.interrupt();
 			gui.close_gui();
 			try {
 				flights.printFlightList();
 			} catch (IOException io_exception) {
 				System.out.println("Cannot print");
 			}
+			System.exit(0);
 		}
 	}
 	
@@ -116,9 +139,14 @@ public class CheckInDemo {
 	}
 	
 	public static void main(String arg[]) throws IOException, InvalidFlightCodeException, InvalidBookingRefException, InvalidParameterException {
+		//Still to do: while still alive thread
 		CheckInDemo demo = new CheckInDemo();
-		//demo.showGUI();
-		Thread check_in_desk1 = new Thread(new CheckInDesk(passenger_queue));
-		Thread check_in_desk2 = new Thread(new CheckInDesk(passenger_queue));
+		check_in_desks = new ArrayList<Thread>();
+		//PassengerEntryGUI passenger_entry_gui = new PassengerEntryGUI(passengers, flights, passenger_queue);
+		demo.showGUI();		
+		for(int i=0; i<2; i++) {
+			check_in_desks.add(new Thread(new CheckInDesk(passenger_queue, flights)));
+			check_in_desks.get(i).start();
+		}
 	}
 }

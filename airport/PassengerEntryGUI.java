@@ -150,7 +150,7 @@ public class PassengerEntryGUI {
 							//Change menu location label from "DETAILS" to "BAGGAGE"
 							menu_location.setText("BAGGAGE");
 							//Go onto baggage entry interface
-							baggage_entry_screen(guiFrame, guiContainer, flight, passenger_list, flight_list);
+							baggage_entry_screen(guiFrame, guiContainer, flight, new_passenger, passenger_list, flight_list);
 						}
 						else {
 							first_name_entry.setText("");
@@ -159,7 +159,7 @@ public class PassengerEntryGUI {
 							flight_code_entry.setText("");
 							checked_in_entry.setSelected(false);
 							JOptionPane.showMessageDialog(passenger_entry_frame,"Success - Go To Kiosk");
-							passenger_queue.add(new_passenger);
+							kioskGUI.start_gui(passenger_list, flight_list);
 						}
 					} catch (InvalidFlightCodeException | InvalidBookingRefException | InvalidParameterException invalid_parameter_exception) {
 						//This error should never be called - the parameters are already checked above
@@ -175,7 +175,7 @@ public class PassengerEntryGUI {
 	//Only gets shown when user has already checked in
 	//Usually this would be shown when the user is checking in online, this is just for the purposes of flight
 	//In an actual airport this screen wouldn't be shown
-	private void baggage_entry_screen(JFrame guiFrame, Container guiContainer, Flight flight, PassengerList passenger_list, FlightList flight_list) {
+	private void baggage_entry_screen(JFrame guiFrame, Container guiContainer, Flight flight, Passenger passenger, PassengerList passenger_list, FlightList flight_list) {
 		//Set new size of screen
 		guiFrame.setSize(400, 140);
 		
@@ -242,6 +242,7 @@ public class PassengerEntryGUI {
 					remove_panel(volume_panel);
 					remove_panel(confirm_panel);
 					
+					passenger_queue.add(passenger);
 					//Go back to details screen
 					details_screen(guiFrame, guiContainer, passenger_list, flight_list);					
 				}
@@ -284,7 +285,7 @@ public class PassengerEntryGUI {
 		kioskGUI = new KioskGUI();
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
-				try {
+				/*try {
 				UIManager.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
 				} catch (UnsupportedLookAndFeelException e) {
 					System.out.println("Invalid look and feel");
@@ -295,7 +296,7 @@ public class PassengerEntryGUI {
 				} catch (ClassNotFoundException e) {
 					System.out.println("Class not found exception");
 				}
-				SwingUtilities.updateComponentTreeUI(passenger_entry_frame);
+				SwingUtilities.updateComponentTreeUI(passenger_entry_frame);*/
 				
 				passenger_entry_frame.setTitle("New Passenger");
 				passenger_entry_frame.setSize(400, 200);
