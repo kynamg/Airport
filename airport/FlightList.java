@@ -1,5 +1,6 @@
 package airport;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -21,7 +22,7 @@ public class FlightList {
 				return f;
 			}
 		}
-		throw new NoMatchingFlightCodeException(code);		
+		throw new NoMatchingFlightCodeException(code);	
 	}
 	
 	// Return size of Flight List
@@ -32,6 +33,10 @@ public class FlightList {
 	// Add flight to Flight List
 	public void add(Flight flight) {
 		flights.add(flight);
+	}
+	
+	protected Iterator<Flight> get_iterator() {
+		return flights.iterator();
 	}
 	
 	// Print flight report

@@ -35,6 +35,7 @@ public class CheckInDesk implements Runnable {
 				}
 			}
 		}
+		System.out.println("I have died: "+Thread.currentThread());
 	}
 	
 	public Passenger get_passenger() {

@@ -2,6 +2,7 @@ package airport;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.Random;
 import java.util.regex.Pattern;
 
@@ -14,7 +15,8 @@ public class CheckInDemo {
 	static int passengers_total = 0;
 	
 	static ArrayList<Passenger> passenger_queue;
-	static ArrayList<Thread> check_in_desks; 
+	static ArrayList<Thread> check_in_desks;
+	static ArrayList<Thread> active_flights;
 
 	public CheckInDemo() throws IOException, InvalidFlightCodeException, InvalidBookingRefException, InvalidParameterException {
 		passenger_queue = new ArrayList<Passenger>();
@@ -98,10 +100,12 @@ public class CheckInDemo {
 		gui.start_gui(passengers, flights);
 	}
 	
-	protected void flight_depart() { //This will get used when we've implemented the flights leaving bit
+	protected static void flight_depart(Thread thread) { //This will get used when we've implemented the flights leaving bit
+		System.out.println("Flight "+thread.getName()+" left");
 		for(int i=0; i<check_in_desks.size(); i++) {
 			check_in_desks.get(i).interrupt();
 		}
+		active_flights.remove(thread);
 	}
 	
 	protected static void add_passenger_to_queue(Passenger passenger, boolean baggage_has_been_set) {
@@ -158,10 +162,19 @@ public class CheckInDemo {
 		passenger_queue = new ArrayList<Passenger>();
 		CheckInDemo demo = new CheckInDemo();
 		check_in_desks = new ArrayList<Thread>();
+		active_flights = new ArrayList<Thread>();
 		//PassengerEntryGUI passenger_entry_gui = new PassengerEntryGUI(passengers, flights);
+		Iterator<Flight> it = flights.get_iterator();
+		while(it.hasNext()) {
+			Flight temp_flight = it.next();
+			active_flights.add(new Thread(new Flight(temp_flight.getFlightCode(), temp_flight.getDestination(), temp_flight.getCarrier(), temp_flight.getMaxWeight(), temp_flight.getMaxPassengers(), temp_flight.getMaxVol())));
+		}
 		for(int i=0; i<4; i++) {
 			check_in_desks.add(new Thread(new CheckInDesk(passenger_queue, flights)));
 			check_in_desks.get(i).start();
+		}
+		for(int i=0; i<active_flights.size(); i++) {
+			active_flights.get(i).start();
 		}
 	}
 }

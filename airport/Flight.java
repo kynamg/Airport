@@ -5,7 +5,7 @@ Flight Class
 
 import java.util.regex.Pattern;
 
-public class Flight {
+public class Flight implements Runnable {
 	
 	private String flightCode;
 	private String destination;
@@ -95,6 +95,10 @@ public class Flight {
 		return carrier;
 	}
 	
+	protected String getDestination() {
+		return destination;
+	}
+	
 	public String getFlightCode() {
 		return flightCode;
 	}
@@ -165,6 +169,16 @@ public class Flight {
 	
 	protected void incrementBaggageFees(float baggageFee) {
 		totalBaggageFees += baggageFee;
+	}
+
+	public void run() {
+		System.out.println("I have started "+Thread.currentThread());
+		try {
+			Thread.sleep(5000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		CheckInDemo.flight_depart(Thread.currentThread());
 	}
 	
 }
