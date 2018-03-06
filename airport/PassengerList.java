@@ -51,7 +51,6 @@ public class PassengerList {
 	
 	//add entry to passengerList hash set
 	public void addPassenger(Passenger person) {
-		System.out.println("Adding passenger");
 		passengerList.add(person);
 	}	
 }
