@@ -14,9 +14,8 @@ public class CheckInDesk implements Runnable {
 	
 	public void run() {
 		//while not dead - flag from main method
-		//while(!Thread.interrupted()) {
-		while(!passenger_queue.isEmpty()) {
-			//System.out.println("Thread still alive");
+		while(!Thread.interrupted()) {
+		//while(!passenger_queue.isEmpty()) {
 			synchronized(passenger_queue) {
 				if(!passenger_queue.isEmpty()) {
 					System.out.println("Thread = "+Thread.currentThread().getName());

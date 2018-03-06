@@ -54,7 +54,7 @@ public class CheckInDemo {
 			passengers_total = passengers.getPassengersNotCheckedIn();
 			//Randomise order of passenger queue
 			//This might not be needed if we're not randomly adding passengers - we don't have to
-			Collections.shuffle(passenger_queue);
+			//Collections.shuffle(passenger_queue);
 		}
 		catch(FileNotFoundException e) {
 			System.out.println(e.getMessage());
@@ -155,11 +155,11 @@ public class CheckInDemo {
 	
 	public static void main(String arg[]) throws IOException, InvalidFlightCodeException, InvalidBookingRefException, InvalidParameterException {
 		//Still to do: while still alive thread
-		CheckInDemo demo = new CheckInDemo();
 		passenger_queue = new ArrayList<Passenger>();
+		CheckInDemo demo = new CheckInDemo();
 		check_in_desks = new ArrayList<Thread>();
 		//PassengerEntryGUI passenger_entry_gui = new PassengerEntryGUI(passengers, flights);
-		for(int i=0; i<2; i++) {
+		for(int i=0; i<4; i++) {
 			check_in_desks.add(new Thread(new CheckInDesk(passenger_queue, flights)));
 			check_in_desks.get(i).start();
 		}
