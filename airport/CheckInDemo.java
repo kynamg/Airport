@@ -1,11 +1,7 @@
 package airport;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Iterator;
-import java.util.LinkedHashSet;
 import java.util.Random;
 import java.util.regex.Pattern;
 
@@ -38,6 +34,7 @@ public class CheckInDemo {
 				data1 = inputLine1.split(";");
 				Passenger p = new Passenger(data1[0], data1[1], data1[2], data1[3], data1[4]);
 				passengers.addPassenger(p);
+				set_baggage(p);
 				inputLine1 = buff1.readLine();
 				
 				if(p.getCheckIn() == false) {
@@ -56,6 +53,7 @@ public class CheckInDemo {
 
 			passengers_total = passengers.getPassengersNotCheckedIn();
 			//Randomise order of passenger queue
+			//This might not be needed if we're not randomly adding passengers - we don't have to
 			Collections.shuffle(passenger_queue);
 		}
 		catch(FileNotFoundException e) {
@@ -86,14 +84,33 @@ public class CheckInDemo {
 		}
 	}
 	
+	private static void set_baggage(Passenger passenger) {
+		Random random = new Random();
+		int baggage_weight = random.nextInt(50);
+		int baggage_volume = random.nextInt(160);
+		
+		passenger.setBaggageWeight(baggage_weight);
+		passenger.setBaggageVolume(baggage_volume);
+	}
+	
 	private void showGUI() {
 		gui = new KioskGUI();
 		gui.start_gui(passengers, flights);
 	}
-
-	protected static void check_in_passenger(Passenger passenger) {
-		passengers_checked_in++;
-		//passenger_queue.add(passenger);
+	
+	protected void flight_depart() { //This will get used when we've implemented the flights leaving bit
+		for(int i=0; i<check_in_desks.size(); i++) {
+			check_in_desks.get(i).interrupt();
+		}
+	}
+	
+	protected static void add_passenger_to_queue(Passenger passenger, boolean baggage_has_been_set) {
+		
+		if(baggage_has_been_set == false) {
+			set_baggage(passenger);
+		}
+		
+		passenger_queue.add(passenger);
 		
 		if(passenger_queue.size()>5) {
 			while(check_in_desks.size()<3) {
@@ -107,16 +124,17 @@ public class CheckInDemo {
 		}
 		
 		System.out.println("Number of threads = "+check_in_desks.size());
-		
 		System.out.println("Passenger queue = "+passenger_queue.size());
+	}
+
+	protected static void check_in_passenger(Passenger passenger) {
+		passengers_checked_in++;
+		
 		if(passengers_checked_in == passengers_total) {
-			for(int i=0; i<check_in_desks.size(); i++) {
-				check_in_desks.get(i).interrupt();
-			}
 			gui.close_gui();
 			try {
 				flights.printFlightList();
-			} catch (IOException io_exception) {
+			} catch (IOException e) {
 				System.out.println("Cannot print");
 			}
 			System.exit(0);
@@ -140,8 +158,7 @@ public class CheckInDemo {
 		CheckInDemo demo = new CheckInDemo();
 		passenger_queue = new ArrayList<Passenger>();
 		check_in_desks = new ArrayList<Thread>();
-		//PassengerEntryGUI passenger_entry_gui = new PassengerEntryGUI(passengers, flights, passenger_queue);
-		demo.showGUI();		
+		//PassengerEntryGUI passenger_entry_gui = new PassengerEntryGUI(passengers, flights);
 		for(int i=0; i<2; i++) {
 			check_in_desks.add(new Thread(new CheckInDesk(passenger_queue, flights)));
 			check_in_desks.get(i).start();

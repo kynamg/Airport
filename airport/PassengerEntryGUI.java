@@ -28,8 +28,6 @@ public class PassengerEntryGUI {
 	Container guiContainer = new Container();
 	KioskGUI kioskGUI;
 	
-	ArrayList<Passenger> passenger_queue;
-	
 	//The one parameter check not able to be used from kioskGUI
 	Flight flight;
 	Pattern flightPattern = Pattern.compile("^[a-zA-Z]{2}[0-9]{4}$");
@@ -159,8 +157,8 @@ public class PassengerEntryGUI {
 							booking_ref_entry.setText("");
 							flight_code_entry.setText("");
 							checked_in_entry.setSelected(false);
+							CheckInDemo.add_passenger_to_queue(new_passenger, false);
 							JOptionPane.showMessageDialog(passenger_entry_frame,"Success - Go To Kiosk");
-							kioskGUI.start_gui(passenger_list, flight_list);
 						}
 					} catch (InvalidFlightCodeException | InvalidBookingRefException | InvalidParameterException invalid_parameter_exception) {
 						//This error should never be called - the parameters are already checked above
@@ -186,7 +184,7 @@ public class PassengerEntryGUI {
 		
 		//Allows user to enter volume information
 		JPanel volume_panel = new JPanel();
-		JTextField volume_entry = data_entry_panel(volume_panel, "Enter Volume (m\u00B3):");
+		JTextField volume_entry = data_entry_panel(volume_panel, "Enter Volume (cm\u00B3):");
 		
 		//Confirm button
 		JButton enter_button = new JButton();
@@ -234,6 +232,8 @@ public class PassengerEntryGUI {
 					flight.incrementVolume(baggage_volume);
 					flight.incrementWeight(baggage_weight);
 					flight.incrementPassengers();
+					passenger.setBaggageVolume(baggage_volume);
+					passenger.setBaggageWeight(baggage_weight);
 					JOptionPane.showMessageDialog(passenger_entry_frame,"Success - Go To Boarding Zone");
 					
 					//Update GUI components to prepare for next screen
@@ -243,7 +243,7 @@ public class PassengerEntryGUI {
 					remove_panel(volume_panel);
 					remove_panel(confirm_panel);
 					
-					passenger_queue.add(passenger);
+					CheckInDemo.add_passenger_to_queue(passenger, true);
 					//Go back to details screen
 					details_screen(guiFrame, guiContainer, passenger_list, flight_list);					
 				}
@@ -279,10 +279,7 @@ public class PassengerEntryGUI {
 		guiContainer.remove(panel);
 	}
 
-	public PassengerEntryGUI(PassengerList passenger_list, FlightList flight_list, ArrayList<Passenger> passenger_queue) {
-		//start_gui(passenger_list, flight_list);
-		this.passenger_queue = passenger_queue;
-		
+	public PassengerEntryGUI(PassengerList passenger_list, FlightList flight_list) {
 		kioskGUI = new KioskGUI();
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
