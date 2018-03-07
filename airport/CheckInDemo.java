@@ -39,7 +39,8 @@ public class CheckInDemo {
 				inputLine1 = buff1.readLine();
 				
 				if(p.getCheckIn() == false) {
-					passenger_queue.add(p);
+					//passenger_queue.add(p);
+					add_passenger_to_queue(p);
 				}
 			}
 			while(inputLine2 != null) {
@@ -148,8 +149,8 @@ public class CheckInDemo {
 	public static void main(String arg[]) throws IOException, InvalidFlightCodeException, InvalidBookingRefException, InvalidParameterException {
 		//Still to do: while still alive thread
 		passenger_queue = new ArrayList<Passenger>();
-		CheckInDemo demo = new CheckInDemo();
 		check_in_desks = new ArrayList<Thread>();
+		CheckInDemo demo = new CheckInDemo();
 		active_flights = new ArrayList<Thread>();
 		//PassengerEntryGUI passenger_entry_gui = new PassengerEntryGUI(passengers, flights);
 		Iterator<Flight> it = flights.get_iterator();
