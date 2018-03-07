@@ -157,7 +157,7 @@ public class PassengerEntryGUI {
 							booking_ref_entry.setText("");
 							flight_code_entry.setText("");
 							checked_in_entry.setSelected(false);
-							CheckInDemo.add_passenger_to_queue(new_passenger, false);
+							CheckInDemo.add_passenger_to_queue(new_passenger);
 							JOptionPane.showMessageDialog(passenger_entry_frame,"Success - Go To Kiosk");
 						}
 					} catch (InvalidFlightCodeException | InvalidBookingRefException | InvalidParameterException invalid_parameter_exception) {
@@ -243,7 +243,7 @@ public class PassengerEntryGUI {
 					remove_panel(volume_panel);
 					remove_panel(confirm_panel);
 					
-					CheckInDemo.add_passenger_to_queue(passenger, true);
+					CheckInDemo.add_passenger_to_queue(passenger);
 					//Go back to details screen
 					details_screen(guiFrame, guiContainer, passenger_list, flight_list);					
 				}

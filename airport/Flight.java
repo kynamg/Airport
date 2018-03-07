@@ -3,6 +3,7 @@ package airport;
 Flight Class
 */
 
+import java.util.Random;
 import java.util.regex.Pattern;
 
 public class Flight implements Runnable {
@@ -17,6 +18,7 @@ public class Flight implements Runnable {
 	private float totalBaggageFees; 
 	private float totalVol;
 	private int totalPassengers;
+	private int departureTime;
 	
 	private float baggageFee;
 	
@@ -88,6 +90,8 @@ public class Flight implements Runnable {
 			}
 			maxVolume = maxV;
 		}
+		
+		getDepartureTime();
 	}
 	
 	// Get Methods
@@ -170,11 +174,20 @@ public class Flight implements Runnable {
 	protected void incrementBaggageFees(float baggageFee) {
 		totalBaggageFees += baggageFee;
 	}
+	
+	private void getDepartureTime() {
+		Random random = new Random();
+		//Generate a random departure time between 1 second and 10 seconds
+		departureTime = random.nextInt(9000)+1000;
+	}
+	
+	public void setDepartureTime(int time) {
+		departureTime = time;
+	}
 
 	public void run() {
-		System.out.println("I have started "+Thread.currentThread());
 		try {
-			Thread.sleep(5000);
+			Thread.sleep(departureTime);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}

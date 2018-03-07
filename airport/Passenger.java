@@ -1,4 +1,5 @@
 package airport;
+import java.util.Random;
 import java.util.regex.Pattern;
 
 /*
@@ -12,8 +13,8 @@ public class Passenger {
 	private String bookingRef;
 	private String flightCode;
 	private boolean checkIn;
-	private int baggage_weight;
-	private int baggage_volume;
+	private static int baggage_weight;
+	private static int baggage_volume;
 	
 	public Passenger(String n, String s, String bR, String f, String check) throws InvalidFlightCodeException, InvalidBookingRefException, InvalidParameterException{
 		//initialises regular expression patterns to match character combinations for name/surname, booking ref, and flight code
@@ -63,11 +64,19 @@ public class Passenger {
 		else {
 			throw new InvalidParameterException(check);
 		}
-
+		
+		//Randomly assign baggage weight on object creation - this may be overwritten
+		set_baggage();
 	}
 	
 	protected int getBaggageWeight() {
 		return baggage_weight;
+	}
+	
+	private static void set_baggage() {
+		Random random = new Random();
+		baggage_weight = random.nextInt(50);
+		baggage_volume = random.nextInt(160);
 	}
 	
 	protected void setBaggageWeight(int baggage_weight) {

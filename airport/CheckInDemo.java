@@ -36,7 +36,6 @@ public class CheckInDemo {
 				data1 = inputLine1.split(";");
 				Passenger p = new Passenger(data1[0], data1[1], data1[2], data1[3], data1[4]);
 				passengers.addPassenger(p);
-				set_baggage(p);
 				inputLine1 = buff1.readLine();
 				
 				if(p.getCheckIn() == false) {
@@ -86,15 +85,6 @@ public class CheckInDemo {
 		}
 	}
 	
-	private static void set_baggage(Passenger passenger) {
-		Random random = new Random();
-		int baggage_weight = random.nextInt(50);
-		int baggage_volume = random.nextInt(160);
-		
-		passenger.setBaggageWeight(baggage_weight);
-		passenger.setBaggageVolume(baggage_volume);
-	}
-	
 	private void showGUI() {
 		gui = new KioskGUI();
 		gui.start_gui(passengers, flights);
@@ -102,17 +92,15 @@ public class CheckInDemo {
 	
 	protected static void flight_depart(Thread thread) { //This will get used when we've implemented the flights leaving bit
 		System.out.println("Flight "+thread.getName()+" left");
-		for(int i=0; i<check_in_desks.size(); i++) {
-			check_in_desks.get(i).interrupt();
-		}
 		active_flights.remove(thread);
+		if(active_flights.isEmpty()) {
+			for(int i=0; i<check_in_desks.size(); i++) {
+				check_in_desks.get(i).interrupt();
+			}
+		}
 	}
 	
-	protected static void add_passenger_to_queue(Passenger passenger, boolean baggage_has_been_set) {
-		
-		if(baggage_has_been_set == false) {
-			set_baggage(passenger);
-		}
+	protected static void add_passenger_to_queue(Passenger passenger) {
 		
 		passenger_queue.add(passenger);
 		
@@ -169,7 +157,7 @@ public class CheckInDemo {
 			Flight temp_flight = it.next();
 			active_flights.add(new Thread(new Flight(temp_flight.getFlightCode(), temp_flight.getDestination(), temp_flight.getCarrier(), temp_flight.getMaxWeight(), temp_flight.getMaxPassengers(), temp_flight.getMaxVol())));
 		}
-		for(int i=0; i<4; i++) {
+		for(int i=0; i<2; i++) {
 			check_in_desks.add(new Thread(new CheckInDesk(passenger_queue, flights)));
 			check_in_desks.get(i).start();
 		}

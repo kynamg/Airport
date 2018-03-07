@@ -18,12 +18,10 @@ public class CheckInDesk implements Runnable {
 		//while(!passenger_queue.isEmpty()) {
 			synchronized(passenger_queue) {
 				if(!passenger_queue.isEmpty()) {
-					System.out.println("Thread = "+Thread.currentThread().getName());
 					Passenger next_passenger;
 					Flight flight;
 						next_passenger = get_passenger();
 						remove_passenger(next_passenger);
-						System.out.println("Passenger name = "+next_passenger.getName());
 					
 					try {
 						flight = flight_list.findByCode(next_passenger.getFlightCode());
@@ -35,7 +33,7 @@ public class CheckInDesk implements Runnable {
 				}
 			}
 		}
-		System.out.println("I have died: "+Thread.currentThread());
+		System.out.println("CheckInDesk "+Thread.currentThread()+" has been closed");
 	}
 	
 	public Passenger get_passenger() {
