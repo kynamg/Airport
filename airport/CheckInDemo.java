@@ -17,6 +17,8 @@ public class CheckInDemo {
 
 	static ArrayList<Thread> active_flights;
 	static ArrayList<Thread> check_in_desks;
+	
+	static ArrayList<String> flights_left_to_depart;
 
 	public CheckInDemo() throws IOException, InvalidFlightCodeException, InvalidBookingRefException, InvalidParameterException {
 		
@@ -78,12 +80,15 @@ public class CheckInDemo {
 		}
 	}
 	
-	protected static void flight_depart(Thread thread) { //This will get used when we've implemented the flights leaving bit
+	protected static void flight_depart(Thread thread, String flight_code) { //This will get used when we've implemented the flights leaving bit
 		System.out.println("Flight "+thread.getName()+" left");
+		flights_left_to_depart.remove(flight_code);
+		System.out.println("Flight code being removed = "+flight_code);
 		active_flights.remove(thread);
 		if(active_flights.isEmpty()) {
 			for(int i=0; i<check_in_desks.size(); i++) {
 				check_in_desks.get(i).interrupt();
+				System.exit(0);
 			}
 		}
 	}
@@ -113,9 +118,22 @@ public class CheckInDemo {
 			return false;
 		}
 	}
+	
+	protected static boolean has_flight_departed(Passenger passenger) {
+		String flight_code_of_passenger = passenger.getFlightCode();
+		Iterator<String> it = flights_left_to_depart.iterator();
+		while(it.hasNext()) {
+			if(it.next().equals(flight_code_of_passenger)) {
+				return false;
+			}
+		}
+		return true;
+	}
 		
 	public static void main(String args[]) throws IOException, InvalidFlightCodeException, InvalidBookingRefException, InvalidParameterException {
 		CheckInDemo demo = new CheckInDemo();
+		
+		flights_left_to_depart = new ArrayList<String>();
 		
 		try {
 			gui = new CheckInGUI(PassengerQueue.get_passenger_queue());
@@ -137,6 +155,7 @@ public class CheckInDemo {
 		while(it.hasNext()) {
 			Flight temp_flight = it.next();
 			active_flights.add(new Thread(new Flight(temp_flight.getFlightCode(), temp_flight.getDestination(), temp_flight.getCarrier(), temp_flight.getMaxWeight(), temp_flight.getMaxPassengers(), temp_flight.getMaxVol())));
+			flights_left_to_depart.add(temp_flight.getFlightCode());
 		}
 		for(int i=0; i<active_flights.size(); i++) {
 			active_flights.get(i).start();

@@ -33,7 +33,6 @@ public class PassengerQueue implements Runnable {
 				check_in_desks.remove(0);
 			}
 		}*/
-		System.out.println("GUI = "+gui.getName());
 		gui.update_values(passenger_queue);
 		
 		//System.out.println("Number of threads = "+check_in_desks.size());
@@ -48,6 +47,7 @@ public class PassengerQueue implements Runnable {
 	
 	protected synchronized static void remove_passenger_from_queue(Passenger passenger) {
 		System.out.println("Passenger "+passenger.getName()+" being removed");
+		
 		passenger_queue.remove(passenger);
 		
 		gui.update_values(passenger_queue);
@@ -67,12 +67,6 @@ public class PassengerQueue implements Runnable {
 		Iterator<Passenger> it = passengers.getIterator();
 		while(it.hasNext()) {
 			add_passenger_to_queue(it.next());
-			/*try {
-				Thread.sleep(1000);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}*/
 		}
 	}
 }

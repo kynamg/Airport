@@ -20,16 +20,22 @@ public class CheckInDesk implements Runnable {
 				if(!passenger_queue.isEmpty()) {
 					Passenger next_passenger;
 					Flight flight;
-						next_passenger = get_passenger();
-						PassengerQueue.remove_passenger_from_queue(next_passenger);
+					next_passenger = get_passenger();
 					
-					try {
-						flight = flight_list.findByCode(next_passenger.getFlightCode());
-						flight.incrementPassengers();
-						System.out.println("Flight list "+flight.getFlightCode()+" = "+flight.getTotalPassengers());
-					} catch (NoMatchingFlightCodeException e) {
-						System.out.println(e.getMessage());
+					if(CheckInDemo.has_flight_departed(next_passenger) == false) {
+						try {
+							flight = flight_list.findByCode(next_passenger.getFlightCode());
+							flight.incrementPassengers();
+							System.out.println("Flight list "+flight.getFlightCode()+" = "+flight.getTotalPassengers());
+						} catch (NoMatchingFlightCodeException e) {
+							System.out.println(e.getMessage());
+						}
 					}
+					else {
+						System.out.println("Sorry, your plane has departed");
+					}
+					
+					PassengerQueue.remove_passenger_from_queue(next_passenger);
 				}
 			}
 		}
