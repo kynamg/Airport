@@ -6,11 +6,17 @@ import javax.swing.*;
 import javax.swing.border.TitledBorder;
 
 import airport.CheckInDesk;
+import airport.InvalidBookingRefException;
+import airport.InvalidFlightCodeException;
+import airport.InvalidParameterException;
 import airport.Passenger;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 public class CheckInGUI extends JPanel implements Observer{
 	//JFrame guiFrame;
@@ -19,7 +25,7 @@ public class CheckInGUI extends JPanel implements Observer{
 	private int count = 0;
 	private CheckInDesk checkindesk;
 	
-	public CheckInGUI() {
+	public CheckInGUI(ArrayList<Passenger> passenger_queue) throws InvalidFlightCodeException, InvalidBookingRefException, InvalidParameterException {
 		JFrame guiFrame = new JFrame();
 		
 		JPanel airport_panel = new JPanel(new GridLayout(3,1));
@@ -31,9 +37,18 @@ public class CheckInGUI extends JPanel implements Observer{
 		String[] queue = {"Yola Jones", "Clarissa Cremona", "Kyna Mowat-Gosnell", "Theodore Roosevelt", "Abraham Lincoln", "George Washington"};
 		//String[] queue = passenger_queue.toArray(new String[passenger_queue.size()]);
 		//String[] queue = checkindesk.getQueue().toArray(new String[checkindesk.getQueue().size()]);
+		
 		// Panel with Passenger queue
 		JScrollPane queue_panel = new JScrollPane();
-		JList queue_list = new JList(queue);
+	
+		
+		ArrayList<Passenger> list = new ArrayList<Passenger>();
+		Passenger p = new Passenger("Boy", "surname", "D1SN3Y7","LG1254", "true");
+		list.add(p);
+		String[] list1 = {p.getBookingRef(), p.getSurname()};
+		//List<String> strings = list.stream().map(object->Objects.toString(object,null)).collect(Collectors.toList());
+		//JList<Passenger> queue_list = new JList(passenger_queue.toArray());
+		JList queue_list = new JList(list1);
 		TitledBorder queue_title = new TitledBorder("Queue");
 		queue_panel.setBorder(queue_title);
 		queue_panel.setViewportView(queue_list);

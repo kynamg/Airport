@@ -12,7 +12,7 @@ import views.CheckInGUI;
 public class CheckInDemo {
 	private static PassengerList passengers;
 	private static FlightList flights;
-	private static KioskGUI gui;
+	private static CheckInGUI gui;
 	static int passengers_checked_in = 0;
 	static int passengers_total = 0;
 	
@@ -88,10 +88,10 @@ public class CheckInDemo {
 		}
 	}
 	
-	private void showGUI() {
-		gui = new KioskGUI();
-		gui.start_gui(passengers, flights);
-	}
+//	private void showGUI() {
+//		gui = new KioskGUI();
+//		gui.start_gui(passengers, flights);
+//	}
 	
 	protected static void flight_depart(Thread thread) { //This will get used when we've implemented the flights leaving bit
 		System.out.println("Flight "+thread.getName()+" left");
@@ -126,7 +126,7 @@ public class CheckInDemo {
 		passengers_checked_in++;
 		
 		if(passengers_checked_in == passengers_total) {
-			gui.close_gui();
+			//gui.close_gui();
 			try {
 				flights.printFlightList();
 			} catch (IOException e) {
@@ -146,6 +146,10 @@ public class CheckInDemo {
 		else {
 			return false;
 		}
+	}
+	
+	private void showGUI() throws InvalidFlightCodeException, InvalidBookingRefException, InvalidParameterException  {
+		gui = new CheckInGUI(passenger_queue);
 	}
 	
 	public static void main(String args[]) throws IOException, InvalidFlightCodeException, InvalidBookingRefException, InvalidParameterException {
@@ -168,6 +172,7 @@ public class CheckInDemo {
 			active_flights.get(i).start();
 		}
 		
-		CheckInGUI gui = new CheckInGUI();
+		//CheckInGUI gui = new CheckInGUI();
+		demo.showGUI();
 	}
 }
