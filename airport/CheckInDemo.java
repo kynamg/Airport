@@ -129,6 +129,19 @@ public class CheckInDemo {
 		}
 		return true;
 	}
+	
+	protected static void open_close_check_in_desks(int size_of_queue) {
+		if(size_of_queue > 3) {
+			while(check_in_desks.size() < 4) {
+				check_in_desks.add(new Thread(new CheckInDesk(PassengerQueue.get_passenger_queue(), flights)));
+			}
+		}
+		else if(size_of_queue < 3) {
+			while(check_in_desks.size() > 1) {
+				check_in_desks.remove(0);
+			}
+		}
+	}
 		
 	public static void main(String args[]) throws IOException, InvalidFlightCodeException, InvalidBookingRefException, InvalidParameterException {
 		CheckInDemo demo = new CheckInDemo();

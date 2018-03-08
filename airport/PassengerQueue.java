@@ -23,16 +23,8 @@ public class PassengerQueue implements Runnable {
 		
 		passenger_queue.add(passenger);
 		
-		/*if(passenger_queue.size()>5) {
-			while(check_in_desks.size()<3) {
-				check_in_desks.add(new Thread(new CheckInDesk(passenger_queue, flights)));
-			}
-		}
-		else if(passenger_queue.size()<2) {
-			while(check_in_desks.size()>1) {
-				check_in_desks.remove(0);
-			}
-		}*/
+		CheckInDemo.open_close_check_in_desks(passenger_queue.size());
+		
 		gui.update_values(passenger_queue);
 		
 		//System.out.println("Number of threads = "+check_in_desks.size());
@@ -49,6 +41,7 @@ public class PassengerQueue implements Runnable {
 		System.out.println("Passenger "+passenger.getName()+" being removed");
 		
 		passenger_queue.remove(passenger);
+		CheckInDemo.open_close_check_in_desks(passenger_queue.size());
 		
 		gui.update_values(passenger_queue);
 		
