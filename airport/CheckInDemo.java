@@ -6,6 +6,8 @@ import java.util.Iterator;
 import java.util.Random;
 import java.util.regex.Pattern;
 
+import views.CheckInGUI;
+
 
 public class CheckInDemo {
 	private static PassengerList passengers;
@@ -146,7 +148,7 @@ public class CheckInDemo {
 		}
 	}
 	
-	public static void main(String arg[]) throws IOException, InvalidFlightCodeException, InvalidBookingRefException, InvalidParameterException {
+	public static void main(String args[]) throws IOException, InvalidFlightCodeException, InvalidBookingRefException, InvalidParameterException {
 		//Still to do: while still alive thread
 		passenger_queue = new ArrayList<Passenger>();
 		check_in_desks = new ArrayList<Thread>();
@@ -165,5 +167,7 @@ public class CheckInDemo {
 		for(int i=0; i<active_flights.size(); i++) {
 			active_flights.get(i).start();
 		}
+		
+		CheckInGUI gui = new CheckInGUI();
 	}
 }

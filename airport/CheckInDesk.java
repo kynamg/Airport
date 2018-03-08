@@ -46,4 +46,8 @@ public class CheckInDesk implements Runnable {
 		System.out.println("Passenger "+passenger.getName()+" being removed");
 		passenger_queue.remove(passenger);
 	}
+	
+	public ArrayList<Passenger> getQueue(){
+		return passenger_queue;
+	}
 }

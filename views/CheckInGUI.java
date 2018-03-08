@@ -1,18 +1,23 @@
-package airport;
+package views;
 
+import interfaces.Observer;
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
+
+import airport.CheckInDesk;
+import airport.Passenger;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.regex.Pattern;
 
-public class CheckInGUI {
+public class CheckInGUI extends JPanel implements Observer{
 	//JFrame guiFrame;
 	private Label lblCount;
 	private TextField tfCount;
 	private int count = 0;
+	private CheckInDesk checkindesk;
 	
 	public CheckInGUI() {
 		JFrame guiFrame = new JFrame();
@@ -24,7 +29,8 @@ public class CheckInGUI {
 		guiFrame.setSize(500,500);
 		
 		String[] queue = {"Yola Jones", "Clarissa Cremona", "Kyna Mowat-Gosnell", "Theodore Roosevelt", "Abraham Lincoln", "George Washington"};
-		
+		//String[] queue = passenger_queue.toArray(new String[passenger_queue.size()]);
+		//String[] queue = checkindesk.getQueue().toArray(new String[checkindesk.getQueue().size()]);
 		// Panel with Passenger queue
 		JScrollPane queue_panel = new JScrollPane();
 		JList queue_list = new JList(queue);
@@ -95,7 +101,13 @@ public class CheckInGUI {
 		guiFrame.setVisible(true);
 	}
 	
-	public static void main(String args[]) {
-		CheckInGUI gui = new CheckInGUI();
+	public void update() {
+		repaint();
 	}
+	
+//	//MVC main method
+//	CheckIn model = new CheckIn();
+//	CheckInGUI view = new CheckInGUI(model);
+//	CheckInController controller = new CheckInController(view,model);
+	
 }
