@@ -21,7 +21,7 @@ public class CheckInDesk implements Runnable {
 					Passenger next_passenger;
 					Flight flight;
 						next_passenger = get_passenger();
-						remove_passenger(next_passenger);
+						CheckInDemo.remove_passenger_from_queue(next_passenger);
 					
 					try {
 						flight = flight_list.findByCode(next_passenger.getFlightCode());
@@ -40,11 +40,6 @@ public class CheckInDesk implements Runnable {
 		Passenger next_passenger = passenger_queue.get(0);
 		System.out.println("Passenger "+next_passenger.getName()+" gotten in");
 		return next_passenger;
-	}
-	
-	public void remove_passenger(Passenger passenger) {
-		System.out.println("Passenger "+passenger.getName()+" being removed");
-		passenger_queue.remove(passenger);
 	}
 	
 	public ArrayList<Passenger> getQueue(){

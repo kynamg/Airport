@@ -44,6 +44,11 @@ public class CheckInDemo {
 					//passenger_queue.add(p);
 					add_passenger_to_queue(p);
 				}
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
 			}
 			while(inputLine2 != null) {
 				data2 = inputLine2.split(";");
@@ -118,8 +123,17 @@ public class CheckInDemo {
 			}
 		}
 		
+		gui.update_values(passenger_queue);
+		
 		System.out.println("Number of threads = "+check_in_desks.size());
 		System.out.println("Passenger queue = "+passenger_queue.size());
+	}
+	
+	public static void remove_passenger_from_queue(Passenger passenger) {
+		System.out.println("Passenger "+passenger.getName()+" being removed");
+		passenger_queue.remove(passenger);
+		
+		gui.update_values(passenger_queue);
 	}
 
 	protected static void check_in_passenger(Passenger passenger) {
@@ -147,15 +161,12 @@ public class CheckInDemo {
 			return false;
 		}
 	}
-	
-	private void showGUI() throws InvalidFlightCodeException, InvalidBookingRefException, InvalidParameterException  {
-		gui = new CheckInGUI(passenger_queue);
-	}
-	
+		
 	public static void main(String args[]) throws IOException, InvalidFlightCodeException, InvalidBookingRefException, InvalidParameterException {
 		//Still to do: while still alive thread
 		passenger_queue = new ArrayList<Passenger>();
 		check_in_desks = new ArrayList<Thread>();
+		gui = new CheckInGUI(passenger_queue);
 		CheckInDemo demo = new CheckInDemo();
 		active_flights = new ArrayList<Thread>();
 		//PassengerEntryGUI passenger_entry_gui = new PassengerEntryGUI(passengers, flights);
@@ -171,8 +182,5 @@ public class CheckInDemo {
 		for(int i=0; i<active_flights.size(); i++) {
 			active_flights.get(i).start();
 		}
-		
-		//CheckInGUI gui = new CheckInGUI();
-		demo.showGUI();
 	}
 }
