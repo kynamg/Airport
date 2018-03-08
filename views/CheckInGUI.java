@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 
 public class CheckInGUI extends JPanel implements Observer{
 	//JFrame guiFrame;
-	JScrollPane queue_panel;
+	static JScrollPane queue_panel;
 	private int count = 0;
 	private CheckInDesk checkindesk;
 	
@@ -39,7 +39,7 @@ public class CheckInGUI extends JPanel implements Observer{
 		
 		// Panel with Passenger queue
 		queue_panel = new JScrollPane();
-		update_values(passenger_queue);
+		//update_values(passenger_queue);
 
 		// Panel with Check in Desks
 		JPanel checkInDesks_panel = new JPanel(new GridLayout(1,2));
@@ -104,7 +104,7 @@ public class CheckInGUI extends JPanel implements Observer{
 		guiFrame.setVisible(true);
 	}
 	
-	public void update_values(ArrayList<Passenger> queue) {
+	public synchronized void update_values(ArrayList<Passenger> queue) {
 		//ArrayList<Passenger> list = new ArrayList<Passenger>();
 		//Passenger p = new Passenger("Boy", "surname", "D1SN3Y7","LG1254", "true");
 		//list.add(p);

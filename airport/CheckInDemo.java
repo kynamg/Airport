@@ -8,20 +8,18 @@ import java.util.regex.Pattern;
 
 import views.CheckInGUI;
 
-
 public class CheckInDemo {
 	private static PassengerList passengers;
 	private static FlightList flights;
 	private static CheckInGUI gui;
 	static int passengers_checked_in = 0;
 	static int passengers_total = 0;
-	
-	static ArrayList<Passenger> passenger_queue;
-	static ArrayList<Thread> check_in_desks;
+
 	static ArrayList<Thread> active_flights;
+	static ArrayList<Thread> check_in_desks;
 
 	public CheckInDemo() throws IOException, InvalidFlightCodeException, InvalidBookingRefException, InvalidParameterException {
-		passenger_queue = new ArrayList<Passenger>();
+		
 		passengers = new PassengerList();
 		flights = new FlightList();
 		BufferedReader buff1 = null;
@@ -39,16 +37,6 @@ public class CheckInDemo {
 				Passenger p = new Passenger(data1[0], data1[1], data1[2], data1[3], data1[4]);
 				passengers.addPassenger(p);
 				inputLine1 = buff1.readLine();
-				
-				if(p.getCheckIn() == false) {
-					//passenger_queue.add(p);
-					add_passenger_to_queue(p);
-				}
-				try {
-					Thread.sleep(1000);
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
 			}
 			while(inputLine2 != null) {
 				data2 = inputLine2.split(";");
@@ -61,9 +49,6 @@ public class CheckInDemo {
 			}
 
 			passengers_total = passengers.getPassengersNotCheckedIn();
-			//Randomise order of passenger queue
-			//This might not be needed if we're not randomly adding passengers - we don't have to
-			//Collections.shuffle(passenger_queue);
 		}
 		catch(FileNotFoundException e) {
 			System.out.println(e.getMessage());
@@ -93,11 +78,6 @@ public class CheckInDemo {
 		}
 	}
 	
-//	private void showGUI() {
-//		gui = new KioskGUI();
-//		gui.start_gui(passengers, flights);
-//	}
-	
 	protected static void flight_depart(Thread thread) { //This will get used when we've implemented the flights leaving bit
 		System.out.println("Flight "+thread.getName()+" left");
 		active_flights.remove(thread);
@@ -108,34 +88,6 @@ public class CheckInDemo {
 		}
 	}
 	
-	protected static void add_passenger_to_queue(Passenger passenger) {
-		
-		passenger_queue.add(passenger);
-		
-		if(passenger_queue.size()>5) {
-			while(check_in_desks.size()<3) {
-				check_in_desks.add(new Thread(new CheckInDesk(passenger_queue, flights)));
-			}
-		}
-		else if(passenger_queue.size()<2) {
-			while(check_in_desks.size()>1) {
-				check_in_desks.remove(0);
-			}
-		}
-		
-		gui.update_values(passenger_queue);
-		
-		System.out.println("Number of threads = "+check_in_desks.size());
-		System.out.println("Passenger queue = "+passenger_queue.size());
-	}
-	
-	public static void remove_passenger_from_queue(Passenger passenger) {
-		System.out.println("Passenger "+passenger.getName()+" being removed");
-		passenger_queue.remove(passenger);
-		
-		gui.update_values(passenger_queue);
-	}
-
 	protected static void check_in_passenger(Passenger passenger) {
 		passengers_checked_in++;
 		
@@ -163,24 +115,33 @@ public class CheckInDemo {
 	}
 		
 	public static void main(String args[]) throws IOException, InvalidFlightCodeException, InvalidBookingRefException, InvalidParameterException {
-		//Still to do: while still alive thread
-		passenger_queue = new ArrayList<Passenger>();
-		check_in_desks = new ArrayList<Thread>();
-		gui = new CheckInGUI(passenger_queue);
 		CheckInDemo demo = new CheckInDemo();
+		
+		try {
+			gui = new CheckInGUI(PassengerQueue.get_passenger_queue());
+		} catch (InvalidFlightCodeException | InvalidBookingRefException | InvalidParameterException e) {
+			System.out.println("Invalid Parameters");
+		}
+		
+		Thread passenger_queue = new Thread(new PassengerQueue(gui, flights, passengers));
+		passenger_queue.start();
+		
+		check_in_desks = new ArrayList<Thread>();
+		for(int i=0; i<2; i++) {
+			check_in_desks.add(new Thread(new CheckInDesk(PassengerQueue.get_passenger_queue(), flights)));
+			check_in_desks.get(i).start();
+		}
+		
 		active_flights = new ArrayList<Thread>();
-		//PassengerEntryGUI passenger_entry_gui = new PassengerEntryGUI(passengers, flights);
 		Iterator<Flight> it = flights.get_iterator();
 		while(it.hasNext()) {
 			Flight temp_flight = it.next();
 			active_flights.add(new Thread(new Flight(temp_flight.getFlightCode(), temp_flight.getDestination(), temp_flight.getCarrier(), temp_flight.getMaxWeight(), temp_flight.getMaxPassengers(), temp_flight.getMaxVol())));
 		}
-		for(int i=0; i<2; i++) {
-			check_in_desks.add(new Thread(new CheckInDesk(passenger_queue, flights)));
-			check_in_desks.get(i).start();
-		}
 		for(int i=0; i<active_flights.size(); i++) {
 			active_flights.get(i).start();
 		}
+		
+		PassengerEntryGUI passenger_entry_gui = new PassengerEntryGUI(passengers, flights);
 	}
 }

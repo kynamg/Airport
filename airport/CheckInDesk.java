@@ -21,7 +21,7 @@ public class CheckInDesk implements Runnable {
 					Passenger next_passenger;
 					Flight flight;
 						next_passenger = get_passenger();
-						CheckInDemo.remove_passenger_from_queue(next_passenger);
+						PassengerQueue.remove_passenger_from_queue(next_passenger);
 					
 					try {
 						flight = flight_list.findByCode(next_passenger.getFlightCode());

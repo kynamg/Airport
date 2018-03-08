@@ -49,6 +49,10 @@ public class PassengerList {
 		return count;
 	}
 	
+	protected Iterator<Passenger> getIterator() {
+		return passengerList.iterator();
+	}
+	
 	//add entry to passengerList hash set
 	public void addPassenger(Passenger person) {
 		passengerList.add(person);
