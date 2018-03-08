@@ -20,8 +20,7 @@ import java.util.stream.Collectors;
 
 public class CheckInGUI extends JPanel implements Observer{
 	//JFrame guiFrame;
-	private Label lblCount;
-	private TextField tfCount;
+	JScrollPane queue_panel;
 	private int count = 0;
 	private CheckInDesk checkindesk;
 	
@@ -39,19 +38,8 @@ public class CheckInGUI extends JPanel implements Observer{
 		//String[] queue = checkindesk.getQueue().toArray(new String[checkindesk.getQueue().size()]);
 		
 		// Panel with Passenger queue
-		JScrollPane queue_panel = new JScrollPane();
-	
-		
-		ArrayList<Passenger> list = new ArrayList<Passenger>();
-		Passenger p = new Passenger("Boy", "surname", "D1SN3Y7","LG1254", "true");
-		list.add(p);
-		String[] list1 = {p.getBookingRef(), p.getSurname()};
-		//List<String> strings = list.stream().map(object->Objects.toString(object,null)).collect(Collectors.toList());
-		//JList<Passenger> queue_list = new JList(passenger_queue.toArray());
-		JList queue_list = new JList(list1);
-		TitledBorder queue_title = new TitledBorder("Queue");
-		queue_panel.setBorder(queue_title);
-		queue_panel.setViewportView(queue_list);
+		queue_panel = new JScrollPane();
+		update_values(passenger_queue);
 
 		// Panel with Check in Desks
 		JPanel checkInDesks_panel = new JPanel(new GridLayout(1,2));
@@ -116,8 +104,31 @@ public class CheckInGUI extends JPanel implements Observer{
 		guiFrame.setVisible(true);
 	}
 	
+	public void update_values(ArrayList<Passenger> queue) {
+		//ArrayList<Passenger> list = new ArrayList<Passenger>();
+		//Passenger p = new Passenger("Boy", "surname", "D1SN3Y7","LG1254", "true");
+		//list.add(p);
+		//String[] list1 = {p.getBookingRef(), p.getSurname()};
+		//List<String> strings = list.stream().map(object->Objects.toString(object,null)).collect(Collectors.toList());
+		//JList<Passenger> queue_list = new JList(passenger_queue.toArray());
+		ArrayList<String> queue_arraylist = new ArrayList<String>();
+		for (Passenger p : queue) {
+			//if the bookingRef in the hash set is equal to the bookingRef input, return the passenger 'p'
+			//String[] p_string = {p.getSurname(), p.getBookingRef()};
+			//String surname = {p.getSurname()};
+			queue_arraylist.add(p.getSurname());
+		}
+		
+		JList<String> queue_list = new JList<>(queue_arraylist.toArray(new String[0]));
+		//JList queue_list = new JList(queue);
+		TitledBorder queue_title = new TitledBorder("Queue");
+		queue_panel.setBorder(queue_title);
+		queue_panel.setViewportView(queue_list);
+	}
+	
 	public void update() {
 		repaint();
+		/// pass queue and other values as parameters and call method which stores values into JList etc.
 	}
 	
 //	//MVC main method
