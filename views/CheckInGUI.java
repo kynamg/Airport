@@ -24,13 +24,11 @@ public class CheckInGUI extends JPanel implements Observer{
 	private int count = 0;
 	private CheckInDesk checkindesk;
 	private JPanel checkInDesks_panel;
-	private JPanel checkInDesk1;
-	private JPanel checkInDesk2;
-	private JTextArea desk1_label;
-	private JTextArea desk2_label;
-	private JPanel flight1;
-	private JTextArea flight1_code;
-	private JTextArea flight1_info;
+	private JPanel checkInDesk1, checkInDesk2, checkInDesk3, checkInDesk4, checkInDesk5;
+	private JTextArea desk1_label, desk2_label, desk3_label, desk4_label, desk5_label;
+	private JPanel flight1, flight2, flight3;
+	private JTextArea flight1_code, flight2_code, flight3_code;
+	private JTextArea flight1_info, flight2_info, flight3_info;
 	
 	public CheckInGUI(ArrayList<Passenger> passenger_queue) throws InvalidFlightCodeException, InvalidBookingRefException, InvalidParameterException {
 		JFrame guiFrame = new JFrame();
@@ -49,7 +47,7 @@ public class CheckInGUI extends JPanel implements Observer{
 		queue_panel.setBorder(queue_title);
 
 		// Panel with Check in Desks
-		checkInDesks_panel = new JPanel(new GridLayout(1,2));
+		checkInDesks_panel = new JPanel(new GridLayout(1,5));
 		
 		// Check In Desk 1
 		checkInDesk1 = new JPanel();
@@ -77,6 +75,30 @@ public class CheckInGUI extends JPanel implements Observer{
         desk2_label.setEditable(false);
 		checkInDesk2.add(desk2_label);
 		
+		checkInDesk3 = new JPanel();
+		checkInDesk3.setLayout(new BorderLayout());
+		TitledBorder checkInDesk3_title = new TitledBorder("Check In Desk 3");
+		checkInDesk3.setBorder(checkInDesk3_title);
+		desk3_label = new JTextArea("This check in desk is currently closed.");
+		desk3_label.setFont(new Font("Serif", Font.ITALIC, 16));
+		desk3_label.setLineWrap(true);
+        desk3_label.setWrapStyleWord(true);
+        desk3_label.setOpaque(false);
+        desk3_label.setEditable(false);
+		checkInDesk3.add(desk3_label);
+		
+		checkInDesk4 = new JPanel();
+		checkInDesk4.setLayout(new BorderLayout());
+		TitledBorder checkInDesk4_title = new TitledBorder("Check In Desk 3");
+		checkInDesk3.setBorder(checkInDesk3_title);
+		desk3_label = new JTextArea("This check in desk is currently closed.");
+		desk3_label.setFont(new Font("Serif", Font.ITALIC, 16));
+		desk3_label.setLineWrap(true);
+        desk3_label.setWrapStyleWord(true);
+        desk3_label.setOpaque(false);
+        desk3_label.setEditable(false);
+		checkInDesk3.add(desk3_label);
+		
 		// Add check in desks to panel
 		checkInDesks_panel.add(checkInDesk1);
 		checkInDesks_panel.add(checkInDesk2);
@@ -89,6 +111,7 @@ public class CheckInGUI extends JPanel implements Observer{
 		flight1.setBorder(flight1_title);
 		flight1_code = new JTextArea("Flight Code here");
 		flight1_info = new JTextArea("Flight info here");
+		flight1_code.setFont(new Font("Calibri", Font.BOLD, 14));
 		flight1_code.setLineWrap(true);
         flight1_code.setWrapStyleWord(true);
         flight1_code.setOpaque(false);
@@ -99,19 +122,36 @@ public class CheckInGUI extends JPanel implements Observer{
 		//JList flight1_list = new JList(flight1_info);
 		//flight1.setViewportView(flight1_list);
 		
-		JScrollPane flight2 = new JScrollPane();
+		flight2 = new JPanel();
+		flight2.setLayout(new GridLayout(2,1));
 		TitledBorder flight2_title = new TitledBorder("Flight 2");
 		flight2.setBorder(flight2_title);
-		String[] flight2_info = {"Flight CA23456"};
-		JList flight2_list = new JList(flight2_info);
-		flight2.setViewportView(flight2_list);
+		flight2_code = new JTextArea("Flight Code here");
+		flight2_info = new JTextArea("Flight info here");
+		flight2_code.setLineWrap(true);
+        flight2_code.setWrapStyleWord(true);
+        flight2_code.setOpaque(false);
+        flight2_code.setEditable(false);
+		flight2.add(flight2_code);
+		flight2.add(flight2_info);
 		
-		JScrollPane flight3 = new JScrollPane();
+		flight3 = new JPanel();
+		flight3.setLayout(new GridLayout(2,1));
 		TitledBorder flight3_title = new TitledBorder("Flight 3");
 		flight3.setBorder(flight3_title);
-		String[] flight3_info = {"Flight DA1245"};
-		JList flight3_list = new JList(flight3_info);
-		flight3.setViewportView(flight3_list);
+		flight3_code = new JTextArea("Flight Code here");
+		flight3_info = new JTextArea("Flight info here");
+		flight3_code.setFont(new Font("Calibri", Font.BOLD, 14));
+		flight3_code.setLineWrap(true);
+        flight3_code.setWrapStyleWord(true);
+        flight3_code.setOpaque(false);
+        flight3_code.setEditable(false);
+        flight3_code.setLineWrap(true);
+        flight3_info.setWrapStyleWord(true);
+        flight3_info.setOpaque(false);
+        flight3_info.setEditable(false);
+		flight3.add(flight3_code);
+		flight3.add(flight3_info);
 		
 		flights_panel.add(flight1);
 		flights_panel.add(flight2);
@@ -139,8 +179,21 @@ public class CheckInGUI extends JPanel implements Observer{
 		queue_panel.setViewportView(queue_list);
 	}
 	
-	public synchronized void update_checkInDesk1(String status1) {
-		desk1_label = new JTextArea(status1);
+	public synchronized void update_checkInDesk(int desk_no, String desk_status) {
+        
+		switch(desk_no) {
+			case 1:  desk1_label = new JTextArea(desk_status);;
+	                 break;
+			case 2:  desk2_label = new JTextArea(desk_status);;
+	        			break;
+			case 3:  desk3_label = new JTextArea(desk_status);;
+	        			break;
+			case 4:  desk4_label = new JTextArea(desk_status);;
+	        			break;
+			case 5:  desk5_label = new JTextArea(desk_status);;
+	        			break;
+	        default: break;
+		}
 	}
 	
 	public synchronized void update_checkInDesk2(String status2) {
