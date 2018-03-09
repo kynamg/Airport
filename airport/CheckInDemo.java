@@ -132,8 +132,10 @@ public class CheckInDemo {
 	
 	protected static void open_close_check_in_desks(int size_of_queue) {
 		if(size_of_queue > 3) {
+			int index = check_in_desks.size();
 			while(check_in_desks.size() < 4) {
-				check_in_desks.add(new Thread(new CheckInDesk(PassengerQueue.get_passenger_queue(), flights)));
+				index++;
+				check_in_desks.add(new Thread(new CheckInDesk(PassengerQueue.get_passenger_queue(), flights, gui, index)));
 			}
 		}
 		else if(size_of_queue < 3) {
@@ -159,7 +161,7 @@ public class CheckInDemo {
 		
 		check_in_desks = new ArrayList<Thread>();
 		for(int i=0; i<2; i++) {
-			check_in_desks.add(new Thread(new CheckInDesk(PassengerQueue.get_passenger_queue(), flights)));
+			check_in_desks.add(new Thread(new CheckInDesk(PassengerQueue.get_passenger_queue(), flights, gui, i)));
 			check_in_desks.get(i).start();
 		}
 		
