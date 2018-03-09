@@ -2,6 +2,7 @@ package airport;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.logging.*;
 
 import views.CheckInGUI;
 
@@ -60,9 +61,11 @@ public class PassengerQueue implements Runnable {
 
 	public void run() {
 		Iterator<Passenger> it = passengers.getIterator();
-		while(it.hasNext() && thread_killed == false) {
-			Passenger passenger = it.next();
-			add_passenger_to_queue(it.next());
+		while(it.hasNext() && !Thread.interrupted()) {
+			Passenger p = it.next();
+			add_passenger_to_queue(p);
+			String q_passenger = "Passenger joined queue " + p.getName() + " " + p.getSurname();
+			AirportLog.log(Level.INFO,q_passenger) ;
 		}
 	}
 }
