@@ -210,7 +210,7 @@ public class CheckInGUI extends JPanel implements Observer{
 		}
 	}
 	
-	public synchronized void update_flight1(String flight_code, String flight_info) {	
+	public synchronized void update_flight(String flight_code, String flight_info) {	
 		if(flight_code.equals("LG2212")) {
 			flight1_code.setText(flight_code);
 			flight1_info.setText(flight_info);
