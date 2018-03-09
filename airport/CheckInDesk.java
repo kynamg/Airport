@@ -28,7 +28,7 @@ public class CheckInDesk implements Runnable {
 					Flight flight;
 					next_passenger = get_passenger();
 					
-					gui.update_checkInDesk(desk_number, "Passenger "+next_passenger.getName()+" "+next_passenger.getSurname());
+					gui.update_checkInDesk(desk_number, "Passenger "+next_passenger.getName()+" "+next_passenger.getSurname()+"\nWeight = "+next_passenger.getBaggageWeight()+"\nVolume = "+next_passenger.getBaggageVolume()+"\nBaggage fee = "+next_passenger.getBaggageFree());
 					
 					if(CheckInDemo.has_flight_departed(next_passenger) == false) {
 						try {

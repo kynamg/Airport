@@ -15,6 +15,7 @@ public class Passenger {
 	private boolean checkIn;
 	private int baggage_weight;
 	private int baggage_volume;
+	private float baggage_fee;
 	
 	public Passenger(String n, String s, String bR, String f, String check) throws InvalidFlightCodeException, InvalidBookingRefException, InvalidParameterException{
 		//initialises regular expression patterns to match character combinations for name/surname, booking ref, and flight code
@@ -89,6 +90,14 @@ public class Passenger {
 	
 	protected void setBaggageVolume(int baggage_volume) {
 		this.baggage_volume = baggage_volume;
+	}
+	
+	protected float getBaggageFree() {
+		return baggage_fee;
+	}
+	
+	protected void setBaggageFee(float baggage_fee) {
+		this.baggage_fee = baggage_fee;
 	}
 	
 	//return the passenger's first name

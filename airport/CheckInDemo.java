@@ -40,7 +40,6 @@ public class CheckInDemo {
 				Passenger p = new Passenger(data1[0], data1[1], data1[2], data1[3], data1[4]);
 				passengers.addPassenger(p);
 				inputLine1 = buff1.readLine();
-				System.out.println(p.getBaggageWeight());
 			}
 			while(inputLine2 != null) {
 				data2 = inputLine2.split(";");
@@ -53,6 +52,16 @@ public class CheckInDemo {
 			}
 
 			passengers_total = passengers.getPassengersNotCheckedIn();
+			Iterator<Passenger> it = passengers.getIterator();
+			while(it.hasNext()) {
+				Passenger passenger = it.next();
+				try {
+					Flight flight = flights.findByCode(passenger.getFlightCode());
+					passenger.setBaggageFee(flight.calculateExcessBaggageFees(passenger.getBaggageWeight()));
+				} catch (NoMatchingFlightCodeException e) {
+					e.printStackTrace();
+				}
+			}
 		}
 		catch(FileNotFoundException e) {
 			System.out.println(e.getMessage());
