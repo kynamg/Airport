@@ -21,7 +21,6 @@ public class CheckInDesk implements Runnable {
 	public void run() {
 		//while not dead - flag from main method
 		while(!Thread.interrupted()) {
-		//while(!passenger_queue.isEmpty()) {
 			gui.update_checkInDesk(desk_number, "OPEN");
 			synchronized(passenger_queue) {
 				if(!passenger_queue.isEmpty()) {
@@ -54,7 +53,6 @@ public class CheckInDesk implements Runnable {
 	
 	public Passenger get_passenger() {
 		Passenger next_passenger = passenger_queue.get(0);
-		System.out.println("Passenger "+next_passenger.getName()+" gotten in");
 		return next_passenger;
 	}
 	

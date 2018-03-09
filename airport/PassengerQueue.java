@@ -11,12 +11,14 @@ public class PassengerQueue implements Runnable {
 	static FlightList flights;
 	PassengerList passengers;
 	static CheckInGUI gui;
+	static boolean thread_killed = false;
 	
 	public PassengerQueue(CheckInGUI gui, FlightList flights, PassengerList passengers) {
 		passenger_queue = new ArrayList<Passenger>();
 		this.passengers = passengers;
 		this.flights = flights;
 		this.gui = gui;
+		
 	}
 	
 	protected synchronized static void add_passenger_to_queue(Passenger passenger) {
@@ -27,13 +29,13 @@ public class PassengerQueue implements Runnable {
 		
 		gui.update_values(passenger_queue);
 		
-		//System.out.println("Number of threads = "+check_in_desks.size());
 		System.out.println("Passenger queue = "+passenger_queue.size());
 		
-		try { //Just for show, don't actually need this
+		try {
 			Thread.sleep(1000);
 		} catch (InterruptedException e) {
-			e.printStackTrace();
+			thread_killed = true;
+			System.out.println("Thread killed");
 		}
 	}
 	
@@ -45,10 +47,10 @@ public class PassengerQueue implements Runnable {
 		
 		gui.update_values(passenger_queue);
 		
-		try { //Just for show, don't actually need this
+		try {
 			Thread.sleep(1000);
 		} catch (InterruptedException e) {
-			e.printStackTrace();
+			thread_killed = true;
 		}
 	}
 	
@@ -58,7 +60,8 @@ public class PassengerQueue implements Runnable {
 
 	public void run() {
 		Iterator<Passenger> it = passengers.getIterator();
-		while(it.hasNext() && !Thread.interrupted()) {
+		while(it.hasNext() && thread_killed == false) {
+			Passenger passenger = it.next();
 			add_passenger_to_queue(it.next());
 		}
 	}

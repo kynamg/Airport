@@ -12,6 +12,7 @@ public class CheckInDemo {
 	private static PassengerList passengers;
 	private static FlightList flights;
 	private static CheckInGUI gui;
+	private static Thread passenger_queue;
 	static int passengers_checked_in = 0;
 	static int passengers_total = 0;
 
@@ -39,6 +40,7 @@ public class CheckInDemo {
 				Passenger p = new Passenger(data1[0], data1[1], data1[2], data1[3], data1[4]);
 				passengers.addPassenger(p);
 				inputLine1 = buff1.readLine();
+				System.out.println(p.getBaggageWeight());
 			}
 			while(inputLine2 != null) {
 				data2 = inputLine2.split(";");
@@ -81,15 +83,24 @@ public class CheckInDemo {
 	}
 	
 	protected static void flight_depart(Thread thread, String flight_code) { //This will get used when we've implemented the flights leaving bit
-		System.out.println("Flight "+thread.getName()+" left");
 		flights_left_to_depart.remove(flight_code);
 		System.out.println("Flight code being removed = "+flight_code);
 		active_flights.remove(thread);
+		gui.update_flight(flight_code, "Departed");
 		if(active_flights.isEmpty()) {
+			System.out.println("ACTIVE FLIGHTS IS EMPTY");
 			for(int i=0; i<check_in_desks.size(); i++) {
 				check_in_desks.get(i).interrupt();
-				//System.exit(0);
 			}
+			System.out.println("Check In Desks closed");
+			try {
+				Thread.sleep(5000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			System.out.println("Kiosk Closing");
+			passenger_queue.interrupt();
+			System.exit(0);
 		}
 	}
 	
@@ -97,7 +108,6 @@ public class CheckInDemo {
 		passengers_checked_in++;
 		
 		if(passengers_checked_in == passengers_total) {
-			//gui.close_gui();
 			try {
 				flights.printFlightList();
 			} catch (IOException e) {
@@ -156,7 +166,7 @@ public class CheckInDemo {
 			System.out.println("Invalid Parameters");
 		}
 		
-		Thread passenger_queue = new Thread(new PassengerQueue(gui, flights, passengers));
+		passenger_queue = new Thread(new PassengerQueue(gui, flights, passengers));
 		passenger_queue.start();
 		
 		check_in_desks = new ArrayList<Thread>();
@@ -171,6 +181,7 @@ public class CheckInDemo {
 			Flight temp_flight = it.next();
 			active_flights.add(new Thread(new Flight(temp_flight.getFlightCode(), temp_flight.getDestination(), temp_flight.getCarrier(), temp_flight.getMaxWeight(), temp_flight.getMaxPassengers(), temp_flight.getMaxVol())));
 			flights_left_to_depart.add(temp_flight.getFlightCode());
+			gui.update_flight(temp_flight.getFlightCode(), "Waiting to depart");
 		}
 		for(int i=0; i<active_flights.size(); i++) {
 			active_flights.get(i).start();
