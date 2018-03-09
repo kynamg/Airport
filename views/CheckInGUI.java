@@ -22,7 +22,6 @@ public class CheckInGUI extends JPanel implements Observer{
 	//JFrame guiFrame;
 	static JScrollPane queue_panel;
 	private int count = 0;
-	private CheckInDesk checkindesk;
 	private JPanel checkInDesks_panel;
 	private JPanel checkInDesk1, checkInDesk2, checkInDesk3, checkInDesk4, checkInDesk5;
 	private JTextArea desk1_label, desk2_label, desk3_label, desk4_label, desk5_label;
@@ -37,7 +36,7 @@ public class CheckInGUI extends JPanel implements Observer{
 		
 		guiFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		guiFrame.setTitle("Airport");
-		guiFrame.setSize(200,200);
+		guiFrame.setSize(500,200);
 		
 		String[] queue = {"Yola Jones", "Clarissa Cremona", "Kyna Mowat-Gosnell", "Theodore Roosevelt", "Abraham Lincoln", "George Washington"};
 		
@@ -75,6 +74,7 @@ public class CheckInGUI extends JPanel implements Observer{
         desk2_label.setEditable(false);
 		checkInDesk2.add(desk2_label);
 		
+		// Check In Desk 3
 		checkInDesk3 = new JPanel();
 		checkInDesk3.setLayout(new BorderLayout());
 		TitledBorder checkInDesk3_title = new TitledBorder("Check In Desk 3");
@@ -87,21 +87,38 @@ public class CheckInGUI extends JPanel implements Observer{
         desk3_label.setEditable(false);
 		checkInDesk3.add(desk3_label);
 		
+		// Check In Desk 4
 		checkInDesk4 = new JPanel();
 		checkInDesk4.setLayout(new BorderLayout());
-		TitledBorder checkInDesk4_title = new TitledBorder("Check In Desk 3");
-		checkInDesk3.setBorder(checkInDesk3_title);
-		desk3_label = new JTextArea("This check in desk is currently closed.");
-		desk3_label.setFont(new Font("Serif", Font.ITALIC, 16));
-		desk3_label.setLineWrap(true);
-        desk3_label.setWrapStyleWord(true);
-        desk3_label.setOpaque(false);
-        desk3_label.setEditable(false);
-		checkInDesk3.add(desk3_label);
+		TitledBorder checkInDesk4_title = new TitledBorder("Check In Desk 4");
+		checkInDesk4.setBorder(checkInDesk4_title);
+		desk4_label = new JTextArea("This check in desk is currently closed.");
+		desk4_label.setFont(new Font("Serif", Font.ITALIC, 16));
+		desk4_label.setLineWrap(true);
+        desk4_label.setWrapStyleWord(true);
+        desk4_label.setOpaque(false);
+        desk4_label.setEditable(false);
+		checkInDesk4.add(desk4_label);
+		
+		// Check In Desk 5
+		checkInDesk5 = new JPanel();
+		checkInDesk5.setLayout(new BorderLayout());
+		TitledBorder checkInDesk5_title = new TitledBorder("Check In Desk 5");
+		checkInDesk5.setBorder(checkInDesk5_title);
+		desk5_label = new JTextArea("This check in desk is currently closed.");
+		desk5_label.setFont(new Font("Serif", Font.ITALIC, 16));
+		desk5_label.setLineWrap(true);
+        desk5_label.setWrapStyleWord(true);
+        desk5_label.setOpaque(false);
+        desk5_label.setEditable(false);
+		checkInDesk5.add(desk5_label);
 		
 		// Add check in desks to panel
 		checkInDesks_panel.add(checkInDesk1);
 		checkInDesks_panel.add(checkInDesk2);
+		checkInDesks_panel.add(checkInDesk3);
+		checkInDesks_panel.add(checkInDesk4);
+		checkInDesks_panel.add(checkInDesk5);
 		
 		JPanel flights_panel = new JPanel(new GridLayout(1,3));
 		
@@ -118,9 +135,6 @@ public class CheckInGUI extends JPanel implements Observer{
         flight1_code.setEditable(false);
 		flight1.add(flight1_code);
 		flight1.add(flight1_info);
-		//String[] flight1_info = {"Flight AB1234"};
-		//JList flight1_list = new JList(flight1_info);
-		//flight1.setViewportView(flight1_list);
 		
 		flight2 = new JPanel();
 		flight2.setLayout(new GridLayout(2,1));
@@ -182,26 +196,35 @@ public class CheckInGUI extends JPanel implements Observer{
 	public synchronized void update_checkInDesk(int desk_no, String desk_status) {
         
 		switch(desk_no) {
-			case 1:  desk1_label = new JTextArea(desk_status);;
+			case 1:  desk1_label.setText(desk_status);;
 	                 break;
-			case 2:  desk2_label = new JTextArea(desk_status);;
+			case 2:  desk2_label.setText(desk_status);;
 	        			break;
-			case 3:  desk3_label = new JTextArea(desk_status);;
+			case 3:  desk3_label.setText(desk_status);;
 	        			break;
-			case 4:  desk4_label = new JTextArea(desk_status);;
+			case 4:  desk4_label.setText(desk_status);;
 	        			break;
-			case 5:  desk5_label = new JTextArea(desk_status);;
+			case 5:  desk5_label.setText(desk_status);;
 	        			break;
 	        default: break;
 		}
 	}
 	
-	public synchronized void update_checkInDesk2(String status2) {
-		desk2_label = new JTextArea(status2);
-	}
-	
-	public synchronized void update_flights() {
+	public synchronized void update_flight1(String flight_code, String flight_info) {	
+		if(flight_code.equals("LG2212")) {
+			flight1_code.setText(flight_code);
+			flight1_info.setText(flight_info);
+		}
+		else if(flight_code.equals("LG1254")) {
+			flight2_code.setText(flight_code);
+			flight2_info.setText(flight_info);
+		}
+		else if(flight_code.equals("AB1234")) {
+			flight3_code.setText(flight_code);
+			flight3_info.setText(flight_info);
+		}
 		
+
 	}
 	
 	public void update() {
