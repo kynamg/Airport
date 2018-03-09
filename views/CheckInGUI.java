@@ -36,10 +36,8 @@ public class CheckInGUI extends JPanel implements Observer{
 		
 		guiFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		guiFrame.setTitle("Airport");
-		guiFrame.setSize(500,200);
-		
-		String[] queue = {"Yola Jones", "Clarissa Cremona", "Kyna Mowat-Gosnell", "Theodore Roosevelt", "Abraham Lincoln", "George Washington"};
-		
+		guiFrame.setSize(800,500);
+				
 		// Panel with Passenger queue
 		queue_panel = new JScrollPane();
 		TitledBorder queue_title = new TitledBorder("Queue");
@@ -133,6 +131,9 @@ public class CheckInGUI extends JPanel implements Observer{
         flight1_code.setWrapStyleWord(true);
         flight1_code.setOpaque(false);
         flight1_code.setEditable(false);
+        flight1_info.setWrapStyleWord(true);
+        flight1_info.setOpaque(false);
+        flight1_info.setEditable(false);
 		flight1.add(flight1_code);
 		flight1.add(flight1_info);
 		
@@ -142,12 +143,17 @@ public class CheckInGUI extends JPanel implements Observer{
 		flight2.setBorder(flight2_title);
 		flight2_code = new JTextArea("Flight Code here");
 		flight2_info = new JTextArea("Flight info here");
+		flight2_code.setFont(new Font("Calibri", Font.BOLD, 14));
 		flight2_code.setLineWrap(true);
         flight2_code.setWrapStyleWord(true);
         flight2_code.setOpaque(false);
         flight2_code.setEditable(false);
+        flight2_info.setWrapStyleWord(true);
+        flight2_info.setOpaque(false);
+        flight2_info.setEditable(false);
 		flight2.add(flight2_code);
 		flight2.add(flight2_info);
+		
 		
 		flight3 = new JPanel();
 		flight3.setLayout(new GridLayout(2,1));
@@ -176,7 +182,7 @@ public class CheckInGUI extends JPanel implements Observer{
 		airport_panel.add(flights_panel);
 		
 		guiFrame.add(airport_panel);
-		guiFrame.pack();
+		//guiFrame.pack();
 		guiFrame.setVisible(true);
 		
 	}
@@ -185,7 +191,8 @@ public class CheckInGUI extends JPanel implements Observer{
 
 		ArrayList<String> queue_arraylist = new ArrayList<String>();
 		for (Passenger p : queue) {
-			String passenger_info = (p.getBookingRef() + "       " + p.getName() + " " + p.getSurname() + "      " + p.getBaggageVolume() + "m3 " + p.getBaggageWeight() + "kg");
+			String passenger_info = (p.getBookingRef() + "       " + p.getName() + " " + p.getSurname() + "  							    "
+		+ p.getBaggageVolume() + "m3 " + p.getBaggageWeight() + "kg");
 			queue_arraylist.add(passenger_info);
 		}
 
