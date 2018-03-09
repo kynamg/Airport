@@ -160,7 +160,7 @@ public class CheckInDemo {
 		passenger_queue.start();
 		
 		check_in_desks = new ArrayList<Thread>();
-		for(int i=0; i<2; i++) {
+		for(int i=0; i<3; i++) {
 			check_in_desks.add(new Thread(new CheckInDesk(PassengerQueue.get_passenger_queue(), flights, gui, i)));
 			check_in_desks.get(i).start();
 		}
