@@ -8,21 +8,28 @@ public class CheckInDesk implements Runnable {
 	
 	ArrayList<Passenger> passenger_queue;
 	FlightList flight_list;
+	CheckInGUI gui;
+	int desk_number;
 	
-	public CheckInDesk(ArrayList<Passenger> passenger_queue, FlightList flight_list, CheckInGUI gui, int number_of_desk) {
+	public CheckInDesk(ArrayList<Passenger> passenger_queue, FlightList flight_list, CheckInGUI gui, int desk_number) {
 		this.passenger_queue = passenger_queue;
 		this.flight_list = flight_list;
+		this.gui = gui;
+		this.desk_number = desk_number;
 	}
 	
 	public void run() {
 		//while not dead - flag from main method
 		while(!Thread.interrupted()) {
 		//while(!passenger_queue.isEmpty()) {
+			gui.update_checkInDesk(desk_number, "OPEN");
 			synchronized(passenger_queue) {
 				if(!passenger_queue.isEmpty()) {
 					Passenger next_passenger;
 					Flight flight;
 					next_passenger = get_passenger();
+					
+					gui.update_checkInDesk(desk_number, "Passenger "+next_passenger.getName()+" "+next_passenger.getSurname());
 					
 					if(CheckInDemo.has_flight_departed(next_passenger) == false) {
 						try {
@@ -41,6 +48,7 @@ public class CheckInDesk implements Runnable {
 				}
 			}
 		}
+		gui.update_checkInDesk(desk_number, "CLOSED");
 		System.out.println("CheckInDesk "+Thread.currentThread()+" has been closed");
 	}
 	

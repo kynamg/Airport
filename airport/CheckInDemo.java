@@ -88,7 +88,7 @@ public class CheckInDemo {
 		if(active_flights.isEmpty()) {
 			for(int i=0; i<check_in_desks.size(); i++) {
 				check_in_desks.get(i).interrupt();
-				System.exit(0);
+				//System.exit(0);
 			}
 		}
 	}
