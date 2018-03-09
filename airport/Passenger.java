@@ -69,7 +69,7 @@ public class Passenger {
 		set_baggage();
 	}
 	
-	protected int getBaggageWeight() {
+	public int getBaggageWeight() {
 		return baggage_weight;
 	}
 	
@@ -83,7 +83,7 @@ public class Passenger {
 		this.baggage_weight = baggage_weight;
 	}
 	
-	protected int getBaggageVolume() {
+	public int getBaggageVolume() {
 		return baggage_volume;
 	}
 	
@@ -92,7 +92,7 @@ public class Passenger {
 	}
 	
 	//return the passenger's first name
-	protected String getName() {
+	public String getName() {
 		return name;
 	}
 	

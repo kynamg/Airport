@@ -105,22 +105,14 @@ public class CheckInGUI extends JPanel implements Observer{
 	}
 	
 	public synchronized void update_values(ArrayList<Passenger> queue) {
-		//ArrayList<Passenger> list = new ArrayList<Passenger>();
-		//Passenger p = new Passenger("Boy", "surname", "D1SN3Y7","LG1254", "true");
-		//list.add(p);
-		//String[] list1 = {p.getBookingRef(), p.getSurname()};
-		//List<String> strings = list.stream().map(object->Objects.toString(object,null)).collect(Collectors.toList());
-		//JList<Passenger> queue_list = new JList(passenger_queue.toArray());
+
 		ArrayList<String> queue_arraylist = new ArrayList<String>();
 		for (Passenger p : queue) {
-			//if the bookingRef in the hash set is equal to the bookingRef input, return the passenger 'p'
-			//String[] p_string = {p.getSurname(), p.getBookingRef()};
-			//String surname = {p.getSurname()};
-			queue_arraylist.add(p.getSurname());
+			String passenger_info = (p.getBookingRef() + "       " + p.getName() + " " + p.getSurname() + "      " + p.getBaggageVolume() + "m3 " + p.getBaggageWeight() + "kg");
+			queue_arraylist.add(passenger_info);
 		}
-		
+
 		JList<String> queue_list = new JList<>(queue_arraylist.toArray(new String[0]));
-		//JList queue_list = new JList(queue);
 		TitledBorder queue_title = new TitledBorder("Queue");
 		queue_panel.setBorder(queue_title);
 		queue_panel.setViewportView(queue_list);
