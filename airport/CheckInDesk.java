@@ -2,12 +2,14 @@ package airport;
 
 import java.util.ArrayList;
 
+import views.CheckInGUI;
+
 public class CheckInDesk implements Runnable {
 	
 	ArrayList<Passenger> passenger_queue;
 	FlightList flight_list;
 	
-	public CheckInDesk(ArrayList<Passenger> passenger_queue, FlightList flight_list) {
+	public CheckInDesk(ArrayList<Passenger> passenger_queue, FlightList flight_list, CheckInGUI gui, int number_of_desk) {
 		this.passenger_queue = passenger_queue;
 		this.flight_list = flight_list;
 	}
