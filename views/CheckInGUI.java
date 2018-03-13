@@ -51,7 +51,7 @@ public class CheckInGUI extends JPanel implements Observer{
 		checkInDesk1.setLayout(new BorderLayout());
 		TitledBorder checkInDesk1_title = new TitledBorder("Check In Desk 1");
 		checkInDesk1.setBorder(checkInDesk1_title);
-		desk1_label = new JTextArea("This check in desk is currently closed.");
+		desk1_label = new JTextArea("CLOSED");
 		desk1_label.setFont(new Font("Serif", Font.ITALIC, 16));
 		desk1_label.setLineWrap(true);
         desk1_label.setWrapStyleWord(true);
@@ -64,7 +64,7 @@ public class CheckInGUI extends JPanel implements Observer{
 		checkInDesk2.setLayout(new BorderLayout());
 		TitledBorder checkInDesk2_title = new TitledBorder("Check In Desk 2");
 		checkInDesk2.setBorder(checkInDesk2_title);
-		desk2_label = new JTextArea("This check in desk is currently closed.");
+		desk2_label = new JTextArea("CLOSED");
 		desk2_label.setFont(new Font("Serif", Font.ITALIC, 16));
 		desk2_label.setLineWrap(true);
         desk2_label.setWrapStyleWord(true);
@@ -77,7 +77,7 @@ public class CheckInGUI extends JPanel implements Observer{
 		checkInDesk3.setLayout(new BorderLayout());
 		TitledBorder checkInDesk3_title = new TitledBorder("Check In Desk 3");
 		checkInDesk3.setBorder(checkInDesk3_title);
-		desk3_label = new JTextArea("This check in desk is currently closed.");
+		desk3_label = new JTextArea("CLOSED");
 		desk3_label.setFont(new Font("Serif", Font.ITALIC, 16));
 		desk3_label.setLineWrap(true);
         desk3_label.setWrapStyleWord(true);
@@ -90,7 +90,7 @@ public class CheckInGUI extends JPanel implements Observer{
 		checkInDesk4.setLayout(new BorderLayout());
 		TitledBorder checkInDesk4_title = new TitledBorder("Check In Desk 4");
 		checkInDesk4.setBorder(checkInDesk4_title);
-		desk4_label = new JTextArea("This check in desk is currently closed.");
+		desk4_label = new JTextArea("CLOSED");
 		desk4_label.setFont(new Font("Serif", Font.ITALIC, 16));
 		desk4_label.setLineWrap(true);
         desk4_label.setWrapStyleWord(true);
@@ -103,7 +103,7 @@ public class CheckInGUI extends JPanel implements Observer{
 		checkInDesk5.setLayout(new BorderLayout());
 		TitledBorder checkInDesk5_title = new TitledBorder("Check In Desk 5");
 		checkInDesk5.setBorder(checkInDesk5_title);
-		desk5_label = new JTextArea("This check in desk is currently closed.");
+		desk5_label = new JTextArea("CLOSED");
 		desk5_label.setFont(new Font("Serif", Font.ITALIC, 16));
 		desk5_label.setLineWrap(true);
         desk5_label.setWrapStyleWord(true);
@@ -218,15 +218,16 @@ public class CheckInGUI extends JPanel implements Observer{
 	}
 	
 	public synchronized void update_flight(String flight_code, String flight_info) {	
-		if(flight_code.equals("LG2212")) {
+		System.out.println("I am in update flight");
+		if(flight_code.contains("LG2212")) {
 			flight1_code.setText(flight_code);
 			flight1_info.setText(flight_info);
 		}
-		else if(flight_code.equals("LG1254")) {
+		else if(flight_code.contains("LG1254")) {
 			flight2_code.setText(flight_code);
 			flight2_info.setText(flight_info);
 		}
-		else if(flight_code.equals("AB1234")) {
+		else if(flight_code.contains("AB1234")) {
 			flight3_code.setText(flight_code);
 			flight3_info.setText(flight_info);
 		}

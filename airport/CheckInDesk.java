@@ -28,12 +28,22 @@ public class CheckInDesk implements Runnable {
 					Flight flight;
 					next_passenger = get_passenger();
 					
-					gui.update_checkInDesk(desk_number, "Passenger "+next_passenger.getName()+" "+next_passenger.getSurname()+"\nWeight = "+next_passenger.getBaggageWeight()+"\nVolume = "+next_passenger.getBaggageVolume()+"\nBaggage fee = "+next_passenger.getBaggageFree());
+					//Potentially remove for final thing - this just makes a list
+					/*try {
+						Thread.sleep(2000);
+					} catch (InterruptedException e1) {
+						e1.printStackTrace();
+					}*/
+					
+					gui.update_checkInDesk(desk_number, "Passenger "+next_passenger.getName()+" "+next_passenger.getSurname()+"\nWeight = "+next_passenger.getBaggageWeight()+"\nVolume = "+next_passenger.getBaggageVolume()+"\nBaggage fee = "+next_passenger.getBaggageFee());
 					
 					if(CheckInDemo.has_flight_departed(next_passenger) == false) {
 						try {
 							flight = flight_list.findByCode(next_passenger.getFlightCode());
 							flight.incrementPassengers();
+							flight.incrementVolume(next_passenger.getBaggageVolume());
+							flight.incrementWeight(next_passenger.getBaggageWeight());
+							CheckInDemo.get_current_flight_capacity_info(flight);
 							System.out.println("Flight list "+flight.getFlightCode()+" = "+flight.getTotalPassengers());
 						} catch (NoMatchingFlightCodeException e) {
 							System.out.println(e.getMessage());

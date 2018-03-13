@@ -33,7 +33,7 @@ public class PassengerQueue implements Runnable {
 		System.out.println("Passenger queue = "+passenger_queue.size());
 		
 		try {
-			Thread.sleep(1000);
+			Thread.sleep(200);
 		} catch (InterruptedException e) {
 			thread_killed = true;
 			System.out.println("Thread killed");
@@ -49,7 +49,7 @@ public class PassengerQueue implements Runnable {
 		gui.update_values(passenger_queue);
 		
 		try {
-			Thread.sleep(1000);
+			Thread.sleep(200);
 		} catch (InterruptedException e) {
 			thread_killed = true;
 		}

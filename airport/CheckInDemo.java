@@ -19,7 +19,7 @@ public class CheckInDemo {
 	static ArrayList<Thread> active_flights;
 	static ArrayList<Thread> check_in_desks;
 	
-	static ArrayList<String> flights_left_to_depart;
+	static ArrayList<Flight> flights_left_to_depart;
 
 	public CheckInDemo() throws IOException, InvalidFlightCodeException, InvalidBookingRefException, InvalidParameterException {
 		
@@ -91,8 +91,15 @@ public class CheckInDemo {
 		}
 	}
 	
-	protected static void flight_depart(Thread thread, String flight_code) { //This will get used when we've implemented the flights leaving bit
-		flights_left_to_depart.remove(flight_code);
+	protected static synchronized void flight_depart(Thread thread, String flight_code) { //This will get used when we've implemented the flights leaving bit
+		Iterator<Flight> it = flights_left_to_depart.iterator();
+		while(it.hasNext()) {
+			Flight flight_departing = it.next();
+			if(flight_departing.getFlightCode().equals(flight_code)) {
+				flights_left_to_depart.remove(flight_departing);
+			}
+		}
+		
 		System.out.println("Flight code being removed = "+flight_code);
 		active_flights.remove(thread);
 		gui.update_flight(flight_code, "Departed");
@@ -140,9 +147,9 @@ public class CheckInDemo {
 	
 	protected static boolean has_flight_departed(Passenger passenger) {
 		String flight_code_of_passenger = passenger.getFlightCode();
-		Iterator<String> it = flights_left_to_depart.iterator();
+		Iterator<Flight> it = flights_left_to_depart.iterator();
 		while(it.hasNext()) {
-			if(it.next().equals(flight_code_of_passenger)) {
+			if(it.next().getFlightCode().equals(flight_code_of_passenger)) {
 				return false;
 			}
 		}
@@ -150,24 +157,47 @@ public class CheckInDemo {
 	}
 	
 	protected static void open_close_check_in_desks(int size_of_queue) {
-		if(size_of_queue > 3) {
+		if(size_of_queue > 6) {
 			int index = check_in_desks.size();
-			while(check_in_desks.size() < 4) {
+			while(check_in_desks.size() < 5) {
 				index++;
 				check_in_desks.add(new Thread(new CheckInDesk(PassengerQueue.get_passenger_queue(), flights, gui, index)));
+				gui.update_checkInDesk(index, "OPEN");
+				//Call the GUI here please!!!
 			}
 		}
-		else if(size_of_queue < 3) {
+		else if(size_of_queue < 5) {
+			int index = check_in_desks.size();
 			while(check_in_desks.size() > 1) {
 				check_in_desks.remove(0);
+				gui.update_checkInDesk(index, "CLOSED");
+				index--;
+				//Also call the GUI here
 			}
 		}
+	}
+	
+	protected static synchronized String get_current_flight_capacity_info(Flight current_flight) {
+		String capacity_info = "";
+		
+		capacity_info = current_flight.getTotalPassengers()+" checked in of "+current_flight.getMaxPassengers()+"\nHold is "+check_hold_fill_percentage(current_flight.getMaxVol(), current_flight.getTotalVolume())+"% full";
+		gui.update_flight(current_flight.getFlightCode()+" "+current_flight.getDestination(), capacity_info);
+		
+		return capacity_info;
+	}
+	
+	private static int check_hold_fill_percentage(float maximum_volume, float current_volume) {
+		int percentage = 0;
+		
+		percentage = (int)((current_volume/maximum_volume)*100);
+		
+		return percentage;		
 	}
 		
 	public static void main(String args[]) throws IOException, InvalidFlightCodeException, InvalidBookingRefException, InvalidParameterException {
 		CheckInDemo demo = new CheckInDemo();
 		
-		flights_left_to_depart = new ArrayList<String>();
+		flights_left_to_depart = new ArrayList<Flight>();
 		
 		try {
 			gui = new CheckInGUI(PassengerQueue.get_passenger_queue());
@@ -189,9 +219,13 @@ public class CheckInDemo {
 		while(it.hasNext()) {
 			Flight temp_flight = it.next();
 			active_flights.add(new Thread(new Flight(temp_flight.getFlightCode(), temp_flight.getDestination(), temp_flight.getCarrier(), temp_flight.getMaxWeight(), temp_flight.getMaxPassengers(), temp_flight.getMaxVol())));
-			flights_left_to_depart.add(temp_flight.getFlightCode());
-			gui.update_flight(temp_flight.getFlightCode(), "Waiting to depart");
+			flights_left_to_depart.add(temp_flight);
+			System.out.println("I got here with flight code = "+temp_flight.getFlightCode());
+			String flight_info = temp_flight.getFlightCode()+" "+temp_flight.getDestination();
+			String flight_status = temp_flight.getTotalPassengers()+" checked in of "+temp_flight.getMaxPassengers()+"\nHold is "+check_hold_fill_percentage(temp_flight.getMaxVol(), temp_flight.getTotalVolume())+"% full";
+			gui.update_flight(flight_info, flight_status);
 		}
+		
 		for(int i=0; i<active_flights.size(); i++) {
 			active_flights.get(i).start();
 		}

@@ -92,7 +92,7 @@ public class Passenger {
 		this.baggage_volume = baggage_volume;
 	}
 	
-	protected float getBaggageFree() {
+	protected float getBaggageFee() {
 		return baggage_fee;
 	}
 	
