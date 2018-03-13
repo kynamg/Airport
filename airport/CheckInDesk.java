@@ -21,7 +21,7 @@ public class CheckInDesk implements Runnable {
 	public void run() {
 		//while not dead - flag from main method
 		while(!Thread.interrupted()) {
-			gui.update_checkInDesk(desk_number, "OPEN");
+			gui.update_checkInDesk(desk_number, "OPEN"); //logs check in desk open
 			synchronized(passenger_queue) {
 				if(!passenger_queue.isEmpty()) {
 					Passenger next_passenger;
@@ -29,7 +29,7 @@ public class CheckInDesk implements Runnable {
 					next_passenger = get_passenger();
 					
 					gui.update_checkInDesk(desk_number, "Passenger "+next_passenger.getName()+" "+next_passenger.getSurname()+"\nWeight = "+next_passenger.getBaggageWeight()+"\nVolume = "+next_passenger.getBaggageVolume()+"\nBaggage fee = "+next_passenger.getBaggageFree());
-					
+					//passengers boarding flights
 					if(CheckInDemo.has_flight_departed(next_passenger) == false) {
 						try {
 							flight = flight_list.findByCode(next_passenger.getFlightCode());
@@ -47,7 +47,7 @@ public class CheckInDesk implements Runnable {
 				}
 			}
 		}
-		gui.update_checkInDesk(desk_number, "CLOSED");
+		gui.update_checkInDesk(desk_number, "CLOSED"); //log check in desk closed after this line
 		System.out.println("CheckInDesk "+Thread.currentThread()+" has been closed");
 	}
 	
