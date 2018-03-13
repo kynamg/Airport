@@ -39,7 +39,7 @@ public class PassengerQueue implements Runnable {
 			System.out.println("Thread killed");
 		}
 	}
-	
+	//passengers checking in
 	protected synchronized static void remove_passenger_from_queue(Passenger passenger) {
 		System.out.println("Passenger "+passenger.getName()+" being removed");
 		
