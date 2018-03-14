@@ -1,7 +1,7 @@
 package airport;
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Iterator;
+
+import java.util.*;
 import java.util.regex.Pattern;
 
 import views.CheckInGUI;
@@ -96,16 +96,16 @@ public class CheckInDemo {
 	//Function called when a Flight thread is ready to depart. Closes all check in desks if all flights have departed
 	protected static synchronized void flight_depart(Thread thread, String flight_code) { //This will get used when we've implemented the flights leaving bit
 		
-		//Remove flight from flights left to depart list
-		Iterator<Flight> it = flights_left_to_depart.iterator();
-		while(it.hasNext()) {
-			Flight flight_departing = it.next();
+		//Make a new list from flights_left_to_depart to prevent ConurrentModificationException caused by it.next();
+		Flight[] list_iterator = flights_left_to_depart.toArray(new Flight[flights_left_to_depart.size()]);
+		for(int i=0; i<list_iterator.length; i++) {
+			Flight flight_departing = list_iterator[i];
 			if(flight_departing.getFlightCode().equals(flight_code)) {
 				flights_left_to_depart.remove(flight_departing);
 			}
 		}
 		
-		System.out.println("Flight code being removed = "+flight_code);
+		//System.out.println("Flight code being removed = "+flight_code);
 		active_flights.remove(thread);
 		gui.update_flight(flight_code, "Departed");
 		
@@ -187,8 +187,8 @@ public class CheckInDemo {
 	//Used for creating a string used in the GUI about flight details, this method might get moved
 	protected static synchronized String get_current_flight_capacity_info(Flight current_flight) {
 		String capacity_info = "";
-		
-		capacity_info = current_flight.getTotalPassengers()+" checked in of "+current_flight.getMaxPassengers()+"\nHold is "+check_hold_fill_percentage(current_flight.getMaxVol(), current_flight.getTotalVolume())+"% full";
+		//THIS UPDATES GUI - THIS SHOULD NOT HAPPEN HERE!!
+		capacity_info = current_flight.getTotalPassengers()+" checked in of "+current_flight.getMaxPassengers()+"\nHold is "+check_hold_fill_percentage(current_flight.getMaxVol(), current_flight.getTotalVolume())+"% full\nBaggage Fees = "+current_flight.getTotalBaggageFees();
 		gui.update_flight(current_flight.getFlightCode()+" "+current_flight.getDestination(), capacity_info);
 		
 		return capacity_info;
@@ -237,7 +237,6 @@ public class CheckInDemo {
 			active_flights.add(new Thread(new Flight(temp_flight.getFlightCode(), temp_flight.getDestination(), temp_flight.getCarrier(), temp_flight.getMaxWeight(), temp_flight.getMaxPassengers(), temp_flight.getMaxVol())));
 			//Add this to the flights left to depart arraylist
 			flights_left_to_depart.add(temp_flight);
-			System.out.println("I got here with flight code = "+temp_flight.getFlightCode());
 			String flight_info = temp_flight.getFlightCode()+" "+temp_flight.getDestination();
 			String flight_status = temp_flight.getTotalPassengers()+" checked in of "+temp_flight.getMaxPassengers()+"\nHold is "+check_hold_fill_percentage(temp_flight.getMaxVol(), temp_flight.getTotalVolume())+"% full";
 			//Update the GUI with the relevant flights

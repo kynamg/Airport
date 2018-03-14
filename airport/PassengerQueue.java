@@ -19,7 +19,6 @@ public class PassengerQueue implements Runnable {
 		this.passengers = passengers;
 		this.flights = flights;
 		this.gui = gui;
-		
 	}
 	
 	protected synchronized static void add_passenger_to_queue(Passenger passenger) {
@@ -30,18 +29,18 @@ public class PassengerQueue implements Runnable {
 		
 		gui.update_values(passenger_queue);
 		
-		System.out.println("Passenger queue = "+passenger_queue.size());
+		//System.out.println("Passenger queue = "+passenger_queue.size());
 		
 		try {
 			Thread.sleep(200);
 		} catch (InterruptedException e) {
 			thread_killed = true;
-			System.out.println("Thread killed");
+			//System.out.println("Thread killed");
 		}
 	}
 	//passengers checking in
 	protected synchronized static void remove_passenger_from_queue(Passenger passenger) {
-		System.out.println("Passenger "+passenger.getName()+" being removed");
+		//System.out.println("Passenger "+passenger.getName()+" being removed");
 		
 		passenger_queue.remove(passenger);
 		CheckInDemo.open_close_check_in_desks(passenger_queue.size());

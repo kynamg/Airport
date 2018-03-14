@@ -25,6 +25,7 @@ public class CheckInDesk implements Runnable {
 			//Tell the GUI this check in desk is open
 			gui.update_checkInDesk(desk_number, "OPEN"); //logs check in desk open
 			synchronized(passenger_queue) {
+				System.out.println("Thread in");
 				//if there's a passenger left to check in
 				if(!passenger_queue.isEmpty()) {
 					Passenger next_passenger;
@@ -51,8 +52,11 @@ public class CheckInDesk implements Runnable {
 							flight.incrementPassengers();
 							flight.incrementVolume(next_passenger.getBaggageVolume());
 							flight.incrementWeight(next_passenger.getBaggageWeight());
+							float baggageFee = flight.calculateExcessBaggageFees(next_passenger.getBaggageWeight());
+							flight.incrementBaggageFees(baggageFee);
+							System.out.println();
 							CheckInDemo.get_current_flight_capacity_info(flight);
-							System.out.println("Flight list "+flight.getFlightCode()+" = "+flight.getTotalPassengers());
+							//System.out.println("Flight list "+flight.getFlightCode()+" = "+flight.getTotalPassengers());
 						} catch (NoMatchingFlightCodeException e) {
 							System.out.println(e.getMessage());
 						}
@@ -65,10 +69,11 @@ public class CheckInDesk implements Runnable {
 					//Remove that passenger from the queue
 					PassengerQueue.remove_passenger_from_queue(next_passenger);
 				}
+				System.out.println("Thread out");
 			}
 		}
 		//Update GUI and close when interrupted
 		gui.update_checkInDesk(desk_number, "CLOSED"); //log check in desk closed after this line
-		System.out.println("CheckInDesk "+Thread.currentThread()+" has been closed");
+		//System.out.println("CheckInDesk "+Thread.currentThread()+" has been closed");
 	}
 }

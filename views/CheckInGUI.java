@@ -218,7 +218,6 @@ public class CheckInGUI extends JPanel implements Observer{
 	}
 	
 	public synchronized void update_flight(String flight_code, String flight_info) {	
-		System.out.println("I am in update flight");
 		if(flight_code.contains("LG2212")) {
 			flight1_code.setText(flight_code);
 			flight1_info.setText(flight_info);
