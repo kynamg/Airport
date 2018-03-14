@@ -1,24 +1,26 @@
 package airport;
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Iterator;
-import java.util.Random;
 import java.util.regex.Pattern;
 
 import views.CheckInGUI;
 
 public class CheckInDemo {
+	
 	private static PassengerList passengers;
 	private static FlightList flights;
 	private static CheckInGUI gui;
-	private static Thread passenger_queue;
 	static int passengers_checked_in = 0;
 	static int passengers_total = 0;
 
+	//Single passenger queue thread
+	private static Thread passenger_queue;
+	//Threads to store what desks are open and what flights have not departed
 	static ArrayList<Thread> active_flights;
 	static ArrayList<Thread> check_in_desks;
 	
+	//List of what flights have not yet departed (used for checking if a user can check in)
 	static ArrayList<Flight> flights_left_to_depart;
 
 	public CheckInDemo() throws IOException, InvalidFlightCodeException, InvalidBookingRefException, InvalidParameterException {
@@ -91,7 +93,10 @@ public class CheckInDemo {
 		}
 	}
 	
+	//Function called when a Flight thread is ready to depart. Closes all check in desks if all flights have departed
 	protected static synchronized void flight_depart(Thread thread, String flight_code) { //This will get used when we've implemented the flights leaving bit
+		
+		//Remove flight from flights left to depart list
 		Iterator<Flight> it = flights_left_to_depart.iterator();
 		while(it.hasNext()) {
 			Flight flight_departing = it.next();
@@ -103,12 +108,11 @@ public class CheckInDemo {
 		System.out.println("Flight code being removed = "+flight_code);
 		active_flights.remove(thread);
 		gui.update_flight(flight_code, "Departed");
+		
+		//If there are no flights left to depart, wait a bit and then close the kiosk
 		if(active_flights.isEmpty()) {
 			System.out.println("ACTIVE FLIGHTS IS EMPTY");
-			for(int i=0; i<check_in_desks.size(); i++) {
-				check_in_desks.get(i).interrupt();
-			}
-			System.out.println("Check In Desks closed");
+
 			try {
 				Thread.sleep(5000);
 			} catch (InterruptedException e) {
@@ -145,6 +149,8 @@ public class CheckInDemo {
 		}
 	}
 	
+	//Checks the flights_left_to_depart list and returns whether the flight has departed or not
+	//Used for determining whether a passenger is allowed to check in to their respective flights
 	protected static boolean has_flight_departed(Passenger passenger) {
 		String flight_code_of_passenger = passenger.getFlightCode();
 		Iterator<Flight> it = flights_left_to_depart.iterator();
@@ -156,27 +162,29 @@ public class CheckInDemo {
 		return true;
 	}
 	
+	//Called whenever the passenger queue changes, opens or closes check in desks depending on how long the queue is
 	protected static void open_close_check_in_desks(int size_of_queue) {
 		if(size_of_queue > 6) {
 			int index = check_in_desks.size();
+			//Add another check in desk while size is less than 5
 			while(check_in_desks.size() < 5) {
 				index++;
 				check_in_desks.add(new Thread(new CheckInDesk(PassengerQueue.get_passenger_queue(), flights, gui, index)));
 				gui.update_checkInDesk(index, "OPEN");
-				//Call the GUI here please!!!
 			}
 		}
-		else if(size_of_queue < 5) {
+		else if(size_of_queue < 3) {
+			//Remove desks while size is more than 1
 			int index = check_in_desks.size();
 			while(check_in_desks.size() > 1) {
 				check_in_desks.remove(0);
 				gui.update_checkInDesk(index, "CLOSED");
 				index--;
-				//Also call the GUI here
 			}
 		}
 	}
 	
+	//Used for creating a string used in the GUI about flight details, this method might get moved
 	protected static synchronized String get_current_flight_capacity_info(Flight current_flight) {
 		String capacity_info = "";
 		
@@ -186,6 +194,7 @@ public class CheckInDemo {
 		return capacity_info;
 	}
 	
+	//Check (percentage-wise) how full the plane is
 	private static int check_hold_fill_percentage(float maximum_volume, float current_volume) {
 		int percentage = 0;
 		
@@ -197,6 +206,10 @@ public class CheckInDemo {
 	public static void main(String args[]) throws IOException, InvalidFlightCodeException, InvalidBookingRefException, InvalidParameterException {
 		CheckInDemo demo = new CheckInDemo();
 		
+		//List storing all the flights which have not yet departed
+		//With runnable, you can't access methods of the object a thread refers to (I think)
+		//So I need a separate list containing a list of the flights that haven't departed so I can check their
+		//flight codes when a passenger tries to check in
 		flights_left_to_depart = new ArrayList<Flight>();
 		
 		try {
@@ -205,9 +218,11 @@ public class CheckInDemo {
 			System.out.println("Invalid Parameters");
 		}
 		
+		//Add a passenger queue and start reading data from the file
 		passenger_queue = new Thread(new PassengerQueue(gui, flights, passengers));
 		passenger_queue.start();
 		
+		//Initially open 3 check in desks, this gets changed throughout the program though
 		check_in_desks = new ArrayList<Thread>();
 		for(int i=0; i<3; i++) {
 			check_in_desks.add(new Thread(new CheckInDesk(PassengerQueue.get_passenger_queue(), flights, gui, i)));
@@ -218,18 +233,23 @@ public class CheckInDemo {
 		Iterator<Flight> it = flights.get_iterator();
 		while(it.hasNext()) {
 			Flight temp_flight = it.next();
+			//Add a thread containing Flight to active_flights array list
 			active_flights.add(new Thread(new Flight(temp_flight.getFlightCode(), temp_flight.getDestination(), temp_flight.getCarrier(), temp_flight.getMaxWeight(), temp_flight.getMaxPassengers(), temp_flight.getMaxVol())));
+			//Add this to the flights left to depart arraylist
 			flights_left_to_depart.add(temp_flight);
 			System.out.println("I got here with flight code = "+temp_flight.getFlightCode());
 			String flight_info = temp_flight.getFlightCode()+" "+temp_flight.getDestination();
 			String flight_status = temp_flight.getTotalPassengers()+" checked in of "+temp_flight.getMaxPassengers()+"\nHold is "+check_hold_fill_percentage(temp_flight.getMaxVol(), temp_flight.getTotalVolume())+"% full";
+			//Update the GUI with the relevant flights
 			gui.update_flight(flight_info, flight_status);
 		}
 		
+		//Start the threads
 		for(int i=0; i<active_flights.size(); i++) {
 			active_flights.get(i).start();
 		}
 		
+		//This is a GUI which allows passengers to add themselves to the GUI (alternate way of adding passengers to passenger_queue)
 		PassengerEntryGUI passenger_entry_gui = new PassengerEntryGUI(passengers, flights);
 	}
 }
