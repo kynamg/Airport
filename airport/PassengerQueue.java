@@ -9,7 +9,7 @@ import views.CheckInGUI;
 public class PassengerQueue implements Runnable {
 
 	static ArrayList<Passenger> passenger_queue;
-	static FlightList flights;
+	FlightList flights;
 	PassengerList passengers;
 	static CheckInGUI gui;
 	static boolean thread_killed = false;
@@ -29,15 +29,13 @@ public class PassengerQueue implements Runnable {
 		
 		gui.update_values(passenger_queue);
 		
-		//System.out.println("Passenger queue = "+passenger_queue.size());
-		
 		try {
 			Thread.sleep(200);
 		} catch (InterruptedException e) {
 			thread_killed = true;
-			//System.out.println("Thread killed");
 		}
 	}
+
 	//passengers checking in
 	protected synchronized static void remove_passenger_from_queue(Passenger passenger) {
 		//System.out.println("Passenger "+passenger.getName()+" being removed");
