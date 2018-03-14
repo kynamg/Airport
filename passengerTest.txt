@@ -5,3 +5,7 @@ rick;sanchez;M08TY43;LG1254;false
 Yola;Jones;AB12345;LG1254;false
 craig;hamilton;AB12346;LG2212;false
 george;walker;BA12309;LG2212;false
+angus;cameron;PW98765;LG1254;false
+andrew;patterson;HE12345;LG2212;false
+andy;vickers;PB12345;AB1234;false
+martin;greer;MG12345;AB1234;false

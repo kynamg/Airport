@@ -114,7 +114,7 @@ public class CheckInDemo {
 			System.out.println("ACTIVE FLIGHTS IS EMPTY");
 
 			try {
-				Thread.sleep(10000);
+				Thread.sleep(5000);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}

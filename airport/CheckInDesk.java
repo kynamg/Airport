@@ -32,18 +32,10 @@ public class CheckInDesk implements Runnable {
 			}
 			
 			if(passenger_to_get == true) {
-				Flight flight;
-		
+	
 				//Update the GUI with what the GUI is currently doing
 				gui.update_checkInDesk(desk_number, "Passenger "+next_passenger.getName()+" "+next_passenger.getSurname()+"\nWeight = "+next_passenger.getBaggageWeight()+"\nVolume = "+next_passenger.getBaggageVolume()+"\nBaggage fee = "+next_passenger.getBaggageFee());
-
-				//Potentially remove for final thing - this just makes a list
-				/*try {
-					Thread.sleep(2000);
-				} catch (InterruptedException e1) {
-					e1.printStackTrace();
-				}*/
-				
+				Flight flight;
 				//Check if that passenger's flight has departed, and if not, increment flight details
 				if(CheckInDemo.has_flight_departed(next_passenger) == false) {
 					try {
@@ -60,6 +52,13 @@ public class CheckInDesk implements Runnable {
 						//System.out.println("Flight list "+flight.getFlightCode()+" = "+flight.getTotalPassengers());
 					} catch (NoMatchingFlightCodeException e) {
 						System.out.println(e.getMessage());
+					}
+					
+					//Potentially remove for final thing - this just makes a list
+					try {
+						Thread.sleep(1000);
+					} catch (InterruptedException e1) {
+						e1.printStackTrace();
 					}
 				}
 				else {
