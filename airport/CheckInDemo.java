@@ -4,6 +4,7 @@ import java.io.*;
 import java.util.*;
 import java.util.regex.Pattern;
 
+import model.CheckIn;
 import views.CheckInGUI;
 
 public class CheckInDemo {
@@ -11,8 +12,10 @@ public class CheckInDemo {
 	private static PassengerList passengers;
 	private static FlightList flights;
 	private static CheckInGUI gui;
+	private static CheckIn checkin;
 	static int passengers_checked_in = 0;
 	static int passengers_total = 0;
+	//static CheckIn checkin;
 
 	//Single passenger queue thread
 	private static Thread passenger_queue;
@@ -205,6 +208,8 @@ public class CheckInDemo {
 		
 	public static void main(String args[]) throws IOException, InvalidFlightCodeException, InvalidBookingRefException, InvalidParameterException {
 		CheckInDemo demo = new CheckInDemo();
+		CheckIn check = new CheckIn();
+		//CheckInGUI view = new CheckInGUI(check, );
 		
 		//List storing all the flights which have not yet departed
 		//With runnable, you can't access methods of the object a thread refers to (I think)
@@ -213,13 +218,13 @@ public class CheckInDemo {
 		flights_left_to_depart = new ArrayList<Flight>();
 		
 		try {
-			gui = new CheckInGUI(PassengerQueue.get_passenger_queue());
+			gui = new CheckInGUI(check, PassengerQueue.get_passenger_queue());
 		} catch (InvalidFlightCodeException | InvalidBookingRefException | InvalidParameterException e) {
 			System.out.println("Invalid Parameters");
 		}
 		
 		//Add a passenger queue and start reading data from the file
-		passenger_queue = new Thread(new PassengerQueue(gui, flights, passengers));
+		passenger_queue = new Thread(new PassengerQueue(gui, flights, passengers, check));
 		passenger_queue.start();
 		
 		//Initially open 3 check in desks, this gets changed throughout the program though

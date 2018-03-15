@@ -1,6 +1,8 @@
 package views;
 
 import interfaces.Observer;
+import model.CheckIn;
+
 import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
@@ -20,6 +22,7 @@ import java.util.stream.Collectors;
 
 public class CheckInGUI extends JPanel implements Observer{
 	//JFrame guiFrame;
+	private CheckIn checkin;
 	static JScrollPane queue_panel;
 	private int count = 0;
 	private JPanel checkInDesks_panel;
@@ -29,7 +32,9 @@ public class CheckInGUI extends JPanel implements Observer{
 	private JTextArea flight1_code, flight2_code, flight3_code;
 	private JTextArea flight1_info, flight2_info, flight3_info;
 	
-	public CheckInGUI(ArrayList<Passenger> passenger_queue) throws InvalidFlightCodeException, InvalidBookingRefException, InvalidParameterException {
+	public CheckInGUI(CheckIn model, ArrayList<Passenger> passenger_queue) throws InvalidFlightCodeException, InvalidBookingRefException, InvalidParameterException {
+		this.checkin = model;
+		model.registerObserver(this);
 		JFrame guiFrame = new JFrame();
 		
 		JPanel airport_panel = new JPanel(new GridLayout(3,1));
@@ -187,18 +192,18 @@ public class CheckInGUI extends JPanel implements Observer{
 		
 	}
 	
-	public synchronized void update_values(ArrayList<Passenger> queue) {
-
-		ArrayList<String> queue_arraylist = new ArrayList<String>();
-		for (Passenger p : queue) {
-			String passenger_info = (p.getBookingRef() + "       " + p.getName() + " " + p.getSurname() + "  							    "
-		+ p.getBaggageVolume() + "m\u00B3 " + p.getBaggageWeight() + "kg");
-			queue_arraylist.add(passenger_info);
-		}
-
-		JList<String> queue_list = new JList<>(queue_arraylist.toArray(new String[0]));
-		queue_panel.setViewportView(queue_list);
-	}
+//	public synchronized void update_values(ArrayList<Passenger> queue) {
+//
+//		ArrayList<String> queue_arraylist = new ArrayList<String>();
+//		for (Passenger p : queue) {
+//			String passenger_info = (p.getBookingRef() + "       " + p.getName() + " " + p.getSurname() + "  							    "
+//		+ p.getBaggageVolume() + "m\u00B3 " + p.getBaggageWeight() + "kg");
+//			queue_arraylist.add(passenger_info);
+//		}
+//
+//		JList<String> queue_list = new JList<>(queue_arraylist.toArray(new String[0]));
+//		queue_panel.setViewportView(queue_list);
+//	}
 	
 	public synchronized void update_checkInDesk(int desk_no, String desk_status) {
         
@@ -235,7 +240,16 @@ public class CheckInGUI extends JPanel implements Observer{
 	}
 	
 	public void update() {
-		repaint();
+		ArrayList<Passenger> queue = checkin.get_passenger_queue();
+		ArrayList<String> queue_arraylist = new ArrayList<String>();
+		for (Passenger p : queue) {
+			String passenger_info = (p.getBookingRef() + "       " + p.getName() + " " + p.getSurname() + "  							    "
+		+ p.getBaggageVolume() + "m\u00B3 " + p.getBaggageWeight() + "kg");
+			queue_arraylist.add(passenger_info);
+		}
+
+		JList<String> queue_list = new JList<>(queue_arraylist.toArray(new String[0]));
+		queue_panel.setViewportView(queue_list);
 		/// pass queue and other values as parameters and call method which stores values into JList etc.
 	}
 	

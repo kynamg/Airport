@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.logging.*;
 
+import model.CheckIn;
 import views.CheckInGUI;
 
 public class PassengerQueue implements Runnable {
@@ -11,14 +12,16 @@ public class PassengerQueue implements Runnable {
 	static ArrayList<Passenger> passenger_queue;
 	FlightList flights;
 	PassengerList passengers;
+	static CheckIn checkin;
 	static CheckInGUI gui;
 	static boolean thread_killed = false;
 	
-	public PassengerQueue(CheckInGUI gui, FlightList flights, PassengerList passengers) {
+	public PassengerQueue(CheckInGUI gui, FlightList flights, PassengerList passengers, CheckIn checkin) {
 		passenger_queue = new ArrayList<Passenger>();
 		this.passengers = passengers;
 		this.flights = flights;
 		this.gui = gui;
+		this.checkin = checkin;
 	}
 	
 	protected synchronized static void add_passenger_to_queue(Passenger passenger) {
@@ -26,8 +29,9 @@ public class PassengerQueue implements Runnable {
 		passenger_queue.add(passenger);
 		
 		CheckInDemo.open_close_check_in_desks(passenger_queue.size());
-		
-		gui.update_values(passenger_queue);
+		//checkin.notifyObservers();
+		checkin.update_passenger_queue(passenger_queue);
+		//gui.update_values(passenger_queue);
 		
 		try {
 			Thread.sleep(200);
@@ -42,8 +46,8 @@ public class PassengerQueue implements Runnable {
 		
 		passenger_queue.remove(passenger);
 		CheckInDemo.open_close_check_in_desks(passenger_queue.size());
-		
-		gui.update_values(passenger_queue);
+		checkin.update_passenger_queue(passenger_queue);
+		//gui.update_values(passenger_queue);
 		
 		try {
 			Thread.sleep(200);

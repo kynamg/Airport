@@ -1,7 +1,8 @@
-package airport;
+package model;
 
 import java.util.*;
 
+import airport.Passenger;
 import interfaces.Observer;
 import interfaces.Subject;
 
@@ -29,7 +30,7 @@ public class CheckIn implements Subject {
 			obs.update();
 	}
 	
-	protected ArrayList<Passenger> get_passenger_queue() {
+	public ArrayList<Passenger> get_passenger_queue() {
 		return passenger_queue;
 	}
 	
@@ -50,6 +51,7 @@ public class CheckIn implements Subject {
 		while(it.hasNext()) {
 			//Call update method
 			//it.hasNext().update();
+			it.next().update();
 		}
 	}
 	
@@ -66,7 +68,8 @@ public class CheckIn implements Subject {
 	
 	public void update_passenger_queue(ArrayList<Passenger> passenger_queue) {
 		this.passenger_queue = passenger_queue;
-		update_observers();
+		notifyObservers();
+		//update_observers();
 	}
 	
 	public CheckIn() {
