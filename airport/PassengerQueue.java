@@ -33,11 +33,11 @@ public class PassengerQueue implements Runnable {
 		checkin.update_passenger_queue(passenger_queue);
 		//gui.update_values(passenger_queue);
 		
-		try {
-			Thread.sleep(200);
-		} catch (InterruptedException e) {
-			thread_killed = true;
-		}
+//		try {
+//			Thread.sleep(200);
+//		} catch (InterruptedException e) {
+//			thread_killed = true;
+//		}
 	}
 
 	//passengers checking in

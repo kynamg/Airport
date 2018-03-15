@@ -20,7 +20,7 @@ import java.util.Objects;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-public class CheckInGUI extends JPanel implements Observer{
+public class CheckInGUI extends JFrame{
 	//JFrame guiFrame;
 	private CheckIn checkin;
 	static JScrollPane queue_panel;
@@ -32,25 +32,19 @@ public class CheckInGUI extends JPanel implements Observer{
 	private JTextArea flight1_code, flight2_code, flight3_code;
 	private JTextArea flight1_info, flight2_info, flight3_info;
 	
-	public CheckInGUI(CheckIn model, ArrayList<Passenger> passenger_queue) throws InvalidFlightCodeException, InvalidBookingRefException, InvalidParameterException {
+	public CheckInGUI(CheckIn model) throws InvalidFlightCodeException, InvalidBookingRefException, InvalidParameterException {
 		this.checkin = model;
-		model.registerObserver(this);
-		JFrame guiFrame = new JFrame();
+		//model.registerObserver(this);
+		//JFrame guiFrame = new JFrame();
 		
 		JPanel airport_panel = new JPanel(new GridLayout(3,1));
 		
-		guiFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		guiFrame.setTitle("Airport");
-		guiFrame.setSize(800,500);
-				
-		// Panel with Passenger queue
-		queue_panel = new JScrollPane();
-		TitledBorder queue_title = new TitledBorder("Queue");
-		queue_panel.setBorder(queue_title);
-
-		// Panel with Check in Desks
-		checkInDesks_panel = new JPanel(new GridLayout(1,5));
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setTitle("Airport");
+		setSize(800,500);
 		
+		checkInDesks_panel = new JPanel(new GridLayout(1,5));
+		//checkInDesks_panel.setLayout(new GridLayout(1,5));
 		// Check In Desk 1
 		checkInDesk1 = new JPanel();
 		checkInDesk1.setLayout(new BorderLayout());
@@ -59,9 +53,9 @@ public class CheckInGUI extends JPanel implements Observer{
 		desk1_label = new JTextArea("CLOSED");
 		desk1_label.setFont(new Font("Serif", Font.ITALIC, 16));
 		desk1_label.setLineWrap(true);
-        desk1_label.setWrapStyleWord(true);
-        desk1_label.setOpaque(false);
-        desk1_label.setEditable(false);
+	    desk1_label.setWrapStyleWord(true);
+	    desk1_label.setOpaque(false);
+	    desk1_label.setEditable(false);
 		checkInDesk1.add(desk1_label);
 		
 		// Check In Desk 2
@@ -123,72 +117,25 @@ public class CheckInGUI extends JPanel implements Observer{
 		checkInDesks_panel.add(checkInDesk4);
 		checkInDesks_panel.add(checkInDesk5);
 		
-		JPanel flights_panel = new JPanel(new GridLayout(1,3));
-		
-		flight1 = new JPanel();
-		flight1.setLayout(new GridLayout(2,1));
-		TitledBorder flight1_title = new TitledBorder("Flight 1");
-		flight1.setBorder(flight1_title);
-		flight1_code = new JTextArea("Flight Code here");
-		flight1_info = new JTextArea("Flight info here");
-		flight1_code.setFont(new Font("Calibri", Font.BOLD, 14));
-		flight1_code.setLineWrap(true);
-        flight1_code.setWrapStyleWord(true);
-        flight1_code.setOpaque(false);
-        flight1_code.setEditable(false);
-        flight1_info.setWrapStyleWord(true);
-        flight1_info.setOpaque(false);
-        flight1_info.setEditable(false);
-		flight1.add(flight1_code);
-		flight1.add(flight1_info);
-		
-		flight2 = new JPanel();
-		flight2.setLayout(new GridLayout(2,1));
-		TitledBorder flight2_title = new TitledBorder("Flight 2");
-		flight2.setBorder(flight2_title);
-		flight2_code = new JTextArea("Flight Code here");
-		flight2_info = new JTextArea("Flight info here");
-		flight2_code.setFont(new Font("Calibri", Font.BOLD, 14));
-		flight2_code.setLineWrap(true);
-        flight2_code.setWrapStyleWord(true);
-        flight2_code.setOpaque(false);
-        flight2_code.setEditable(false);
-        flight2_info.setWrapStyleWord(true);
-        flight2_info.setOpaque(false);
-        flight2_info.setEditable(false);
-		flight2.add(flight2_code);
-		flight2.add(flight2_info);
-		
-		
-		flight3 = new JPanel();
-		flight3.setLayout(new GridLayout(2,1));
-		TitledBorder flight3_title = new TitledBorder("Flight 3");
-		flight3.setBorder(flight3_title);
-		flight3_code = new JTextArea("Flight Code here");
-		flight3_info = new JTextArea("Flight info here");
-		flight3_code.setFont(new Font("Calibri", Font.BOLD, 14));
-		flight3_code.setLineWrap(true);
-        flight3_code.setWrapStyleWord(true);
-        flight3_code.setOpaque(false);
-        flight3_code.setEditable(false);
-        flight3_code.setLineWrap(true);
-        flight3_info.setWrapStyleWord(true);
-        flight3_info.setOpaque(false);
-        flight3_info.setEditable(false);
-		flight3.add(flight3_code);
-		flight3.add(flight3_info);
-		
-		flights_panel.add(flight1);
-		flights_panel.add(flight2);
-		flights_panel.add(flight3);
-
-	    airport_panel.add(queue_panel);
+		airport_panel.add(new QueueGUI(model));
+		//airport_panel.add(new CheckInDesksGUI(model));
 		airport_panel.add(checkInDesks_panel);
-		airport_panel.add(flights_panel);
+		airport_panel.add(new flightsGUI(model));
+				
+		// Panel with Passenger queue
+//		queue_panel = new JScrollPane();
+//		TitledBorder queue_title = new TitledBorder("Queue");
+//		queue_panel.setBorder(queue_title);
+
+
+
+	    //airport_panel.add(queue_panel);
+		//airport_panel.add(checkInDesks_panel);
+		//airport_panel.add(flights_panel);
 		
-		guiFrame.add(airport_panel);
+		add(airport_panel);
 		//guiFrame.pack();
-		guiFrame.setVisible(true);
+		setVisible(true);
 		
 	}
 	
@@ -204,54 +151,53 @@ public class CheckInGUI extends JPanel implements Observer{
 //		JList<String> queue_list = new JList<>(queue_arraylist.toArray(new String[0]));
 //		queue_panel.setViewportView(queue_list);
 //	}
-	
+//	
 	public synchronized void update_checkInDesk(int desk_no, String desk_status) {
-        
 		switch(desk_no) {
-			case 1:  desk1_label.setText(desk_status);;
+			case 1:  desk1_label.setText(desk_status);
 	                 break;
-			case 2:  desk2_label.setText(desk_status);;
+			case 2:  desk2_label.setText(desk_status);
 	        			break;
-			case 3:  desk3_label.setText(desk_status);;
+			case 3:  desk3_label.setText(desk_status);
 	        			break;
-			case 4:  desk4_label.setText(desk_status);;
+			case 4:  desk4_label.setText(desk_status);
 	        			break;
-			case 5:  desk5_label.setText(desk_status);;
+			case 5:  desk5_label.setText(desk_status);
 	        			break;
 	        default: break;
 		}
 	}
 	
-	public synchronized void update_flight(String flight_code, String flight_info) {	
-		if(flight_code.contains("LG2212")) {
-			flight1_code.setText(flight_code);
-			flight1_info.setText(flight_info);
-		}
-		else if(flight_code.contains("LG1254")) {
-			flight2_code.setText(flight_code);
-			flight2_info.setText(flight_info);
-		}
-		else if(flight_code.contains("AB1234")) {
-			flight3_code.setText(flight_code);
-			flight3_info.setText(flight_info);
-		}
-		
-
-	}
-	
-	public void update() {
-		ArrayList<Passenger> queue = checkin.get_passenger_queue();
-		ArrayList<String> queue_arraylist = new ArrayList<String>();
-		for (Passenger p : queue) {
-			String passenger_info = (p.getBookingRef() + "       " + p.getName() + " " + p.getSurname() + "  							    "
-		+ p.getBaggageVolume() + "m\u00B3 " + p.getBaggageWeight() + "kg");
-			queue_arraylist.add(passenger_info);
-		}
-
-		JList<String> queue_list = new JList<>(queue_arraylist.toArray(new String[0]));
-		queue_panel.setViewportView(queue_list);
-		/// pass queue and other values as parameters and call method which stores values into JList etc.
-	}
+//	public synchronized void update_flight(String flight_code, String flight_info) {	
+//		if(flight_code.contains("LG2212")) {
+//			flight1_code.setText(flight_code);
+//			flight1_info.setText(flight_info);
+//		}
+//		else if(flight_code.contains("LG1254")) {
+//			flight2_code.setText(flight_code);
+//			flight2_info.setText(flight_info);
+//		}
+//		else if(flight_code.contains("AB1234")) {
+//			flight3_code.setText(flight_code);
+//			flight3_info.setText(flight_info);
+//		}
+//		
+//
+//	}
+//	
+//	public void update() {
+//		ArrayList<Passenger> queue = checkin.get_passenger_queue();
+//		ArrayList<String> queue_arraylist = new ArrayList<String>();
+//		for (Passenger p : queue) {
+//			String passenger_info = (p.getBookingRef() + "       " + p.getName() + " " + p.getSurname() + "  							    "
+//		+ p.getBaggageVolume() + "m\u00B3 " + p.getBaggageWeight() + "kg");
+//			queue_arraylist.add(passenger_info);
+//		}
+//
+//		JList<String> queue_list = new JList<>(queue_arraylist.toArray(new String[0]));
+//		queue_panel.setViewportView(queue_list);
+//		/// pass queue and other values as parameters and call method which stores values into JList etc.
+//	}
 	
 //	//MVC main method
 //	CheckIn model = new CheckIn();

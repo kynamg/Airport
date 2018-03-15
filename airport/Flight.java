@@ -191,7 +191,8 @@ public class Flight implements Runnable {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		CheckInDemo.flight_depart(Thread.currentThread(), flightCode); //log
+		String flight_name = flightCode + " " + destination;
+		CheckInDemo.flight_depart(Thread.currentThread(), flight_name); //log
 	}
 	
 }

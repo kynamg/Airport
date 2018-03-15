@@ -10,10 +10,11 @@ public class CheckIn implements Subject {
 	
 	static ArrayList<Passenger> passenger_queue;
 	
-	String flight_code_destination;
-	String flight_info;
+	static String flight_code_destination;
+	static String flight_info;
 	
 	String check_in_info;
+	int desk_no;
 	
 	private List<Observer> registeredObservers = new LinkedList<Observer>();
 	
@@ -34,16 +35,20 @@ public class CheckIn implements Subject {
 		return passenger_queue;
 	}
 	
-	protected String get_flight_code_destination() {
+	public String get_flight_code_destination() {
 		return flight_code_destination;
 	}
 	
-	protected String get_flight_info() {
+	public String get_flight_info() {
 		return flight_info;
 	}
 	
-	protected String get_check_in_info() {
+	public String get_check_in_info() {
 		return check_in_info;
+	}
+	
+	public int get_desk_no() {
+		return desk_no;
 	}
 	
 	private void update_observers() {
@@ -55,15 +60,19 @@ public class CheckIn implements Subject {
 		}
 	}
 	
-	public void update_check_in_desk(String check_in_info) {
+	public synchronized void update_check_in_desk(int desk_no, String check_in_info) {
+		
+		this.desk_no = desk_no;
 		this.check_in_info = check_in_info;
-		update_observers();
+		System.out.println(desk_no);
+		//update_observers();
+		notifyObservers();
 	}
 	
 	public void update_flight_info(String flight_code_destination, String flight_info) {
 		this.flight_code_destination = flight_code_destination;
 		this.flight_info = flight_info;
-		update_observers();
+		notifyObservers();
 	}
 	
 	public void update_passenger_queue(ArrayList<Passenger> passenger_queue) {
