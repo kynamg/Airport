@@ -9,10 +9,10 @@ import views.CheckInGUI;
 
 public class PassengerQueue implements Runnable {
 
-	static ArrayList<Passenger> passenger_queue;
+	ArrayList<Passenger> passenger_queue;
 	FlightList flights;
 	PassengerList passengers;
-	static CheckIn checkin;
+	CheckIn checkin;
 	static CheckInGUI gui;
 	static boolean thread_killed = false;
 	
@@ -20,14 +20,13 @@ public class PassengerQueue implements Runnable {
 		passenger_queue = new ArrayList<Passenger>();
 		this.passengers = passengers;
 		this.flights = flights;
-		this.gui = gui;
 		this.checkin = checkin;
 	}
 	
-	protected synchronized static void add_passenger_to_queue(Passenger passenger) {
+	protected synchronized void add_passenger_to_queue(Passenger passenger) {
 		
 		passenger_queue.add(passenger);
-		
+		System.out.println("Passenger queue size = "+passenger_queue.size());
 		CheckInDemo.open_close_check_in_desks(passenger_queue.size());
 		//checkin.notifyObservers();
 		checkin.update_passenger_queue(passenger_queue);
@@ -41,7 +40,7 @@ public class PassengerQueue implements Runnable {
 	}
 
 	//passengers checking in
-	protected synchronized static void remove_passenger_from_queue(Passenger passenger) {
+	protected synchronized void remove_passenger_from_queue(Passenger passenger) {
 		//System.out.println("Passenger "+passenger.getName()+" being removed");
 		
 		passenger_queue.remove(passenger);
@@ -56,7 +55,7 @@ public class PassengerQueue implements Runnable {
 		}
 	}
 	
-	public static ArrayList<Passenger> get_passenger_queue() {
+	public ArrayList<Passenger> get_passenger_queue() {
 		return passenger_queue;
 	}
 

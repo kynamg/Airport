@@ -102,7 +102,7 @@ public class flightsGUI extends JPanel implements Observer {
 //
 //	}
 
-	public void update() {
+	public synchronized void update() {
 		System.out.println("Just before string assignment");
 		String flight_code = checkin.get_flight_code_destination();
 		String flight_info = checkin.get_flight_info();

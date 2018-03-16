@@ -8,7 +8,7 @@ import interfaces.Subject;
 
 public class CheckIn implements Subject {
 	
-	static ArrayList<Passenger> passenger_queue;
+	ArrayList<Passenger> passenger_queue;
 	
 	String flight_code_destination;
 	String flight_info;
@@ -36,6 +36,7 @@ public class CheckIn implements Subject {
 	}
 	
 	public ArrayList<Passenger> get_passenger_queue() {
+		System.out.println("Size = "+passenger_queue.size());
 		return passenger_queue;
 	}
 	

@@ -19,6 +19,7 @@ public class CheckInDemo {
 
 	//Single passenger queue thread
 	private static Thread passenger_queue;
+	private static PassengerQueue passenger_queue_class;
 	//Threads to store what desks are open and what flights have not departed
 	static ArrayList<Thread> active_flights;
 	static ArrayList<Thread> check_in_desks;
@@ -174,7 +175,7 @@ public class CheckInDemo {
 			//Add another check in desk while size is less than 5
 			while(check_in_desks.size() < 5) {
 				index++;
-				check_in_desks.add(new Thread(new CheckInDesk(PassengerQueue.get_passenger_queue(), flights, gui, checkin, index)));
+				check_in_desks.add(new Thread(new CheckInDesk(passenger_queue_class.get_passenger_queue(), flights, gui, checkin, passenger_queue_class, index)));
 				//check.update_check_in_desk(index, "OPEN");
 				gui.update_checkInDesk(index, "OPEN");
 			}
@@ -187,9 +188,11 @@ public class CheckInDemo {
 				
 				//check.update_check_in_desk(1, "CLOSED");
 				
-				check_in_desks.remove(0);
-				
+				System.out.println("Before");
 				gui.update_checkInDesk(index, "CLOSED");
+				System.out.println("After");
+				check_in_desks.remove(0);
+				System.out.println("After after");
 				index--;
 			}
 		}
@@ -236,13 +239,14 @@ public class CheckInDemo {
 		}
 		
 		//Add a passenger queue and start reading data from the file
-		passenger_queue = new Thread(new PassengerQueue(gui, flights, passengers, check));
+		passenger_queue_class = new PassengerQueue(gui, flights, passengers, check);
+		passenger_queue = new Thread(passenger_queue_class);
 		passenger_queue.start();
 		
 		//Initially open 3 check in desks, this gets changed throughout the program though
 		check_in_desks = new ArrayList<Thread>();
 		for(int i=0; i<3; i++) {
-			check_in_desks.add(new Thread(new CheckInDesk(PassengerQueue.get_passenger_queue(), flights, gui, check, i)));
+			check_in_desks.add(new Thread(new CheckInDesk(passenger_queue_class.get_passenger_queue(), flights, gui, check, passenger_queue_class, i)));
 			check_in_desks.get(i).start();
 		}
 		
@@ -276,6 +280,6 @@ public class CheckInDemo {
 		}
 		
 		//This is a GUI which allows passengers to add themselves to the GUI (alternate way of adding passengers to passenger_queue)
-		PassengerEntryGUI passenger_entry_gui = new PassengerEntryGUI(passengers, flights);
+		//PassengerEntryGUI passenger_entry_gui = new PassengerEntryGUI(passengers, flights);
 	}
 }

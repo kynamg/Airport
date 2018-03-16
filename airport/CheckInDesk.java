@@ -11,16 +11,18 @@ public class CheckInDesk implements Runnable {
 	FlightList flight_list;
 	CheckInGUI gui;
 	CheckIn checkin;
+	PassengerQueue passenger_queue_class;
 	//What desk index this desk is - used by GUI
 	int desk_number;
 	Passenger next_passenger;
 	
-	public CheckInDesk(ArrayList<Passenger> passenger_queue, FlightList flight_list, CheckInGUI gui, CheckIn checkin, int desk_number) {
+public CheckInDesk(ArrayList<Passenger> passenger_queue, FlightList flight_list, CheckInGUI gui, CheckIn checkin, PassengerQueue passenger_queue_class, int desk_number) {
 		this.passenger_queue = passenger_queue;
 		this.flight_list = flight_list;
 		this.gui = gui;
 		this.desk_number = desk_number;
 		this.checkin = checkin;
+		this.passenger_queue_class = passenger_queue_class;
 	}
 	
 	public void run() {
@@ -57,7 +59,7 @@ public class CheckInDesk implements Runnable {
 						flight.incrementBaggageFees(baggageFee);
 						System.out.println();
 						CheckInDemo.get_current_flight_capacity_info(flight);
-						//System.out.println("Flight list "+flight.getFlightCode()+" = "+flight.getTotalPassengers());
+						System.out.println("Flight list "+flight.getFlightCode()+" = "+flight.getTotalPassengers());
 					} catch (NoMatchingFlightCodeException e) {
 						System.out.println(e.getMessage());
 					}
@@ -92,7 +94,7 @@ public class CheckInDesk implements Runnable {
 		}
 		else {
 			next_passenger = passenger_queue.get(0);
-			PassengerQueue.remove_passenger_from_queue(next_passenger);
+			passenger_queue_class.remove_passenger_from_queue(next_passenger);
 			System.out.println("Thread out with passenger = "+next_passenger.getName());
 			return true;
 		}
