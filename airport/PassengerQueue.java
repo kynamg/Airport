@@ -65,7 +65,9 @@ public class PassengerQueue implements Runnable {
 	public void run() {
 		Iterator<Passenger> it = passengers.getIterator();
 		while(it.hasNext() && !Thread.interrupted()) {
-			add_passenger_to_queue(it.next());
+			Passenger passenger = it.next();
+			System.out.println("Passenger = "+passenger.getName());
+			add_passenger_to_queue(passenger);
 		}
 	}
 }

@@ -168,19 +168,21 @@ public class CheckInDemo {
 	
 	//Called whenever the passenger queue changes, opens or closes check in desks depending on how long the queue is
 	protected synchronized static void open_close_check_in_desks(int size_of_queue) {
-		if(size_of_queue > 6) {
+		if(size_of_queue > 2) {
 			int index = check_in_desks.size();
 			//Add another check in desk while size is less than 5
 			while(check_in_desks.size() < 5) {
 				index++;
 				check_in_desks.add(new Thread(new CheckInDesk(PassengerQueue.get_passenger_queue(), flights, gui, index)));
+				check_in_desks.get(index).start();
 				gui.update_checkInDesk(index, "OPEN");
 			}
 		}
-		else if(size_of_queue < 3) {
+		else if(size_of_queue < 2) {
 			//Remove desks while size is more than 1
 			int index = check_in_desks.size();
 			while(check_in_desks.size() > 1) {
+				//check_in_desks.get(0).interrupt();
 				check_in_desks.remove(0);
 				gui.update_checkInDesk(index, "CLOSED");
 				index--;
@@ -224,14 +226,16 @@ public class CheckInDemo {
 		}
 		
 		//Add a passenger queue and start reading data from the file
-		passenger_queue = new Thread(new PassengerQueue(gui, passengers, check));
-		passenger_queue.start();
 		
+		AirportLog.log(Level.INFO, "Logging Starting");
 		for(int i=0; i<3; i++) {
 			//LOG: Check In Desks Opening
 			String desk_open = "Check In Desk " + i + " opening";
 			AirportLog.log(Level.INFO,desk_open);
 		}
+		
+		passenger_queue = new Thread(new PassengerQueue(gui, passengers, check));
+		passenger_queue.start();
 		
 		//Initially open 3 check in desks, this gets changed throughout the program though
 		check_in_desks = new ArrayList<Thread>();

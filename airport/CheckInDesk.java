@@ -59,7 +59,7 @@ public class CheckInDesk implements Runnable {
 					
 					//Potentially remove for final thing - this just makes a list
 					try {
-						Thread.sleep(1000);
+						Thread.sleep(2000);
 					} catch (InterruptedException e1) {
 						e1.printStackTrace();
 					}
@@ -87,6 +87,5 @@ public class CheckInDesk implements Runnable {
 			System.out.println("Thread out with passenger = "+next_passenger.getName());
 			return true;
 		}
-
 	}
 }
