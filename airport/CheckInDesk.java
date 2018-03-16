@@ -10,7 +10,7 @@ public class CheckInDesk implements Runnable {
 	ArrayList<Passenger> passenger_queue;
 	FlightList flight_list;
 	CheckInGUI gui;
-	static CheckIn checkin;
+	CheckIn checkin;
 	//What desk index this desk is - used by GUI
 	int desk_number;
 	Passenger next_passenger;

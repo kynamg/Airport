@@ -1,1 +1,1 @@
-LG2212;Illinois;Lufthansa;23;5;70LG1254;Kentucky;BA;24;6;50AB1234;Edinburgh;BA;24;1;50
+LG1254;Illinois;Lufthansa;23;5;70LG2212;Kentucky;BA;24;6;50AB1234;Edinburgh;BA;24;1;50

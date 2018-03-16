@@ -62,10 +62,13 @@ public class QueueGUI extends JScrollPane implements Observer{
 public synchronized void update() {
 	ArrayList<Passenger> queue = checkindata.get_passenger_queue();
 	ArrayList<String> queue_arraylist = new ArrayList<String>();
-	for (Passenger p : queue) {
-		String passenger_info = (p.getBookingRef() + "       " + p.getName() + " " + p.getSurname() + "  							    "
-	+ p.getBaggageVolume() + "m\u00B3 " + p.getBaggageWeight() + "kg");
-		queue_arraylist.add(passenger_info);
+	System.out.println("Queue size = "+queue_arraylist.size());
+	if(!queue_arraylist.isEmpty()) {
+		for (Passenger p : queue) {
+			String passenger_info = (p.getBookingRef() + "       " + p.getName() + " " + p.getSurname() + "  							    "
+		+ p.getBaggageVolume() + "m\u00B3 " + p.getBaggageWeight() + "kg");
+			queue_arraylist.add(passenger_info);
+		}
 	}
 
 	JList<String> queue_list = new JList<>(queue_arraylist.toArray(new String[0]));

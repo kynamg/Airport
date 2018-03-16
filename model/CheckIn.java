@@ -10,8 +10,8 @@ public class CheckIn implements Subject {
 	
 	static ArrayList<Passenger> passenger_queue;
 	
-	static String flight_code_destination;
-	static String flight_info;
+	String flight_code_destination;
+	String flight_info;
 	
 	String check_in_info;
 	int desk_no;
@@ -27,8 +27,12 @@ public class CheckIn implements Subject {
 	}
 	
 	public void notifyObservers() {
-		for(Observer obs : registeredObservers)
+		System.out.println("Observer length = "+registeredObservers.size());
+		for(Observer obs : registeredObservers) {
+			System.out.println("I got here");
+			System.out.println("Class = "+obs.getClass());
 			obs.update();
+		}
 	}
 	
 	public ArrayList<Passenger> get_passenger_queue() {
@@ -72,6 +76,10 @@ public class CheckIn implements Subject {
 	public void update_flight_info(String flight_code_destination, String flight_info) {
 		this.flight_code_destination = flight_code_destination;
 		this.flight_info = flight_info;
+		System.out.println("Input flight dest = "+flight_code_destination);
+		System.out.println("Input flight info = "+flight_info);
+		System.out.println("Input this flight dest = "+this.flight_code_destination);
+		System.out.println("Input this flight info = "+this.flight_info);
 		notifyObservers();
 	}
 	

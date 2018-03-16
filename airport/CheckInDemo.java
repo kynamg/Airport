@@ -246,10 +246,16 @@ public class CheckInDemo {
 			check_in_desks.get(i).start();
 		}
 		
+		Iterator<Flight> it_tmp = flights.get_iterator();
+		while(it_tmp.hasNext()) {
+			System.out.println("Flight code of input = "+it_tmp.next().getFlightCode());
+		}
+		
 		active_flights = new ArrayList<Thread>();
 		Iterator<Flight> it = flights.get_iterator();
 		while(it.hasNext()) {
 			Flight temp_flight = it.next();
+			System.out.println("Temp flight = "+temp_flight.getFlightCode());
 			//Add a thread containing Flight to active_flights array list
 			active_flights.add(new Thread(new Flight(temp_flight.getFlightCode(), temp_flight.getDestination(), temp_flight.getCarrier(), temp_flight.getMaxWeight(), temp_flight.getMaxPassengers(), temp_flight.getMaxVol())));
 			//Add this to the flights left to depart arraylist
@@ -258,11 +264,14 @@ public class CheckInDemo {
 			String flight_status = temp_flight.getTotalPassengers()+" checked in of "+temp_flight.getMaxPassengers()+"\nHold is "+check_hold_fill_percentage(temp_flight.getMaxVol(), temp_flight.getTotalVolume())+"% full";
 			//Update the GUI with the relevant flights
 			//gui.update_flight(flight_info, flight_status);
+			System.out.println("Flight info = "+flight_info);
+			System.out.println("Flight status = "+flight_status);
 			check.update_flight_info(flight_info, flight_status);
 		}
-		
+				
 		//Start the threads
 		for(int i=0; i<active_flights.size(); i++) {
+			System.out.println("Starting "+i);
 			active_flights.get(i).start();
 		}
 		
