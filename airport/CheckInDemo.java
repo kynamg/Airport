@@ -142,7 +142,7 @@ public class CheckInDemo {
 	}
 	
 	// Checks flight code format
-	public boolean check_flight_code(String flight_code) {
+	public synchronized boolean check_flight_code(String flight_code) {
 		Pattern q = Pattern.compile("^[a-zA-Z]{2}[0-9]{4}");
 		boolean valid = q.matcher(flight_code).find();
 		if(valid == true && !flight_code.isEmpty()) {
@@ -155,7 +155,7 @@ public class CheckInDemo {
 	
 	//Checks the flights_left_to_depart list and returns whether the flight has departed or not
 	//Used for determining whether a passenger is allowed to check in to their respective flights
-	protected static boolean has_flight_departed(Passenger passenger) {
+	protected synchronized static boolean has_flight_departed(Passenger passenger) {
 		String flight_code_of_passenger = passenger.getFlightCode();
 		Iterator<Flight> it = flights_left_to_depart.iterator();
 		while(it.hasNext()) {
@@ -167,7 +167,7 @@ public class CheckInDemo {
 	}
 	
 	//Called whenever the passenger queue changes, opens or closes check in desks depending on how long the queue is
-	protected static void open_close_check_in_desks(int size_of_queue) {
+	protected synchronized static void open_close_check_in_desks(int size_of_queue) {
 		if(size_of_queue > 6) {
 			int index = check_in_desks.size();
 			//Add another check in desk while size is less than 5
