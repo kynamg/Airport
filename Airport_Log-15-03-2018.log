@@ -1,22 +1,79 @@
-Mar 15, 2018 4:39:28 PM airport.AirportLog log
-INFO: Passenger joined queue Yola Jones
-Mar 15, 2018 4:39:28 PM airport.AirportLog log
-INFO: Passenger joined queue craig hamilton
-Mar 15, 2018 4:39:29 PM airport.AirportLog log
-INFO: Passenger joined queue angus cameron
-Mar 15, 2018 4:39:29 PM airport.AirportLog log
-INFO: Passenger joined queue george walker
-Mar 15, 2018 4:39:30 PM airport.AirportLog log
+Mar 15, 2018 2:29:34 PM airport.AirportLog log
+INFO: Check In Desk 0 opening
+Mar 15, 2018 2:29:34 PM airport.AirportLog log
 INFO: Passenger joined queue callum thompson
-Mar 15, 2018 4:39:30 PM airport.AirportLog log
-INFO: Passenger joined queue iron man
-Mar 15, 2018 4:39:31 PM airport.AirportLog log
-INFO: Passenger joined queue martin greer
-Mar 15, 2018 4:39:31 PM airport.AirportLog log
-INFO: Passenger joined queue andrew patterson
-Mar 15, 2018 4:39:31 PM airport.AirportLog log
+Mar 15, 2018 2:29:34 PM airport.AirportLog log
+INFO: Check In Desk 1 opening
+Mar 15, 2018 2:29:34 PM airport.AirportLog log
+INFO: Check In Desk 2 opening
+Mar 15, 2018 2:29:34 PM airport.AirportLog log
 INFO: Passenger joined queue rick sanchez
-Mar 15, 2018 4:39:32 PM airport.AirportLog log
-INFO: Passenger joined queue ariel mermaid
-Mar 15, 2018 4:39:32 PM airport.AirportLog log
+Mar 15, 2018 2:29:34 PM airport.AirportLog log
+INFO: Passenger joined queue iron man
+Mar 15, 2018 2:29:35 PM airport.AirportLog log
+INFO: Passenger joined queue andrew patterson
+Mar 15, 2018 2:29:35 PM airport.AirportLog log
+>>>>>>> 5ccc415720d63cb34f526f44c9a474405aa0b9cb
 INFO: Passenger joined queue andy vickers
+Mar 15, 2018 2:29:35 PM airport.AirportLog log
+INFO: Passenger joined queue martin greer
+Mar 15, 2018 2:29:35 PM airport.AirportLog log
+INFO: Passenger checked in callum thompson
+Mar 15, 2018 2:29:35 PM airport.AirportLog log
+INFO: Passenger joined queue george walker
+Mar 15, 2018 2:29:35 PM airport.AirportLog log
+INFO: callum thompson boarding flight: AB1234
+Mar 15, 2018 2:29:36 PM airport.AirportLog log
+INFO: Passenger joined queue craig hamilton
+Mar 15, 2018 2:29:36 PM airport.AirportLog log
+INFO: Passenger checked in rick sanchez
+Mar 15, 2018 2:29:36 PM airport.AirportLog log
+INFO: Passenger joined queue ariel mermaid
+Mar 15, 2018 2:29:36 PM airport.AirportLog log
+INFO: rick sanchez boarding flight: LG1254
+Mar 15, 2018 2:29:36 PM airport.AirportLog log
+INFO: Passenger joined queue angus cameron
+Mar 15, 2018 2:29:36 PM airport.AirportLog log
+INFO: Flight Departing: LG1254
+Mar 15, 2018 2:29:36 PM airport.AirportLog log
+INFO: Passenger joined queue Yola Jones
+Mar 15, 2018 2:29:37 PM airport.AirportLog log
+INFO: Flight Departing: LG2212
+Mar 15, 2018 2:29:37 PM airport.AirportLog log
+INFO: Passenger checked in iron man
+Mar 15, 2018 2:29:37 PM airport.AirportLog log
+INFO: Passenger checked in andrew patterson
+Mar 15, 2018 2:29:37 PM airport.AirportLog log
+INFO: iron man missed flight: LG1254
+Mar 15, 2018 2:29:37 PM airport.AirportLog log
+INFO: andrew patterson missed flight: LG2212
+Mar 15, 2018 2:29:37 PM airport.AirportLog log
+INFO: Passenger checked in andy vickers
+Mar 15, 2018 2:29:37 PM airport.AirportLog log
+INFO: Passenger checked in martin greer
+Mar 15, 2018 2:29:37 PM airport.AirportLog log
+INFO: andy vickers boarding flight: AB1234
+Mar 15, 2018 2:29:37 PM airport.AirportLog log
+INFO: Passenger checked in george walker
+Mar 15, 2018 2:29:37 PM airport.AirportLog log
+INFO: martin greer boarding flight: AB1234
+Mar 15, 2018 2:29:38 PM airport.AirportLog log
+INFO: george walker missed flight: LG2212
+Mar 15, 2018 2:29:38 PM airport.AirportLog log
+INFO: Passenger checked in craig hamilton
+Mar 15, 2018 2:29:38 PM airport.AirportLog log
+INFO: craig hamilton missed flight: LG2212
+Mar 15, 2018 2:29:38 PM airport.AirportLog log
+INFO: Passenger checked in ariel mermaid
+Mar 15, 2018 2:29:38 PM airport.AirportLog log
+INFO: ariel mermaid missed flight: LG1254
+Mar 15, 2018 2:29:38 PM airport.AirportLog log
+INFO: Passenger checked in angus cameron
+Mar 15, 2018 2:29:38 PM airport.AirportLog log
+INFO: Passenger checked in Yola Jones
+Mar 15, 2018 2:29:38 PM airport.AirportLog log
+INFO: angus cameron missed flight: LG1254
+Mar 15, 2018 2:29:38 PM airport.AirportLog log
+INFO: Yola Jones missed flight: LG1254
+Mar 15, 2018 2:29:43 PM airport.AirportLog log
+INFO: Flight Departing: AB1234

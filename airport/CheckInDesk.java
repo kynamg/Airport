@@ -1,7 +1,7 @@
 package airport;
 
 import java.util.ArrayList;
-
+import java.util.logging.*;
 import views.CheckInGUI;
 
 public class CheckInDesk implements Runnable {
@@ -24,7 +24,7 @@ public class CheckInDesk implements Runnable {
 		//while not dead - flag from main method
 		while(!Thread.interrupted()) {
 			//Tell the GUI this check in desk is open
-			gui.update_checkInDesk(desk_number, "OPEN"); //logs check in desk open
+			gui.update_checkInDesk(desk_number, "OPEN");
 			boolean passenger_to_get = false;
 			//if there's a passenger left to check in
 			synchronized(passenger_queue) {
@@ -41,6 +41,9 @@ public class CheckInDesk implements Runnable {
 					try {
 						//Get Flight object from passengers' flight code
 						flight = flight_list.findByCode(next_passenger.getFlightCode());
+						//LOG: Passengers Boarding flights
+						String board_p =  next_passenger.getName() + " " + next_passenger.getSurname() + " boarding flight: " + next_passenger.getFlightCode();
+						AirportLog.log(Level.INFO,board_p);
 						//Increment flight details
 						flight.incrementPassengers();
 						flight.incrementVolume(next_passenger.getBaggageVolume());
@@ -62,13 +65,15 @@ public class CheckInDesk implements Runnable {
 					}
 				}
 				else {
-					//Could this go on the GUI somewhere?
+					//LOG: Passengers Missed Flight
+					String missed =  next_passenger.getName() + " " + next_passenger.getSurname() + " missed flight: " + next_passenger.getFlightCode();
+					AirportLog.log(Level.INFO,missed);
 					System.out.println("Sorry, your plane has departed");
 				}
 			}
 		}
 		//Update GUI and close when interrupted
-		gui.update_checkInDesk(desk_number, "CLOSED"); //log check in desk closed after this line
+		gui.update_checkInDesk(desk_number, "CLOSED");
 		//System.out.println("CheckInDesk "+Thread.currentThread()+" has been closed");
 	}
 	

@@ -2,6 +2,7 @@ package airport;
 import java.io.*;
 
 import java.util.*;
+import java.util.logging.Level;
 import java.util.regex.Pattern;
 
 import model.CheckIn;
@@ -115,7 +116,7 @@ public class CheckInDemo {
 		//If there are no flights left to depart, wait a bit and then close the kiosk
 		if(active_flights.isEmpty()) {
 			System.out.println("ACTIVE FLIGHTS IS EMPTY");
-
+			
 			try {
 				Thread.sleep(5000);
 			} catch (InterruptedException e) {
@@ -181,7 +182,6 @@ public class CheckInDemo {
 			int index = check_in_desks.size();
 			while(check_in_desks.size() > 1) {
 				check_in_desks.remove(0);
-				gui.update_checkInDesk(index, "CLOSED");
 				index--;
 			}
 		}
@@ -232,6 +232,9 @@ public class CheckInDemo {
 		for(int i=0; i<3; i++) {
 			check_in_desks.add(new Thread(new CheckInDesk(PassengerQueue.get_passenger_queue(), flights, gui, i)));
 			check_in_desks.get(i).start();
+			//LOG: Check In Desks Opening
+			String desk_open = "Check In Desk " + i + " opening";
+			AirportLog.log(Level.INFO,desk_open);
 		}
 		
 		active_flights = new ArrayList<Thread>();

@@ -4,6 +4,7 @@ Flight Class
 */
 
 import java.util.Random;
+import java.util.logging.Level;
 import java.util.regex.Pattern;
 
 public class Flight implements Runnable {
@@ -191,7 +192,10 @@ public class Flight implements Runnable {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		CheckInDemo.flight_depart(Thread.currentThread(), flightCode); //log
+		//LOG: flights departing
+		String flight_departing = "Flight Departing: " + flightCode;
+		AirportLog.log(Level.INFO,flight_departing);
+		CheckInDemo.flight_depart(Thread.currentThread(), flightCode);
 	}
 	
 }
