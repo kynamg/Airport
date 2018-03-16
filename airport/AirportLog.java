@@ -60,7 +60,6 @@ public class AirportLog {
 		}
 		
 		public synchronized static void log(Level level, String msg){
-			System.out.println("I got here 1");
 		    getLogger().log(level, msg);
 		    System.out.println(msg);
 		}
