@@ -224,7 +224,7 @@ public class CheckInDemo {
 		}
 		
 		//Add a passenger queue and start reading data from the file
-		passenger_queue = new Thread(new PassengerQueue(gui, flights, passengers, check));
+		passenger_queue = new Thread(new PassengerQueue(gui, passengers, check));
 		passenger_queue.start();
 		
 		//Initially open 3 check in desks, this gets changed throughout the program though

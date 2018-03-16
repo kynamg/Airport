@@ -10,16 +10,14 @@ import views.CheckInGUI;
 public class PassengerQueue implements Runnable {
 
 	static ArrayList<Passenger> passenger_queue;
-	FlightList flights;
 	PassengerList passengers;
 	static CheckIn checkin;
 	static CheckInGUI gui;
 	static boolean thread_killed = false;
 	
-	public PassengerQueue(CheckInGUI gui, FlightList flights, PassengerList passengers, CheckIn checkin) {
+	public PassengerQueue(CheckInGUI gui, PassengerList passengers, CheckIn checkin) {
 		passenger_queue = new ArrayList<Passenger>();
 		this.passengers = passengers;
-		this.flights = flights;
 		this.gui = gui;
 		this.checkin = checkin;
 	}

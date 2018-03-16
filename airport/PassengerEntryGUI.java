@@ -158,7 +158,7 @@ public class PassengerEntryGUI {
 							flight_code_entry.setText("");
 							checked_in_entry.setSelected(false);
 							PassengerQueue.add_passenger_to_queue(new_passenger);
-							JOptionPane.showMessageDialog(passenger_entry_frame,"Success - Go To Kiosk");
+							JOptionPane.showMessageDialog(passenger_entry_frame,"Success - Go To Check In Desk");
 						}
 					} catch (InvalidFlightCodeException | InvalidBookingRefException | InvalidParameterException invalid_parameter_exception) {
 						//This error should never be called - the parameters are already checked above
@@ -242,8 +242,7 @@ public class PassengerEntryGUI {
 					remove_panel(weight_panel);
 					remove_panel(volume_panel);
 					remove_panel(confirm_panel);
-					
-					PassengerQueue.add_passenger_to_queue(passenger);
+
 					//Go back to details screen
 					details_screen(guiFrame, guiContainer, passenger_list, flight_list);					
 				}
