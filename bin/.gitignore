@@ -1,12 +1,11 @@
-<<<<<<< HEAD
-=======
+/FlightReport.txt
+/README
 /airport/
-/Airport_Log-13-03-2018.log.1
-/Airport_Log-14-03-2018.log.1
-/Airport_Log-14-03-2018.log.1.lck
-/Airport_Log-15-03-2018.log
+/flightTest.txt
+/flights_error.txt
+/interfaces/
+/mockito-all-2.0.2-beta.jar
 /model/
->>>>>>> 5ccc415720d63cb34f526f44c9a474405aa0b9cb
-/views/
-/airport/
+/passengerTest.txt
 /tests/
+/views/

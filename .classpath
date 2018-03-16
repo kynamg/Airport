@@ -1,12 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path=""/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/5"/>
-<<<<<<< HEAD
 	<classpathentry kind="lib" path="C:/Users/Yola/git/Airport/mockito-all-2.0.2-beta.jar"/>
-=======
-	<classpathentry kind="lib" path="/home/cs4/km362/workspace/Airport/mockito-all-2.0.2-beta.jar"/>
->>>>>>> 5ccc415720d63cb34f526f44c9a474405aa0b9cb
+	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/5"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
