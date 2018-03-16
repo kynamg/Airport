@@ -182,6 +182,7 @@ public class CheckInDemo {
 			int index = check_in_desks.size();
 			while(check_in_desks.size() > 1) {
 				check_in_desks.remove(0);
+				gui.update_checkInDesk(index, "CLOSED");
 				index--;
 			}
 		}
@@ -209,7 +210,6 @@ public class CheckInDemo {
 	public static void main(String args[]) throws IOException, InvalidFlightCodeException, InvalidBookingRefException, InvalidParameterException {
 		CheckInDemo demo = new CheckInDemo();
 		CheckIn check = new CheckIn();
-		//CheckInGUI view = new CheckInGUI(check, );
 		
 		//List storing all the flights which have not yet departed
 		//With runnable, you can't access methods of the object a thread refers to (I think)
@@ -227,14 +227,17 @@ public class CheckInDemo {
 		passenger_queue = new Thread(new PassengerQueue(gui, passengers, check));
 		passenger_queue.start();
 		
+		for(int i=0; i<3; i++) {
+			//LOG: Check In Desks Opening
+			String desk_open = "Check In Desk " + i + " opening";
+			AirportLog.log(Level.INFO,desk_open);
+		}
+		
 		//Initially open 3 check in desks, this gets changed throughout the program though
 		check_in_desks = new ArrayList<Thread>();
 		for(int i=0; i<3; i++) {
 			check_in_desks.add(new Thread(new CheckInDesk(PassengerQueue.get_passenger_queue(), flights, gui, i)));
 			check_in_desks.get(i).start();
-			//LOG: Check In Desks Opening
-			String desk_open = "Check In Desk " + i + " opening";
-			AirportLog.log(Level.INFO,desk_open);
 		}
 		
 		active_flights = new ArrayList<Thread>();

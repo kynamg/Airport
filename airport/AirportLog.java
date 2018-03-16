@@ -52,14 +52,15 @@ public class AirportLog {
 			logger.addHandler(fh);	
 		}
 		
-		private static Logger getLogger(){
+		private synchronized static Logger getLogger(){
 		    if(logger == null){
 		    	new AirportLog();
 		    }
 		    return logger;
 		}
 		
-		public static void log(Level level, String msg){
+		public synchronized static void log(Level level, String msg){
+			System.out.println("I got here 1");
 		    getLogger().log(level, msg);
 		    System.out.println(msg);
 		}
