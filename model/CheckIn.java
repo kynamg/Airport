@@ -46,24 +46,15 @@ public class CheckIn implements Subject {
 		return check_in_info;
 	}
 	
-	private void update_observers() {
-		Iterator<Observer> it = registeredObservers.iterator();
-		while(it.hasNext()) {
-			//Call update method
-			//it.hasNext().update();
-			it.next().update();
-		}
-	}
-	
 	public void update_check_in_desk(String check_in_info) {
 		this.check_in_info = check_in_info;
-		update_observers();
+		notifyObservers();
 	}
 	
 	public void update_flight_info(String flight_code_destination, String flight_info) {
 		this.flight_code_destination = flight_code_destination;
 		this.flight_info = flight_info;
-		update_observers();
+		notifyObservers();
 	}
 	
 	public void update_passenger_queue(ArrayList<Passenger> passenger_queue) {
