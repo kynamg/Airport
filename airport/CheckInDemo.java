@@ -172,10 +172,10 @@ public class CheckInDemo {
 			int index = check_in_desks.size();
 			//Add another check in desk while size is less than 5
 			while(check_in_desks.size() < 5) {
-				index++;
 				check_in_desks.add(new Thread(new CheckInDesk(PassengerQueue.get_passenger_queue(), flights, gui, index)));
 				check_in_desks.get(index).start();
 				gui.update_checkInDesk(index, "OPEN");
+				index++;
 			}
 		}
 		else if(size_of_queue < 2) {
@@ -226,13 +226,11 @@ public class CheckInDemo {
 		}
 		
 		//Add a passenger queue and start reading data from the file
-		
-		AirportLog.log(Level.INFO, "Logging Starting");
-		for(int i=0; i<3; i++) {
-			//LOG: Check In Desks Opening
-			String desk_open = "Check In Desk " + i + " opening";
-			AirportLog.log(Level.INFO,desk_open);
-		}
+		//for(int i=0; i<3; i++) {
+		//LOG: Check In Desks Opening
+		//String desk_open = "Check In Desk " + i + " opening";
+			//AirportLog.log(Level.INFO,desk_open);
+		//}
 		
 		passenger_queue = new Thread(new PassengerQueue(gui, passengers, check));
 		passenger_queue.start();
@@ -242,6 +240,9 @@ public class CheckInDemo {
 		for(int i=0; i<3; i++) {
 			check_in_desks.add(new Thread(new CheckInDesk(PassengerQueue.get_passenger_queue(), flights, gui, i)));
 			check_in_desks.get(i).start();
+			//LOG: Check In Desks Opening
+			//String desk_open = "Check In Desk " + i + " opening";
+			//AirportLog.log(Level.INFO,desk_open);
 		}
 		
 		active_flights = new ArrayList<Thread>();
