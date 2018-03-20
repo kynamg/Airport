@@ -226,23 +226,21 @@ public class CheckInDemo {
 		}
 		
 		//Add a passenger queue and start reading data from the file
-		//for(int i=0; i<3; i++) {
+		for(int i=0; i<3; i++) {
 		//LOG: Check In Desks Opening
-		//String desk_open = "Check In Desk " + i + " opening";
-			//AirportLog.log(Level.INFO,desk_open);
-		//}
+			String desk_open = "Check In Desk " + i + " opening";
+			AirportLog.log(Level.INFO,desk_open);
+		}
 		
 		passenger_queue = new Thread(new PassengerQueue(gui, passengers, check));
 		passenger_queue.start();
 		
 		//Initially open 3 check in desks, this gets changed throughout the program though
 		check_in_desks = new ArrayList<Thread>();
-		for(int i=0; i<3; i++) {
+		for(int i=0; i<2; i++) {
 			check_in_desks.add(new Thread(new CheckInDesk(PassengerQueue.get_passenger_queue(), flights, gui, i)));
+			System.out.println("Check in desk = "+check_in_desks.get(i).getId());
 			check_in_desks.get(i).start();
-			//LOG: Check In Desks Opening
-			//String desk_open = "Check In Desk " + i + " opening";
-			//AirportLog.log(Level.INFO,desk_open);
 		}
 		
 		active_flights = new ArrayList<Thread>();

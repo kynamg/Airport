@@ -9,7 +9,7 @@ import java.util.Calendar;
 import java.util.logging.*;
 
 public class AirportLog {
-    //private static AirportLog instance; //create instance when class is initlaised
+    private static AirportLog instance; //create instance when class is initlaised
     private final static Logger logger = Logger.getLogger(AirportLog.class.getName());
     private static FileHandler fh;
     private static SimpleFormatter formatter;
@@ -22,15 +22,15 @@ public class AirportLog {
         setUp();
     }
     //public get method is accessible everywhere in program
-   /*public synchronized static AirportLog getInstance(){
+   public synchronized static AirportLog getInstance(){
         if(instance == null)
         	synchronized(AirportLog.class) {
         		if(instance == null)
         			instance = new AirportLog();	
         	}
     	return instance;
-    }*/
-    
+    }
+    //creates log file
     public static void setUp() {
     	logger.setLevel(Level.INFO); //sets logging level to INFO
         //Get the current date and time
@@ -63,7 +63,7 @@ public class AirportLog {
         }*/
         
     public static synchronized void log(Level level, String msg){
-    	//getInstance();
+    	getInstance();
     	logger.log(level, msg);
         System.out.println(msg);
         }
