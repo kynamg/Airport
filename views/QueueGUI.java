@@ -1,6 +1,5 @@
 package views;
 
-import java.awt.Color;
 import java.util.ArrayList;
 
 import javax.swing.JList;
@@ -31,15 +30,15 @@ public class QueueGUI extends JScrollPane implements Observer{
 		queue_arraylist = new ArrayList<String>();
 		//System.out.println("Check if queue is null : " + queue);
 		if(queue!=null) {
-		for (Passenger p : queue) {
-			String passenger_info = (p.getBookingRef() + "       " + p.getName() + " " + p.getSurname() + "  							    "
-		+ p.getBaggageVolume() + "m\u00B3 " + p.getBaggageWeight() + "kg");
-			queue_arraylist.add(passenger_info);
-		}
+			for (Passenger p : queue) {
+				String passenger_info = (p.getBookingRef() + "       " + p.getName() + " " + p.getSurname() + "  							    "
+			+ p.getBaggageVolume() + "m\u00B3 " + p.getBaggageWeight() + "kg");
+				queue_arraylist.add(passenger_info);
+			}
 		}
 
-		JList<String> queue_list = new JList<>(queue_arraylist.toArray(new String[0]));
-	
+		queue_list = new JList<>(queue_arraylist.toArray(new String[0]));
+		queue_list.setBackground(null);
 		setViewportView(queue_list);
 		/// pass queue and other values as parameters and call method which stores values into JList etc.
 	}

@@ -30,7 +30,6 @@ public class CheckInGUI extends JFrame{
 		//JFrame guiFrame = new JFrame();
 		
 		JPanel airport_panel = new JPanel(new GridLayout(3,1));
-		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setTitle("Airport");
 		setSize(800,500);
