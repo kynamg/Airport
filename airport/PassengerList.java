@@ -10,9 +10,6 @@ import java.io.IOException;
 import java.util.HashSet;
 import java.util.Iterator;
 
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-
 public class PassengerList {
 	//instance variable
 	private HashSet<Passenger> passengerList;
