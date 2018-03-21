@@ -12,8 +12,8 @@ public class CheckInDemo {
 	
 	private static PassengerList passengers;
 	private static FlightList flights;
-	private static CheckInGUI gui;
-	private static CheckIn checkin;
+	static CheckInGUI gui;
+	static CheckIn checkin;
 	static int passengers_checked_in = 0;
 	static int passengers_total = 0;
 	//static CheckIn checkin;
@@ -27,8 +27,8 @@ public class CheckInDemo {
 	//List of what flights have not yet departed (used for checking if a user can check in)
 	static ArrayList<Flight> flights_left_to_depart;
 
-	public CheckInDemo() throws IOException, InvalidFlightCodeException, InvalidBookingRefException, InvalidParameterException {
-		
+	public CheckInDemo(CheckIn test) throws IOException, InvalidFlightCodeException, InvalidBookingRefException, InvalidParameterException {
+		this.checkin = test;
 		passengers = new PassengerList();
 		flights = new FlightList();
 		BufferedReader buff1 = null;
@@ -111,7 +111,8 @@ public class CheckInDemo {
 		
 		//System.out.println("Flight code being removed = "+flight_code);
 		active_flights.remove(thread);
-		gui.update_flight(flight_code, "Departed");
+		checkin.update_flight_info(flight_code, "Departed");
+		//gui.update_flight(flight_code, "Departed");
 		
 		//If there are no flights left to depart, wait a bit and then close the kiosk
 		if(active_flights.isEmpty()) {
@@ -195,7 +196,10 @@ public class CheckInDemo {
 		String capacity_info = "";
 		//THIS UPDATES GUI - THIS SHOULD NOT HAPPEN HERE!!
 		capacity_info = current_flight.getTotalPassengers()+" checked in of "+current_flight.getMaxPassengers()+"\nHold is "+check_hold_fill_percentage(current_flight.getMaxVol(), current_flight.getTotalVolume())+"% full\nBaggage Fees = "+current_flight.getTotalBaggageFees();
-		gui.update_flight(current_flight.getFlightCode()+" "+current_flight.getDestination(), capacity_info);
+		//gui.update_flight(current_flight.getFlightCode()+" "+current_flight.getDestination(), capacity_info);
+		System.out.println(current_flight.getFlightCode() + current_flight.getDestination() + capacity_info);
+		System.out.println("Checking if null: " + checkin);
+		checkin.update_flight_info(current_flight.getFlightCode()+" "+current_flight.getDestination(), capacity_info);
 		
 		return capacity_info;
 	}
@@ -210,9 +214,8 @@ public class CheckInDemo {
 	}
 		
 	public static void main(String args[]) throws IOException, InvalidFlightCodeException, InvalidBookingRefException, InvalidParameterException {
-		CheckInDemo demo = new CheckInDemo();
 		CheckIn check = new CheckIn();
-		
+		CheckInDemo demo = new CheckInDemo(check);
 		//List storing all the flights which have not yet departed
 		//With runnable, you can't access methods of the object a thread refers to (I think)
 		//So I need a separate list containing a list of the flights that haven't departed so I can check their
@@ -220,7 +223,7 @@ public class CheckInDemo {
 		flights_left_to_depart = new ArrayList<Flight>();
 		
 		try {
-			gui = new CheckInGUI(check, PassengerQueue.get_passenger_queue());
+			gui = new CheckInGUI(check);
 		} catch (InvalidFlightCodeException | InvalidBookingRefException | InvalidParameterException e) {
 			System.out.println("Invalid Parameters");
 		}
@@ -254,7 +257,8 @@ public class CheckInDemo {
 			String flight_info = temp_flight.getFlightCode()+" "+temp_flight.getDestination();
 			String flight_status = temp_flight.getTotalPassengers()+" checked in of "+temp_flight.getMaxPassengers()+"\nHold is "+check_hold_fill_percentage(temp_flight.getMaxVol(), temp_flight.getTotalVolume())+"% full";
 			//Update the GUI with the relevant flights
-			gui.update_flight(flight_info, flight_status);
+			//gui.update_flight(flight_info, flight_status);
+			checkin.update_flight_info(flight_info, flight_status);
 		}
 		
 		//Start the threads
