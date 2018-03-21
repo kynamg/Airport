@@ -13,7 +13,7 @@ public class CheckIn implements Subject {
 	
 	String flight_code_destination;
 	String flight_info;
-	
+	int desk_no;
 	String check_in_info;
 	
 	private List<Observer> registeredObservers = new LinkedList<Observer>();
@@ -43,13 +43,18 @@ public class CheckIn implements Subject {
 		return flight_info;
 	}
 	
-	protected String get_check_in_info() {
+	public String get_check_in_info() {
 		return check_in_info;
 	}
 	
-	public void update_check_in_desk(String check_in_info) {
+	public int get_desk_no() {
+		return desk_no;
+	}
+	
+	public void update_check_in_desk(int desk_no, String check_in_info) {
+		this.desk_no = desk_no;
 		this.check_in_info = check_in_info;
-		//notifyObservers();
+		notifyObservers();
 	}
 	
 	public void update_flight_info(String flight_code_destination, String flight_info) {

@@ -173,9 +173,10 @@ public class CheckInDemo {
 			int index = check_in_desks.size();
 			//Add another check in desk while size is less than 5
 			while(check_in_desks.size() < 5) {
-				check_in_desks.add(new Thread(new CheckInDesk(PassengerQueue.get_passenger_queue(), flights, gui, index)));
+				check_in_desks.add(new Thread(new CheckInDesk(PassengerQueue.get_passenger_queue(), flights, gui, index, checkin)));
 				check_in_desks.get(index).start();
-				gui.update_checkInDesk(index, "OPEN");
+				//gui.update_checkInDesk(index, "OPEN");
+				checkin.update_check_in_desk(index, "OPEN");
 				index++;
 			}
 		}
@@ -185,7 +186,8 @@ public class CheckInDemo {
 			while(check_in_desks.size() > 1) {
 				//check_in_desks.get(0).interrupt();
 				check_in_desks.remove(0);
-				gui.update_checkInDesk(index, "CLOSED");
+				//gui.update_checkInDesk(index, "CLOSED");
+				checkin.update_check_in_desk(index, "CLOSED");
 				index--;
 			}
 		}
@@ -241,7 +243,7 @@ public class CheckInDemo {
 		//Initially open 3 check in desks, this gets changed throughout the program though
 		check_in_desks = new ArrayList<Thread>();
 		for(int i=0; i<2; i++) {
-			check_in_desks.add(new Thread(new CheckInDesk(PassengerQueue.get_passenger_queue(), flights, gui, i)));
+			check_in_desks.add(new Thread(new CheckInDesk(PassengerQueue.get_passenger_queue(), flights, gui, i, check)));
 			System.out.println("Check in desk = "+check_in_desks.get(i).getId());
 			check_in_desks.get(i).start();
 		}

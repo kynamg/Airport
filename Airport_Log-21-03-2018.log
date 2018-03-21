@@ -1,78 +1,8 @@
-Mar 21, 2018 1:57:04 AM airport.AirportLog log
+Mar 21, 2018 2:15:08 AM airport.AirportLog log
 INFO: Check In Desk 0 opening
-Mar 21, 2018 1:57:04 AM airport.AirportLog log
+Mar 21, 2018 2:15:08 AM airport.AirportLog log
 INFO: Check In Desk 1 opening
-Mar 21, 2018 1:57:04 AM airport.AirportLog log
+Mar 21, 2018 2:15:08 AM airport.AirportLog log
 INFO: Check In Desk 2 opening
-Mar 21, 2018 1:57:04 AM airport.AirportLog log
+Mar 21, 2018 2:15:08 AM airport.AirportLog log
 INFO: Passenger joined queue Yola Jones
-Mar 21, 2018 1:57:05 AM airport.AirportLog log
-INFO: Passenger joined queue craig hamilton
-Mar 21, 2018 1:57:05 AM airport.AirportLog log
-INFO: Passenger checked in Yola Jones
-Mar 21, 2018 1:57:05 AM airport.AirportLog log
-INFO: Passenger joined queue angus cameron
-Mar 21, 2018 1:57:05 AM airport.AirportLog log
-INFO: Yola Jones boarding flight: LG1254
-Mar 21, 2018 1:57:05 AM airport.AirportLog log
-INFO: Passenger checked in craig hamilton
-Mar 21, 2018 1:57:06 AM airport.AirportLog log
-INFO: Passenger joined queue george walker
-Mar 21, 2018 1:57:06 AM airport.AirportLog log
-INFO: craig hamilton boarding flight: LG2212
-Mar 21, 2018 1:57:06 AM airport.AirportLog log
-INFO: Passenger joined queue callum thompson
-Mar 21, 2018 1:57:06 AM airport.AirportLog log
-INFO: Passenger joined queue iron man
-Mar 21, 2018 1:57:06 AM airport.AirportLog log
-INFO: Passenger checked in angus cameron
-Mar 21, 2018 1:57:06 AM airport.AirportLog log
-INFO: Passenger joined queue martin greer
-Mar 21, 2018 1:57:06 AM airport.AirportLog log
-INFO: angus cameron boarding flight: LG1254
-Mar 21, 2018 1:57:07 AM airport.AirportLog log
-INFO: Passenger checked in george walker
-Mar 21, 2018 1:57:07 AM airport.AirportLog log
-INFO: Passenger joined queue andrew patterson
-Mar 21, 2018 1:57:07 AM airport.AirportLog log
-INFO: george walker boarding flight: LG2212
-Mar 21, 2018 1:57:07 AM airport.AirportLog log
-INFO: Passenger checked in callum thompson
-Mar 21, 2018 1:57:07 AM airport.AirportLog log
-INFO: Passenger joined queue rick sanchez
-Mar 21, 2018 1:57:07 AM airport.AirportLog log
-INFO: callum thompson boarding flight: AB1234
-Mar 21, 2018 1:57:07 AM airport.AirportLog log
-INFO: Passenger checked in iron man
-Mar 21, 2018 1:57:08 AM airport.AirportLog log
-INFO: Passenger joined queue ariel mermaid
-Mar 21, 2018 1:57:08 AM airport.AirportLog log
-INFO: iron man boarding flight: LG1254
-Mar 21, 2018 1:57:08 AM airport.AirportLog log
-INFO: Passenger checked in martin greer
-Mar 21, 2018 1:57:08 AM airport.AirportLog log
-INFO: Passenger joined queue andy vickers
-Mar 21, 2018 1:57:08 AM airport.AirportLog log
-INFO: martin greer boarding flight: AB1234
-Mar 21, 2018 1:57:08 AM airport.AirportLog log
-INFO: Passenger checked in andrew patterson
-Mar 21, 2018 1:57:08 AM airport.AirportLog log
-INFO: andrew patterson boarding flight: LG2212
-Mar 21, 2018 1:57:08 AM airport.AirportLog log
-INFO: Passenger checked in rick sanchez
-Mar 21, 2018 1:57:09 AM airport.AirportLog log
-INFO: Flight Departing: AB1234
-Mar 21, 2018 1:57:09 AM airport.AirportLog log
-INFO: rick sanchez boarding flight: LG1254
-Mar 21, 2018 1:57:09 AM airport.AirportLog log
-INFO: Passenger checked in ariel mermaid
-Mar 21, 2018 1:57:09 AM airport.AirportLog log
-INFO: ariel mermaid boarding flight: LG1254
-Mar 21, 2018 1:57:09 AM airport.AirportLog log
-INFO: Passenger checked in andy vickers
-Mar 21, 2018 1:57:09 AM airport.AirportLog log
-INFO: andy vickers missed flight: AB1234
-Mar 21, 2018 1:57:10 AM airport.AirportLog log
-INFO: Flight Departing: LG1254
-Mar 21, 2018 1:57:12 AM airport.AirportLog log
-INFO: Flight Departing: LG2212
