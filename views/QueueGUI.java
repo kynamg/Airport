@@ -13,19 +13,22 @@ import model.CheckIn;
 
 public class QueueGUI extends JScrollPane implements Observer{
 	private CheckIn checkindata;
-	
+	private ArrayList <Passenger> queue;
+	private ArrayList<String> queue_arraylist;
+	JList<String> queue_list;
 	public QueueGUI(CheckIn checkin) {
 		super();
 		this.checkindata = checkin;
 		checkin.registerObserver(this);
 		TitledBorder queue_title = new TitledBorder("Queue");
 		setBorder(queue_title);
+		setVisible(true);
 		//update();
 	}
 	
 	public synchronized void update() {
-		ArrayList<Passenger> queue = checkindata.get_passenger_queue();
-		ArrayList<String> queue_arraylist = new ArrayList<String>();
+		queue = checkindata.get_passenger_queue();
+		queue_arraylist = new ArrayList<String>();
 		//System.out.println("Check if queue is null : " + queue);
 		if(queue!=null) {
 		for (Passenger p : queue) {
