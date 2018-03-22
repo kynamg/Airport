@@ -5,20 +5,17 @@ import java.util.Iterator;
 import java.util.logging.*;
 
 import model.CheckIn;
-import views.CheckInGUI;
 
 public class PassengerQueue implements Runnable {
 
 	static ArrayList<Passenger> passenger_queue;
 	PassengerList passengers;
 	static CheckIn checkin;
-	static CheckInGUI gui;
 	static boolean thread_killed = false;
 	
-	public PassengerQueue(CheckInGUI gui, PassengerList passengers, CheckIn checkin) {
+	public PassengerQueue(PassengerList passengers, CheckIn checkin) {
 		passenger_queue = new ArrayList<Passenger>();
 		this.passengers = passengers;
-		this.gui = gui;
 		this.checkin = checkin;
 	}
 	
@@ -32,7 +29,6 @@ public class PassengerQueue implements Runnable {
 		CheckInDemo.open_close_check_in_desks(passenger_queue.size());
 		//checkin.notifyObservers();
 		checkin.update_passenger_queue(passenger_queue);
-		//gui.update_values(passenger_queue);
 		
 		try {
 			Thread.sleep(200);
@@ -49,7 +45,6 @@ public class PassengerQueue implements Runnable {
 		AirportLog.log(Level.INFO,checkin_passenger) ;
 		CheckInDemo.open_close_check_in_desks(passenger_queue.size());
 		checkin.update_passenger_queue(passenger_queue);
-		//gui.update_values(passenger_queue);
 		
 		try {
 			Thread.sleep(200);
