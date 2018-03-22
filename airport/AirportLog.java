@@ -9,11 +9,12 @@ import java.util.Calendar;
 import java.util.logging.*;
 
 public class AirportLog {
-    private static AirportLog instance; //create instance when class is initlaised
+    
     private final static Logger logger = Logger.getLogger(AirportLog.class.getName());
     private static FileHandler fh;
     private static SimpleFormatter formatter;
     
+    private static AirportLog instance;
     //private constructor is only accessible within the class
     private AirportLog() {
         if (instance != null){
@@ -50,17 +51,6 @@ public class AirportLog {
         fh.setFormatter(formatter);
         logger.addHandler(fh);    
         }
-        
-        /*private synchronized static Logger getLogger(){
-            //if logger has not been created, create new AirportLog instance
-            if(logger == null){
-            	synchronized(AirportLog.class) {
-            		if(logger == null)
-            			logger = new AirportLog();	
-            	}
-            }
-            return logger;
-        }*/
         
     public static synchronized void log(Level level, String msg){
     	getInstance();

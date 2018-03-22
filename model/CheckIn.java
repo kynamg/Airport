@@ -5,6 +5,7 @@ import java.util.*;
 import airport.Passenger;
 import interfaces.Observer;
 import interfaces.Subject;
+import views.CheckInGUI;
 
 public class CheckIn implements Subject {
 	
@@ -12,7 +13,7 @@ public class CheckIn implements Subject {
 	
 	String flight_code_destination;
 	String flight_info;
-	
+	int desk_no;
 	String check_in_info;
 	
 	private List<Observer> registeredObservers = new LinkedList<Observer>();
@@ -34,19 +35,24 @@ public class CheckIn implements Subject {
 		return passenger_queue;
 	}
 	
-	protected String get_flight_code_destination() {
+	public String get_flight_code_destination() {
 		return flight_code_destination;
 	}
 	
-	protected String get_flight_info() {
+	public String get_flight_info() {
 		return flight_info;
 	}
 	
-	protected String get_check_in_info() {
+	public String get_check_in_info() {
 		return check_in_info;
 	}
 	
-	public void update_check_in_desk(String check_in_info) {
+	public int get_desk_no() {
+		return desk_no;
+	}
+	
+	public void update_check_in_desk(int desk_no, String check_in_info) {
+		this.desk_no = desk_no;
 		this.check_in_info = check_in_info;
 		notifyObservers();
 	}
@@ -55,6 +61,7 @@ public class CheckIn implements Subject {
 		this.flight_code_destination = flight_code_destination;
 		this.flight_info = flight_info;
 		notifyObservers();
+		
 	}
 	
 	public void update_passenger_queue(ArrayList<Passenger> passenger_queue) {

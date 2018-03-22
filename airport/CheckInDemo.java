@@ -12,8 +12,8 @@ public class CheckInDemo {
 	
 	private static PassengerList passengers;
 	private static FlightList flights;
-	private static CheckInGUI gui;
-	private static CheckIn checkin;
+	static CheckInGUI gui;
+	static CheckIn checkin;
 	static int passengers_checked_in = 0;
 	static int passengers_total = 0;
 	//static CheckIn checkin;
@@ -27,8 +27,8 @@ public class CheckInDemo {
 	//List of what flights have not yet departed (used for checking if a user can check in)
 	static ArrayList<Flight> flights_left_to_depart;
 
-	public CheckInDemo() throws IOException, InvalidFlightCodeException, InvalidBookingRefException, InvalidParameterException {
-		
+	public CheckInDemo(CheckIn test) throws IOException, InvalidFlightCodeException, InvalidBookingRefException, InvalidParameterException {
+		this.checkin = test;
 		passengers = new PassengerList();
 		flights = new FlightList();
 		BufferedReader buff1 = null;
@@ -111,7 +111,8 @@ public class CheckInDemo {
 		
 		//System.out.println("Flight code being removed = "+flight_code);
 		active_flights.remove(thread);
-		gui.update_flight(flight_code, "Departed");
+		checkin.update_flight_info(flight_code, "Departed");
+		//gui.update_flight(flight_code, "Departed");
 		
 		//If there are no flights left to depart, wait a bit and then close the kiosk
 		if(active_flights.isEmpty()) {
@@ -172,9 +173,10 @@ public class CheckInDemo {
 			int index = check_in_desks.size();
 			//Add another check in desk while size is less than 5
 			while(check_in_desks.size() < 5) {
-				check_in_desks.add(new Thread(new CheckInDesk(PassengerQueue.get_passenger_queue(), flights, gui, index)));
+				check_in_desks.add(new Thread(new CheckInDesk(PassengerQueue.get_passenger_queue(), flights, gui, index, checkin)));
 				check_in_desks.get(index).start();
-				gui.update_checkInDesk(index, "OPEN");
+				//gui.update_checkInDesk(index, "OPEN");
+				checkin.update_check_in_desk(index, "OPEN");
 				index++;
 			}
 		}
@@ -184,7 +186,8 @@ public class CheckInDemo {
 			while(check_in_desks.size() > 1) {
 				//check_in_desks.get(0).interrupt();
 				check_in_desks.remove(0);
-				gui.update_checkInDesk(index, "CLOSED");
+				//gui.update_checkInDesk(index, "CLOSED");
+				checkin.update_check_in_desk(index, "CLOSED");
 				index--;
 			}
 		}
@@ -195,7 +198,10 @@ public class CheckInDemo {
 		String capacity_info = "";
 		//THIS UPDATES GUI - THIS SHOULD NOT HAPPEN HERE!!
 		capacity_info = current_flight.getTotalPassengers()+" checked in of "+current_flight.getMaxPassengers()+"\nHold is "+check_hold_fill_percentage(current_flight.getMaxVol(), current_flight.getTotalVolume())+"% full\nBaggage Fees = "+current_flight.getTotalBaggageFees();
-		gui.update_flight(current_flight.getFlightCode()+" "+current_flight.getDestination(), capacity_info);
+		//gui.update_flight(current_flight.getFlightCode()+" "+current_flight.getDestination(), capacity_info);
+		System.out.println(current_flight.getFlightCode() + current_flight.getDestination() + capacity_info);
+		System.out.println("Checking if null: " + checkin);
+		checkin.update_flight_info(current_flight.getFlightCode()+" "+current_flight.getDestination(), capacity_info);
 		
 		return capacity_info;
 	}
@@ -210,9 +216,8 @@ public class CheckInDemo {
 	}
 		
 	public static void main(String args[]) throws IOException, InvalidFlightCodeException, InvalidBookingRefException, InvalidParameterException {
-		CheckInDemo demo = new CheckInDemo();
 		CheckIn check = new CheckIn();
-		
+		CheckInDemo demo = new CheckInDemo(check);
 		//List storing all the flights which have not yet departed
 		//With runnable, you can't access methods of the object a thread refers to (I think)
 		//So I need a separate list containing a list of the flights that haven't departed so I can check their
@@ -220,25 +225,25 @@ public class CheckInDemo {
 		flights_left_to_depart = new ArrayList<Flight>();
 		
 		try {
-			gui = new CheckInGUI(check, PassengerQueue.get_passenger_queue());
+			gui = new CheckInGUI(check);
 		} catch (InvalidFlightCodeException | InvalidBookingRefException | InvalidParameterException e) {
 			System.out.println("Invalid Parameters");
 		}
 		
 		//Add a passenger queue and start reading data from the file
-		for(int i=0; i<3; i++) {
+		for(int i=0; i<2; i++) {
 		//LOG: Check In Desks Opening
 			String desk_open = "Check In Desk " + i + " opening";
 			AirportLog.log(Level.INFO,desk_open);
 		}
 		
-		passenger_queue = new Thread(new PassengerQueue(gui, passengers, check));
+		passenger_queue = new Thread(new PassengerQueue(passengers, check));
 		passenger_queue.start();
 		
 		//Initially open 3 check in desks, this gets changed throughout the program though
 		check_in_desks = new ArrayList<Thread>();
 		for(int i=0; i<2; i++) {
-			check_in_desks.add(new Thread(new CheckInDesk(PassengerQueue.get_passenger_queue(), flights, gui, i)));
+			check_in_desks.add(new Thread(new CheckInDesk(PassengerQueue.get_passenger_queue(), flights, gui, i, check)));
 			System.out.println("Check in desk = "+check_in_desks.get(i).getId());
 			check_in_desks.get(i).start();
 		}
@@ -254,7 +259,8 @@ public class CheckInDemo {
 			String flight_info = temp_flight.getFlightCode()+" "+temp_flight.getDestination();
 			String flight_status = temp_flight.getTotalPassengers()+" checked in of "+temp_flight.getMaxPassengers()+"\nHold is "+check_hold_fill_percentage(temp_flight.getMaxVol(), temp_flight.getTotalVolume())+"% full";
 			//Update the GUI with the relevant flights
-			gui.update_flight(flight_info, flight_status);
+			//gui.update_flight(flight_info, flight_status);
+			checkin.update_flight_info(flight_info, flight_status);
 		}
 		
 		//Start the threads
