@@ -39,7 +39,7 @@ public class QueueGUI extends JScrollPane implements Observer{
 		}
 
 		JList<String> queue_list = new JList<>(queue_arraylist.toArray(new String[0]));
-	
+		queue_list.setBackground(null);
 		setViewportView(queue_list);
 		/// pass queue and other values as parameters and call method which stores values into JList etc.
 	}
