@@ -23,8 +23,8 @@ public class FlightsGUI extends JPanel implements Observer{
 		checkin.registerObserver(this);
 		
 		setLayout(new GridLayout(1,3));
-		//flights_panel = new JPanel(new GridLayout(1,3));
 		
+		// flight panel 1
 		flight1 = new JPanel();
 		flight1.setLayout(new GridLayout(2,1));
 		TitledBorder flight1_title = new TitledBorder("Flight 1");
@@ -42,6 +42,7 @@ public class FlightsGUI extends JPanel implements Observer{
 		flight1.add(flight1_code);
 		flight1.add(flight1_info);
 		
+		// flight panel 2
 		flight2 = new JPanel();
 		flight2.setLayout(new GridLayout(2,1));
 		TitledBorder flight2_title = new TitledBorder("Flight 2");
@@ -59,6 +60,7 @@ public class FlightsGUI extends JPanel implements Observer{
 		flight2.add(flight2_code);
 		flight2.add(flight2_info);
 		
+		//flight panel 3
 		flight3 = new JPanel();
 		flight3.setLayout(new GridLayout(2,1));
 		TitledBorder flight3_title = new TitledBorder("Flight 3");
@@ -83,6 +85,7 @@ public class FlightsGUI extends JPanel implements Observer{
 	}
 
 	public synchronized void update() {	
+		// update flight panels
 		if(checkindata.get_flight_code_destination() != null) {
 			if(checkindata.get_flight_code_destination().contains("LG2212")) {
 				flight1_code.setText(checkindata.get_flight_code_destination());
