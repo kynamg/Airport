@@ -55,7 +55,6 @@ public class AirportLog {
     public static synchronized void log(Level level, String msg){
     	getInstance();
     	logger.log(level, msg);
-        System.out.println(msg);
         }
 }
 

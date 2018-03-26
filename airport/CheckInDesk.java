@@ -56,9 +56,7 @@ public class CheckInDesk implements Runnable {
 						flight.incrementWeight(next_passenger.getBaggageWeight());
 						float baggageFee = flight.calculateExcessBaggageFees(next_passenger.getBaggageWeight());
 						flight.incrementBaggageFees(baggageFee);
-						System.out.println();
 						CheckInDemo.get_current_flight_capacity_info(flight);
-						//System.out.println("Flight list "+flight.getFlightCode()+" = "+flight.getTotalPassengers());
 					} catch (NoMatchingFlightCodeException e) {
 						System.out.println(e.getMessage());
 					}
@@ -74,13 +72,9 @@ public class CheckInDesk implements Runnable {
 					//LOG: Passengers Missed Flight
 					String missed =  next_passenger.getName() + " " + next_passenger.getSurname() + " missed flight: " + next_passenger.getFlightCode();
 					AirportLog.log(Level.INFO,missed);
-					System.out.println("Sorry, your plane has departed");
 				}
 			}
 		}
-		//Update GUI and close when interrupted
-		//gui.update_checkInDesk(desk_number, "CLOSED");
-		//System.out.println("CheckInDesk "+Thread.currentThread()+" has been closed");
 	}
 	
 	private synchronized boolean get_next_passenger() {
@@ -90,7 +84,6 @@ public class CheckInDesk implements Runnable {
 		else {
 			next_passenger = passenger_queue.get(0);
 			PassengerQueue.remove_passenger_from_queue(next_passenger);
-			System.out.println("Thread out with passenger = "+next_passenger.getName());
 			return true;
 		}
 	}

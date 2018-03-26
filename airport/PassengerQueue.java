@@ -38,7 +38,6 @@ public class PassengerQueue implements Runnable {
 	}
 
 	protected synchronized static void remove_passenger_from_queue(Passenger passenger) {
-		//System.out.println("Passenger "+passenger.getName()+" being removed");
 		passenger_queue.remove(passenger);
 		//LOG: passenger checked in when removed from queue
 		String checkin_passenger = "Passenger checked in " + passenger.getName() + " " + passenger.getSurname();
@@ -61,7 +60,6 @@ public class PassengerQueue implements Runnable {
 		Iterator<Passenger> it = passengers.getIterator();
 		while(it.hasNext() && !Thread.interrupted()) {
 			Passenger passenger = it.next();
-			System.out.println("Passenger = "+passenger.getName());
 			add_passenger_to_queue(passenger);
 		}
 	}

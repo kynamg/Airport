@@ -68,8 +68,6 @@ public class Passenger {
 		
 		//Randomly assign baggage weight on object creation - this may be overwritten
 		set_baggage();
-		System.out.println("Passenger "+name+" "+surname);
-		System.out.println("Baggage weight, volume, fees = "+getBaggageWeight()+" "+getBaggageVolume()+" "+getBaggageFee());
 	}
 	
 	public int getBaggageWeight() {
